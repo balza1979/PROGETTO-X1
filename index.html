@@ -238,6 +238,39 @@ input, select, textarea {
 }
 
 
+/* ============================================================
+   RIPRISTINO ZOOM ORIGINALE BLOCCO ROSSO
+   Versione adattata al nuovo layout X1
+   ============================================================ */
+
+/* Modalità APP: telefoni e tablet */
+@media (max-width: 900px),
+       (max-device-width: 1280px),
+       (pointer: coarse),
+       (-webkit-min-device-pixel-ratio: 2) {
+
+    body {
+        zoom: 2.1;   /* 210% — come il vecchio blocco rosso */
+    }
+}
+
+/* Modalità APP Verticale */
+@media (orientation: portrait) and (max-width: 900px) {
+
+    body {
+        zoom: 1.4;   /* 140% — come il vecchio blocco rosso */
+    }
+}
+
+/* Modalità APP Touch */
+@media (pointer: coarse) {
+
+    body {
+        zoom: 1.3;   /* 130% — come il vecchio blocco rosso */
+    }
+}
+
+
 </style>
 </head>
 
