@@ -1,287 +1,482 @@
 <!DOCTYPE html>
 <html lang="it">
+
+<!-- ========================================================= -->
+<!--  FILE: SCHERMATAPROVA.HTML                                -->
+<!--  DATA: 15/04/2026                                          -->
+<!--  ORA: 17:44                                                -->
+<!--  DESCRIZIONE:                                              -->
+<!--  Mockup completo X1 smartphone-first                       -->
+<!--  Con barra superiore (MOSTRA / TITOLO / HOME)              -->
+<!--  Con pulsanti 2×4 e sezioni MENU → SOTTOMENU → PARAM → ... -->
+<!-- ========================================================= -->
+
 <head>
 <meta charset="UTF-8">
-<title>GESTIONE IN/OUT</title>
+<title>X1 – Programmatore</title>
+
+<!-- ========================================================= -->
+<!--  CSS COMPLETO                                              -->
+<!-- ========================================================= -->
 
 
+<style>
+
+/* ======== STRUTTURA BASE ======== */
+
+body {
+  font-family: Arial, sans-serif;
+  background:#202020;
+  color:#f0f0f0;
+  margin:0;
+  padding:20px;
+}
+
+.page {
+  max-width:600px;
+  margin:0 auto;
+  background:#2b2b2b;
+  border:2px solid #aa0000;
+  padding:16px;
+  box-sizing:border-box;
+  border-radius:8px;
+}
+
+/* ======== BARRA SUPERIORE ======== */
+
+.top-bar {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:12px;
+}
+
+.top-title {
+  flex:1;
+  text-align:center;
+  font-size:18px;
+  color:#ff5555;
+  font-weight:bold;
+}
+
+/* BOTTONI PICCOLI (MOSTRA / HOME) */
+.top-btn {
+  all: unset;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+
+  background:#550000;
+  border:1px solid #aa0000;
+  color:#fff;
+
+  width:42px;
+  height:32px;
+  padding:0;
+  margin:0;
+
+  font-size:10px;
+  line-height:10px;
+  border-radius:4px;
+  cursor:pointer;
+}
+
+.top-btn:hover {
+  background:#770000;
+}
+
+/* ======== SEZIONI ======== */
+
+.section-title {
+  margin:18px 0 6px;
+  font-size:14px;
+  font-weight:bold;
+  color:#ff9999;
+  border-bottom:1px solid #444;
+  padding-bottom:3px;
+}
+
+/* ======== CAMPI ======== */
+
+.full {
+  width:100%;
+  box-sizing:border-box;
+}
+
+label {
+  font-size:12px;
+  color:#cccccc;
+  margin-top:6px;
+  display:block;
+}
+
+input, select, textarea {
+  background:#111;
+  color:#f0f0f0;
+  border:1px solid #555;
+  padding:6px;
+  font-size:13px;
+  width:100%;
+  box-sizing:border-box;
+  border-radius:4px;
+}
+
+/* ======== RIGHE ======== */
+
+.row {
+  display:flex;
+  gap:10px;
+  margin-top:6px;
+}
+
+.field {
+  flex:1;
+  display:flex;
+  flex-direction:column;
+}
+
+/* ======== PULSANTI ======== */
+
+.buttons-row {
+  display:flex;
+  justify-content:space-between;
+  margin-top:6px;
+}
+
+.btn-file {
+  background:#333;
+  border:1px solid #777;
+  color:#eee;
+  padding:6px 4px;
+  font-size:12px;
+  cursor:pointer;
+  width:23%;
+  text-align:center;
+  border-radius:4px;
+}
+
+.btn-file:hover {
+  background:#444;
+}
+
+/* Classe per nascondere pulsanti opzionali */
+.optional {
+  display:none;
+}
+/* Titoli opzionali (AI, CAN, ecc.) */
+.optional-title {
+  display:block;
+}
+
+/* Quando nascosti */
+.hidden-optional-title {
+  display:none !important;
+}
+/* Nascondi titoli opzionali al primo avvio */
+.optional-title {
+  display:none;
+}
+
+/* ========================================================= */
+/* OTTIMIZZAZIONE SMARTPHONE TOUCH                           */
+/* Attiva solo su schermi piccoli + dispositivi touch        */
+/* ========================================================= */
+
+@media (max-width: 600px) and (pointer: coarse) {
+
+  body {
+    padding: 10px;
+  }
+
+  .page {
+    padding: 12px;
+    border-width: 1px;
+  }
+
+  .top-title {
+    font-size: 16px;
+  }
+
+  .top-btn {
+    width: 46px;
+    height: 36px;
+    font-size: 11px;
+    line-height: 11px;
+  }
+
+  input, select, textarea {
+    font-size: 15px;
+    padding: 10px;
+  }
+
+  label {
+    font-size: 13px;
+  }
+
+  .btn-file {
+    font-size: 13px;
+    padding: 10px 6px;
+    width: 23%;
+  }
+
+  .section-title {
+    font-size: 15px;
+    margin-top: 20px;
+  }
+}
+
+
+</style>
 </head>
-<link rel="stylesheet" href="css/style.css">
+
+<!-- ========================================================= -->
+<!--  BODY COMPLETO                                             -->
+<!-- ========================================================= -->
 
 <body>
-<div id="app-container">
+<div class="page">
 
-<h1 id="titolo_fisso">GESTIONE IN/OUT</h1>
+  <!-- ========================================================= -->
+  <!--  BARRA SUPERIORE: MOSTRA / TITOLO / HOME                  -->
+  <!-- ========================================================= -->
+  <div class="top-bar">
 
-<div class="submenu">
-    <button onclick="cambiaGruppo('IN_QUADRO', this)" class="active">IN QUADRO</button>
-    <button onclick="cambiaGruppo('IN_CABINA', this)">IN_CABINA</button>
-    <button onclick="cambiaGruppo('OUT_QUADRO', this)">OUT_QUADRO</button>
-    <button onclick="cambiaGruppo('OUT_CABINA', this)">OUT_CABINA</button>
+      <!-- Bottone MOSTRA (piccolo, 2 righe) -->
+      <button id="mostra_tutto_btn" class="top-btn">MO<br>STRA</button>
+
+      <!-- Titolo centrale -->
+      <div class="top-title">X1 – Programmatore</div>
+
+      <!-- Bottone HOME -->
+      <button id="home_btn" class="top-btn">HOME</button>
+
+  </div>
+
+  <!-- ========================================================= -->
+  <!--  MENU (X)                                                 -->
+  <!-- ========================================================= -->
+  <div class="section-title">MENU (X)</div>
+
+  <select class="full" id="menu_select">
+    <option>— seleziona MENU —</option>
+  </select>
+
+  <div class="buttons-row optional">
+    <button class="btn-file">MENU 1</button>
+    <button class="btn-file">MENU 2</button>
+    <button class="btn-file">MENU 3</button>
+    <button class="btn-file">MENU 4</button>
+  </div>
+  <div class="buttons-row optional">
+    <button class="btn-file">MENU 5</button>
+    <button class="btn-file">MENU 6</button>
+    <button class="btn-file">MENU 7</button>
+    <button class="btn-file">MENU 8</button>
+  </div>
+
+  <!-- ========================================================= -->
+  <!--  SOTTOMENU (Y)                                            -->
+  <!-- ========================================================= -->
+  <div class="section-title">SOTTOMENU (Y)</div>
+
+  <select class="full" id="sottomenu_select">
+    <option>— seleziona SOTTOMENU —</option>
+  </select>
+
+  <div class="buttons-row optional">
+    <button class="btn-file">SOTTO 1</button>
+    <button class="btn-file">SOTTO 2</button>
+    <button class="btn-file">SOTTO 3</button>
+    <button class="btn-file">SOTTO 4</button>
+  </div>
+  <div class="buttons-row optional">
+    <button class="btn-file">SOTTO 5</button>
+    <button class="btn-file">SOTTO 6</button>
+    <button class="btn-file">SOTTO 7</button>
+    <button class="btn-file">SOTTO 8</button>
+  </div>
+
+  <!-- ========================================================= -->
+  <!--  PARAMETRO (Z / ZZZZ)                                     -->
+  <!-- ========================================================= -->
+  <div class="section-title">SELEZIONA PARAMETRO</div>
+
+  <select class="full" id="parametro_select">
+    <option>— scegli un parametro —</option>
+  </select>
+
+  <label>Parametro:</label>
+  <input class="full" id="codice_parametro" type="text" placeholder="X.Y.ZZ">
+
+  <label>Descrizione</label>
+  <input class="full" id="descrizione_parametro" type="text" placeholder="descrizione parametro">
+
+  <div class="buttons-row optional">
+    <button class="btn-file">PARAM 1</button>
+    <button class="btn-file">PARAM 2</button>
+    <button class="btn-file">PARAM 3</button>
+    <button class="btn-file">PARAM 4</button>
+  </div>
+  <div class="buttons-row optional">
+    <button class="btn-file">PARAM 5</button>
+    <button class="btn-file">PARAM 6</button>
+    <button class="btn-file">PARAM 7</button>
+    <button class="btn-file">PARAM 8</button>
+  </div>
+
+  <!-- ========================================================= -->
+  <!--  VALORI DEL PARAMETRO                                     -->
+  <!-- ========================================================= -->
+  <div class="section-title">VALORI DEL PARAMETRO</div>
+
+  <div class="row">
+    <div class="field" style="flex:2">
+      <label>Seleziona valore</label>
+      <select class="full" id="tendina_valori">
+        <option>— seleziona valore —</option>
+      </select>
+    </div>
+
+    <div class="field" style="flex:1">
+      <label>Unità</label>
+      <input class="full" id="unita_misura" type="text" placeholder="sec / °C / Volt">
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="field">
+      <label>Min</label>
+      <input class="full" id="val_min" type="text">
+    </div>
+    <div class="field">
+      <label>Max</label>
+      <input class="full" id="val_max" type="text">
+    </div>
+  </div>
+
+  <div class="buttons-row optional">
+    <button class="btn-file">VAL 1</button>
+    <button class="btn-file">VAL 2</button>
+    <button class="btn-file">VAL 3</button>
+    <button class="btn-file">VAL 4</button>
+  </div>
+  <div class="buttons-row optional">
+    <button class="btn-file">VAL 5</button>
+    <button class="btn-file">VAL 6</button>
+    <button class="btn-file">VAL 7</button>
+    <button class="btn-file">VAL 8</button>
+  </div>
+
+  <!-- ========================================================= -->
+  <!--  FUNZIONI INTELLIGENTI (AI)                               -->
+  <!-- ========================================================= -->
+  <div class="section-title optional-title">FUNZIONI INTELLIGENTI (AI)</div>
+
+
+  <div class="buttons-row optional">
+    <button class="btn-file">AI1</button>
+    <button class="btn-file">AI2</button>
+    <button class="btn-file">AI3</button>
+    <button class="btn-file">AI4</button>
+  </div>
+  <div class="buttons-row optional">
+    <button class="btn-file">AI5</button>
+    <button class="btn-file">AI6</button>
+    <button class="btn-file">AI7</button>
+    <button class="btn-file">AI8</button>
+  </div>
+  <div class="buttons-row optional">
+    <button class="btn-file">AI9</button>
+    <button class="btn-file">AI10</button>
+    <button class="btn-file">AI11</button>
+    <button class="btn-file">AI12</button>
+  </div>
+  <div class="buttons-row optional">
+    <button class="btn-file">AI13</button>
+    <button class="btn-file">AI14</button>
+    <button class="btn-file">AI15</button>
+    <button class="btn-file">AI16</button>
+  </div>
+  <div class="buttons-row optional">
+    <button class="btn-file">AI17</button>
+    <button class="btn-file">AI18</button>
+    <button class="btn-file">AI19</button>
+    <button class="btn-file">AI20</button>
+  </div>
+
+  <!-- ========================================================= -->
+  <!--  CANBUS — TASTI + CAMPO TESTO                             -->
+  <!-- ========================================================= -->
+<div class="section-title optional-title">CANBUS</div>
+
+
+  <div class="buttons-row optional">
+    <button class="btn-file">CAN1</button>
+    <button class="btn-file">CAN2</button>
+    <button class="btn-file">CAN3</button>
+    <button class="btn-file">CAN4</button>
+  </div>
+  <div class="buttons-row optional">
+    <button class="btn-file">CAN5</button>
+    <button class="btn-file">CAN6</button>
+    <button class="btn-file">CAN7</button>
+    <button class="btn-file">CAN8</button>
+  </div>
+  <div class="buttons-row optional">
+    <button class="btn-file">CAN9</button>
+    <button class="btn-file">CAN10</button>
+    <button class="btn-file">CAN11</button>
+    <button class="btn-file">CAN12</button>
+  </div>
+  <div class="buttons-row optional">
+    <button class="btn-file">CAN13</button>
+    <button class="btn-file">CAN14</button>
+    <button class="btn-file">CAN15</button>
+    <button class="btn-file">CAN16</button>
+  </div>
+
+<textarea class="full optional" id="canbus_info" style="height:80px"></textarea>
+
+
 </div>
 
-<h2 id="titolo_parametri">SELEZIONA PARAMETRO –</h2>
-<select id="menu" class="select-box"></select>
-
-<div id="bloccoB">
-<h2 id="titoloB"></h2>
-<div id="textB" class="text-box"></div>
-<div id="btnB" class="buttons-row"></div>
-</div>
-
-<h2 id="titoloFunzione">SELEZIONA FUNZIONE</h2>
-
-
-<div id="bloccoValore">
-    <select id="menuValore" class="select-box">
-        <option>—</option>
-    </select>
-
-   <div id="btnValore" class="buttons-row"></div>
-
-
-<div id="bloccoC">
-<h2 id="titoloC"></h2>
-<div id="textC" class="text-box"></div>
-<div id="btnC" class="buttons-row"></div>
-</div>
-
-<div id="bloccoD">
-<h2 id="titoloD"></h2>
-<div id="textD" class="text-box"></div>
-<div id="btnD" class="buttons-row"></div>
-</div>
-
-<div id="bloccoE">
-<h2 id="titoloE"></h2>
-<div id="textE" class="text-box"></div>
-<div id="btnE" class="buttons-row"></div>
-</div>
-
+<!-- ========================================================= -->
+<!--  SCRIPT MOSTRA TUTTO + HOME                                -->
+<!-- ========================================================= -->
 <script>
-/* ======== FUNZIONE PER ESTRARRE L’ID ======== */
-function estraiID(str) {
-    if (!str) return "";
-    const m = str.match(/"([^"]+)"/);
-    return m ? m[1] : "";
-}
+let mostraTutto = false;
+// Nascondi titoli opzionali al primo avvio
+document.querySelectorAll(".optional-title").forEach(el => {
+  el.classList.add("hidden-optional-title");
+});
 
-/* ======== CARICAMENTO DATASET ======== */
-let datiCorrenti = null;
+document.getElementById("mostra_tutto_btn").onclick = function() {
+  mostraTutto = !mostraTutto;
 
-function caricaDataset(nome, callback) {
-    if (window["param_" + nome]) {
-        callback(window["param_" + nome]);
-        return;
-    }
+  const opzionali = document.querySelectorAll(".optional");
+  const titoliOpzionali = document.querySelectorAll(".optional-title");
 
-    const s = document.createElement("script");
-    s.src = "param_" + nome + ".js?v=" + Date.now();
-    s.onload = () => callback(window["param_" + nome]);
-    s.onerror = () => callback(null);
-    document.body.appendChild(s);
-}
+  // Mostra / nasconde pulsanti
+  opzionali.forEach(el => {
+    el.style.display = mostraTutto ? "flex" : "none";
+  });
 
-/* ======== CAMBIO GRUPPO ======== */
-function cambiaGruppo(nome, bottone) {
+  // Mostra / nasconde titoli
+  titoliOpzionali.forEach(el => {
+    el.classList.toggle("hidden-optional-title", !mostraTutto);
+  });
 
-    document.querySelectorAll(".submenu button")
-        .forEach(btn => btn.classList.remove("active"));
-    bottone.classList.add("active");
-
-    const old = document.getElementById("datascript");
-    if (old) old.remove();
-
-    const s = document.createElement("script");
-    s.src = "param_" + nome + ".js?v=" + Date.now();
-    s.id = "datascript";
-
-    s.onload = () => {
-        datiCorrenti = window["param_" + nome];
-        aggiornaPagina();
-    };
-
-    document.body.appendChild(s);
-}
-
-/* ======== AGGIORNA PAGINA ======== */
-function aggiornaPagina() {
-    const header = datiCorrenti[0];
-
-    document.getElementById("titolo_parametri").textContent =
-        "SELEZIONA MORSETTO – " + (header.A1 || "");
-
-    document.getElementById("titoloB").textContent = header.B1 || "";
-    document.getElementById("titoloC").textContent = header.C1 || "";
-    document.getElementById("titoloD").textContent = header.D1 || "";
-    document.getElementById("titoloE").textContent = header.E1 || "";
-
-    popolaTendina();
-}
-
-/* ======== POPOLA LISTA PARAMETRI ======== */
-function popolaTendina() {
-    const menu = document.getElementById("menu");
-    menu.innerHTML = "";
-
-    datiCorrenti.forEach((p, idx) => {
-        if (idx === 0) return;
-        const opt = document.createElement("option");
-        opt.value = idx;
-        opt.textContent = p.A;
-        menu.appendChild(opt);
-    });
-
-    menu.onchange = () => selezionaParametro(menu.value);
-    menu.dispatchEvent(new Event("change"));
-}
-
-/* ======== SELEZIONA PARAMETRO ======== */
-function selezionaParametro(idx) {
-
-    const p = datiCorrenti[idx];
-	// GENERA I PULSANTI SOTTO LA TENDINA SELEZIONA FUNZIONE
-generaPulsanti("btnValore", p, 1, 8);
-
-    // B
-    if (p.B === "/" || p.B === "") {
-        document.getElementById("bloccoB").style.display = "none";
-    } else {
-        document.getElementById("bloccoB").style.display = "block";
-        document.getElementById("textB").textContent = p.B + " : " + p.A + " = ";
-        generaPulsanti("btnB", p, 1, 8);
-    }
-
-    // C
-    if (p.C === "/" || p.C === "") {
-        document.getElementById("bloccoC").style.display = "none";
-    } else {
-        document.getElementById("bloccoC").style.display = "block";
-        document.getElementById("textC").textContent = p.C;
-        generaPulsanti("btnC", p, 9, 16);
-    }
-
-    // D
-    if (p.D === "/" || p.D === "") {
-        document.getElementById("bloccoD").style.display = "none";
-    } else {
-        document.getElementById("bloccoD").style.display = "block";
-        document.getElementById("textD").textContent = p.D;
-        generaPulsanti("btnD", p, 17, 24);
-    }
-
-    // E
-    if (p.E === "/" || p.E === "") {
-        document.getElementById("bloccoE").style.display = "none";
-    } else {
-        document.getElementById("bloccoE").style.display = "block";
-        document.getElementById("textE").textContent = p.E;
-        generaPulsanti("btnE", p, 25, 32);
-    }
-
-    popolaTendinaValore(p);
-}
-
-/* ======== GENERA PULSANTI ======== */
-function generaPulsanti(containerID, p, start, end) {
-    const cont = document.getElementById(containerID);
-    cont.innerHTML = "";
-
-    for (let i = start; i <= end; i++) {
-        const val = p["N" + i];
-        if (!val || val === "/") continue;
-
-        const btn = document.createElement("button");
-        btn.textContent = val.includes("###") ? val.split("###")[0] : val;
-
-        btn.onclick = () => {
-            const nome = val.toLowerCase();
-            const isImage = [".jpg",".jpeg",".png",".gif",".webp",".bmp",".svg"]
-                .some(ext => nome.endsWith(ext));
-
-            if (isImage) window.open(val, "_blank");
-            else if (val.includes("###")) window.open(val.split("###")[1], "_blank");
-            else window.open(val, "_blank");
-        };
-
-        cont.appendChild(btn);
-    }
-}
-
-/* ======== POPOLA TENDINA VALORE ======== */
-function popolaTendinaValore(p) {
-
-    const select = document.getElementById("menuValore");
-    select.innerHTML = "";
-
-    if (!p.BL || p.BL === "/" || !p.BK || p.BK === "/") {
-        const opt = document.createElement("option");
-        opt.textContent = "—";
-        select.appendChild(opt);
-        return;
-    }
-
-    const nomeBK = p.BK.replace(/"/g, "").trim();
-
-    caricaDataset(nomeBK, (dataset) => {
-
-        if (!dataset || dataset.length < 2) {
-            const opt = document.createElement("option");
-            opt.textContent = "—";
-            select.appendChild(opt);
-            return;
-        }
-
-        const idC = estraiID(p.C);
-
-        for (let i = 1; i < dataset.length; i++) {
-
-            const r = dataset[i];
-            if (!r.A) continue;
-
-            const opt = document.createElement("option");
-            opt.textContent = r.A;
-            opt.value = r.A;
-
-            const idDataset = estraiID(r.A);
-
-            if (idDataset === idC) opt.selected = true;
-
-            select.appendChild(opt);
-        }
-
-        // ⭐ EVENTO CORRETTO: aggiorna N1–N8 in base al valore selezionato
-        select.onchange = function () {
-
-            const valoreSelezionato = this.value;
-            const idSelezionato = estraiID(valoreSelezionato);
-
-            // Cerca la riga corrispondente nel file BK
-            for (let i = 1; i < dataset.length; i++) {
-                const r = dataset[i];
-                const idRiga = estraiID(r.A);
-
-                if (idRiga === idSelezionato) {
-                    // Aggiorna i pulsanti N1…N8 della riga trovata
-                    generaPulsanti("btnValore", r, 1, 8);
-                    break;
-                }
-            }
-        };
-
-        // ⭐ AGGIORNA SUBITO I PULSANTI ALL’AVVIO
-        select.dispatchEvent(new Event("change"));
-
-    });
-}
+  // Cambia testo del bottone
+  this.innerHTML = mostraTutto ? "NA<br>SCONDI" : "MO<br>STRA";
+};
 
 
-/* ======== AVVIO ======== */
-window.onload = () => {
-    cambiaGruppo("IN_QUADRO", document.querySelector("button.active"));
+document.getElementById("home_btn").onclick = function() {
+  alert("HOME: qui metteremo il link alla pagina principale");
 };
 </script>
 
-</div>
 </body>
 </html>
