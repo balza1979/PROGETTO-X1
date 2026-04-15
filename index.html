@@ -180,57 +180,62 @@ input, select, textarea {
 }
 
 /* ========================================================= */
-/* OTTIMIZZAZIONE MOBILE UNIVERSALE                          */
-/* Funziona su GitHub Pages, Android, iOS, tablet piccoli    */
+/*  VERSIONE MOBILE GRANDE (ALMENO IL DOPPIO)                */
+/*  Funziona su GitHub Pages, Android, iOS                   */
 /* ========================================================= */
 
-@media only screen and (max-width: 768px),
-       only screen and (max-device-width: 768px),
+@media only screen and (max-width: 900px),
+       only screen and (max-device-width: 900px),
        only screen and (orientation: portrait),
-       only screen and (max-width: 900px) and (-webkit-min-device-pixel-ratio: 2) {
+       only screen and (-webkit-min-device-pixel-ratio: 2) {
 
   body {
-    padding: 8px;
-    font-size: 18px;
+    padding: 12px;
+    font-size: 22px;
   }
 
   .page {
-    padding: 12px;
-    border-width: 1px;
+    padding: 16px;
+    border-width: 2px;
   }
 
+  /* TITOLO */
   .top-title {
-    font-size: 20px;
+    font-size: 26px;
   }
 
+  /* BOTTONI SUPERIORI */
   .top-btn {
-    width: 52px;
-    height: 40px;
-    font-size: 12px;
-    line-height: 12px;
+    width: 60px;
+    height: 48px;
+    font-size: 14px;
+    line-height: 14px;
   }
 
-  input, select, textarea {
-    font-size: 18px;
-    padding: 12px;
-  }
-
+  /* LABEL */
   label {
-    font-size: 15px;
+    font-size: 18px;
   }
 
+  /* INPUT, SELECT, TEXTAREA */
+  input, select, textarea {
+    font-size: 20px;
+    padding: 14px;
+  }
+
+  /* PULSANTI 2x4 */
   .btn-file {
-    font-size: 16px;
-    padding: 12px 6px;
+    font-size: 20px;
+    padding: 14px 6px;
     width: 23%;
   }
 
+  /* TITOLI SEZIONI */
   .section-title {
-    font-size: 18px;
-    margin-top: 22px;
+    font-size: 22px;
+    margin-top: 26px;
   }
 }
-
 
 
 </style>
