@@ -61,7 +61,16 @@ body {
   color:#ff5555;
   font-weight:bold;
 }
-
+/* campi testo piccoli */
+  .testo_piccolo {
+  flex:1;
+  text-align:center;
+  font-size:8px;
+  color:#ff5555;
+  font-weight:bold;
+    width: 500px;
+  height: 20px;
+}
 /* BOTTONI PICCOLI (MOSTRA / HOME) */
 .top-btn {
   all: unset;
@@ -327,10 +336,10 @@ input, select, textarea {
   </select>
 
   <label>Parametro:</label>
-  <input class="full" id="codice_parametro" type="text" placeholder="X.Y.ZZ">
+  <input class="testo_piccolo" id="codice_parametro" type="text" placeholder="X.Y.ZZ">
 
   <label>Descrizione</label>
-  <input class="full" id="descrizione_parametro" type="text" placeholder="descrizione parametro">
+  <input class="testo_piccolo" id="descrizione_parametro" type="text" placeholder="descrizione parametro">
 
   <div class="buttons-row optional">
     <button class="btn-file">PARAM 1</button>
