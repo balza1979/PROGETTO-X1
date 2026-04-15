@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<title>GESTIONE IN/OUT</title>
+
+
+</head>
+<link rel="stylesheet" href="css/style.css">
+
+<body>
+<div id="app-container">
+
+<h1 id="titolo_fisso">GESTIONE IN/OUT</h1>
+
+<div class="submenu">
+    <button onclick="cambiaGruppo('IN_QUADRO', this)" class="active">IN QUADRO</button>
+    <button onclick="cambiaGruppo('IN_CABINA', this)">IN_CABINA</button>
+    <button onclick="cambiaGruppo('OUT_QUADRO', this)">OUT_QUADRO</button>
+    <button onclick="cambiaGruppo('OUT_CABINA', this)">OUT_CABINA</button>
+</div>
+
+<h2 id="titolo_parametri">SELEZIONA PARAMETRO –</h2>
+<select id="menu" class="select-box"></select>
+
+<div id="bloccoB">
+<h2 id="titoloB"></h2>
+<div id="textB" class="text-box"></div>
+<div id="btnB" class="buttons-row"></div>
+</div>
+
+<h2 id="titoloFunzione">SELEZIONA FUNZIONE</h2>
+
+
+<div id="bloccoValore">
+    <select id="menuValore" class="select-box">
+        <option>—</option>
+    </select>
+
+   <div id="btnValore" class="buttons-row"></div>
+
+
+<div id="bloccoC">
+<h2 id="titoloC"></h2>
+<div id="textC" class="text-box"></div>
+<div id="btnC" class="buttons-row"></div>
+</div>
+
+<div id="bloccoD">
+<h2 id="titoloD"></h2>
+<div id="textD" class="text-box"></div>
+<div id="btnD" class="buttons-row"></div>
+</div>
+
+<div id="bloccoE">
+<h2 id="titoloE"></h2>
+<div id="textE" class="text-box"></div>
+<div id="btnE" class="buttons-row"></div>
+</div>
+
+<script>
+/* ======== FUNZIONE PER ESTRARRE L’ID ======== */
+function estraiID(str) {
+    if (!str) return "";
+    const m = str.match(/"([^"]+)"/);
+    return m ? m[1] : "";
+}
+
+/* ======== CARICAMENTO DATASET ======== */
+let datiCorrenti = null;
+
+function caricaDataset(nome, callback) {
+    if (window["param_" + nome]) {
+        callback(window["param_" + nome]);
+        return;
+    }
+
+    const s = document.createElement("script");
+    s.src = "param_" + nome + ".js?v=" + Date.now();
+    s.onload = () => callback(window["param_" + nome]);
+    s.onerror = () => callback(null);
+    document.body.appendChild(s);
+}
+
+/* ======== CAMBIO GRUPPO ======== */
+function cambiaGruppo(nome, bottone) {
+
+    document.querySelectorAll(".submenu button")
+        .forEach(btn => btn.classList.remove("active"));
+    bottone.classList.add("active");
+
+    const old = document.getElementById("datascript");
+    if (old) old.remove();
+
+    const s = document.createElement("script");
+    s.src = "param_" + nome + ".js?v=" + Date.now();
+    s.id = "datascript";
+
+    s.onload = () => {
+        datiCorrenti = window["param_" + nome];
+        aggiornaPagina();
+    };
+
+    document.body.appendChild(s);
+}
+
+/* ======== AGGIORNA PAGINA ======== */
+function aggiornaPagina() {
+    const header = datiCorrenti[0];
+
+    document.getElementById("titolo_parametri").textContent =
+        "SELEZIONA MORSETTO – " + (header.A1 || "");
+
+    document.getElementById("titoloB").textContent = header.B1 || "";
+    document.getElementById("titoloC").textContent = header.C1 || "";
+    document.getElementById("titoloD").textContent = header.D1 || "";
+    document.getElementById("titoloE").textContent = header.E1 || "";
+
+    popolaTendina();
+}
+
+/* ======== POPOLA LISTA PARAMETRI ======== */
+function popolaTendina() {
+    const menu = document.getElementById("menu");
+    menu.innerHTML = "";
+
+    datiCorrenti.forEach((p, idx) => {
+        if (idx === 0) return;
+        const opt = document.createElement("option");
+        opt.value = idx;
+        opt.textContent = p.A;
+        menu.appendChild(opt);
+    });
+
+    menu.onchange = () => selezionaParametro(menu.value);
+    menu.dispatchEvent(new Event("change"));
+}
+
+/* ======== SELEZIONA PARAMETRO ======== */
+function selezionaParametro(idx) {
+
+    const p = datiCorrenti[idx];
+	// GENERA I PULSANTI SOTTO LA TENDINA SELEZIONA FUNZIONE
+generaPulsanti("btnValore", p, 1, 8);
+
+    // B
+    if (p.B === "/" || p.B === "") {
+        document.getElementById("bloccoB").style.display = "none";
+    } else {
+        document.getElementById("bloccoB").style.display = "block";
+        document.getElementById("textB").textContent = p.B + " : " + p.A + " = ";
+        generaPulsanti("btnB", p, 1, 8);
+    }
+
+    // C
+    if (p.C === "/" || p.C === "") {
+        document.getElementById("bloccoC").style.display = "none";
+    } else {
+        document.getElementById("bloccoC").style.display = "block";
+        document.getElementById("textC").textContent = p.C;
+        generaPulsanti("btnC", p, 9, 16);
+    }
+
+    // D
+    if (p.D === "/" || p.D === "") {
+        document.getElementById("bloccoD").style.display = "none";
+    } else {
+        document.getElementById("bloccoD").style.display = "block";
+        document.getElementById("textD").textContent = p.D;
+        generaPulsanti("btnD", p, 17, 24);
+    }
+
+    // E
+    if (p.E === "/" || p.E === "") {
+        document.getElementById("bloccoE").style.display = "none";
+    } else {
+        document.getElementById("bloccoE").style.display = "block";
+        document.getElementById("textE").textContent = p.E;
+        generaPulsanti("btnE", p, 25, 32);
+    }
+
+    popolaTendinaValore(p);
+}
+
+/* ======== GENERA PULSANTI ======== */
+function generaPulsanti(containerID, p, start, end) {
+    const cont = document.getElementById(containerID);
+    cont.innerHTML = "";
+
+    for (let i = start; i <= end; i++) {
+        const val = p["N" + i];
+        if (!val || val === "/") continue;
+
+        const btn = document.createElement("button");
+        btn.textContent = val.includes("###") ? val.split("###")[0] : val;
+
+        btn.onclick = () => {
+            const nome = val.toLowerCase();
+            const isImage = [".jpg",".jpeg",".png",".gif",".webp",".bmp",".svg"]
+                .some(ext => nome.endsWith(ext));
+
+            if (isImage) window.open(val, "_blank");
+            else if (val.includes("###")) window.open(val.split("###")[1], "_blank");
+            else window.open(val, "_blank");
+        };
+
+        cont.appendChild(btn);
+    }
+}
+
+/* ======== POPOLA TENDINA VALORE ======== */
+function popolaTendinaValore(p) {
+
+    const select = document.getElementById("menuValore");
+    select.innerHTML = "";
+
+    if (!p.BL || p.BL === "/" || !p.BK || p.BK === "/") {
+        const opt = document.createElement("option");
+        opt.textContent = "—";
+        select.appendChild(opt);
+        return;
+    }
+
+    const nomeBK = p.BK.replace(/"/g, "").trim();
+
+    caricaDataset(nomeBK, (dataset) => {
+
+        if (!dataset || dataset.length < 2) {
+            const opt = document.createElement("option");
+            opt.textContent = "—";
+            select.appendChild(opt);
+            return;
+        }
+
+        const idC = estraiID(p.C);
+
+        for (let i = 1; i < dataset.length; i++) {
+
+            const r = dataset[i];
+            if (!r.A) continue;
+
+            const opt = document.createElement("option");
+            opt.textContent = r.A;
+            opt.value = r.A;
+
+            const idDataset = estraiID(r.A);
+
+            if (idDataset === idC) opt.selected = true;
+
+            select.appendChild(opt);
+        }
+
+        // ⭐ EVENTO CORRETTO: aggiorna N1–N8 in base al valore selezionato
+        select.onchange = function () {
+
+            const valoreSelezionato = this.value;
+            const idSelezionato = estraiID(valoreSelezionato);
+
+            // Cerca la riga corrispondente nel file BK
+            for (let i = 1; i < dataset.length; i++) {
+                const r = dataset[i];
+                const idRiga = estraiID(r.A);
+
+                if (idRiga === idSelezionato) {
+                    // Aggiorna i pulsanti N1…N8 della riga trovata
+                    generaPulsanti("btnValore", r, 1, 8);
+                    break;
+                }
+            }
+        };
+
+        // ⭐ AGGIORNA SUBITO I PULSANTI ALL’AVVIO
+        select.dispatchEvent(new Event("change"));
+
+    });
+}
+
+
+/* ======== AVVIO ======== */
+window.onload = () => {
+    cambiaGruppo("IN_QUADRO", document.querySelector("button.active"));
+};
+</script>
+
+</div>
+</body>
+</html>
