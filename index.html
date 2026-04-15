@@ -180,14 +180,18 @@ input, select, textarea {
 }
 
 /* ========================================================= */
-/* OTTIMIZZAZIONE SMARTPHONE TOUCH                           */
-/* Attiva solo su schermi piccoli + dispositivi touch        */
+/* OTTIMIZZAZIONE MOBILE UNIVERSALE                          */
+/* Funziona su GitHub Pages, Android, iOS, tablet piccoli    */
 /* ========================================================= */
 
-@media (max-width: 600px) and (pointer: coarse) {
+@media only screen and (max-width: 768px),
+       only screen and (max-device-width: 768px),
+       only screen and (orientation: portrait),
+       only screen and (max-width: 900px) and (-webkit-min-device-pixel-ratio: 2) {
 
   body {
-    padding: 10px;
+    padding: 8px;
+    font-size: 18px;
   }
 
   .page {
@@ -196,36 +200,37 @@ input, select, textarea {
   }
 
   .top-title {
-    font-size: 16px;
+    font-size: 20px;
   }
 
   .top-btn {
-    width: 46px;
-    height: 36px;
-    font-size: 11px;
-    line-height: 11px;
+    width: 52px;
+    height: 40px;
+    font-size: 12px;
+    line-height: 12px;
   }
 
   input, select, textarea {
-    font-size: 15px;
-    padding: 10px;
+    font-size: 18px;
+    padding: 12px;
   }
 
   label {
-    font-size: 13px;
+    font-size: 15px;
   }
 
   .btn-file {
-    font-size: 13px;
-    padding: 10px 6px;
+    font-size: 16px;
+    padding: 12px 6px;
     width: 23%;
   }
 
   .section-title {
-    font-size: 15px;
-    margin-top: 20px;
+    font-size: 18px;
+    margin-top: 22px;
   }
 }
+
 
 
 </style>
