@@ -1,6 +1,6 @@
 ﻿// ======================================================================
 // FILE: x1_menu_struttura_data.js
-// DESCRIZIONE: Dati MENU + SOTTOMENU convertiti dal CSV
+// DESCRIZIONE : Dati MENU + SOTTOMENU convertiti dal CSV
 // AUTORE: Luca + Copilot
 // DATA: 16/04/2026, 15:45:43
 // ======================================================================
