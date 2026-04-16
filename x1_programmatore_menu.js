@@ -1,70 +1,70 @@
-// ======================================================================
-// FILE: x1_programmatore_menu.js
-// DESCRIZIONE: Logica moderna per MENU + SOTTOMENU (OGGETTI)
-// AUTORE: Luca + Copilot
-// DATA: 2026-04-16 – CEST
-// NOTE: Usa i dati contenuti in x1_menu_struttura_data.js
-// ======================================================================
+// ======================================================
+//  X1 PROGRAMMATORE – POPOLAMENTO MENU E SOTTOMENU
+//  Compatibile con struttura a OGGETTI di x1_menu_struttura_data.js
+// ======================================================
 
-
-// ------------------------------------------------------------
-// Popola MENU (codici X.Y → prende solo X)
-// ------------------------------------------------------------
+// ------------------------------
+// POPOLA MENU PRINCIPALE
+// ------------------------------
 function x1_popolaMenu() {
+    const selectMenu = document.getElementById("menu");
+    selectMenu.innerHTML = ""; // pulizia
 
-  const menuSelect = document.getElementById("menu_select");
-  if (!menuSelect) return;
+    // Estrae tutti i valori "menu" e rimuove duplicati
+    const listaMenu = [...new Set(x1_menu_struttura_data.map(r => r.menu))];
 
-  menuSelect.innerHTML = "<option value=''>— seleziona MENU —</option>";
+    // Ordina alfabeticamente (opzionale)
+    listaMenu.sort();
 
-  x1_menu_struttura_data.forEach(row => {
+    // Inserisce le opzioni
+    listaMenu.forEach(menu => {
+        const opt = document.createElement("option");
+        opt.value = menu;
+        opt.textContent = menu;
+        selectMenu.appendChild(opt);
+    });
 
-    const codice = row.cod__menu;
-    const menu   = row.menu;
-
-    if (!codice || !menu) return;
-
-    // Estrae la parte prima del punto → "1" da "1.2"
-    const numeroMenu = codice.split(".")[0];
-
-    // Evita duplicati
-    if (!menuSelect.querySelector(`option[value="${numeroMenu}"]`)) {
-      const opt = document.createElement("option");
-      opt.value = numeroMenu;
-      opt.textContent = menu;
-      menuSelect.appendChild(opt);
+    // Dopo aver popolato il menu, popola il sottomenu del primo elemento
+    if (listaMenu.length > 0) {
+        x1_popolaSottomenu(listaMenu[0]);
     }
-  });
 }
 
+// ------------------------------
+// POPOLA SOTTOMENU IN BASE AL MENU SELEZIONATO
+// ------------------------------
+function x1_popolaSottomenu(menuSelezionato) {
+    const selectSottomenu = document.getElementById("sottomenu");
+    selectSottomenu.innerHTML = ""; // pulizia
 
+    // Filtra le righe che appartengono al menu selezionato
+    const listaSottomenu = x1_menu_struttura_data
+        .filter(r => r.menu === menuSelezionato)
+        .map(r => r.sottomenu);
 
-// ------------------------------------------------------------
-// Popola SOTTOMENU (codici X.Y → prende solo quelli che iniziano con X.)
-// ------------------------------------------------------------
-function x1_popolaSottomenu(menuCode) {
+    // Rimuove duplicati
+    const unici = [...new Set(listaSottomenu)];
 
-  const subSelect = document.getElementById("submenu_select");
-  if (!subSelect) return;
-
-  subSelect.innerHTML = "<option value=''>— seleziona SOTTOMENU —</option>";
-
-  x1_menu_struttura_data.forEach(row => {
-
-    const codice    = row.cod__menu;
-    const sottomenu = row.sottomenu;
-
-    if (!codice) return;
-
-    // Se il codice inizia con "X." → appartiene al menu selezionato
-    if (codice.startsWith(menuCode + ".") &&
-        sottomenu &&
-        sottomenu.trim() !== "/") {
-
-      const opt = document.createElement("option");
-      opt.value = codice;
-      opt.textContent = sottomenu;
-      subSelect.appendChild(opt);
-    }
-  });
+    // Inserisce le opzioni
+    unici.forEach(sotto => {
+        const opt = document.createElement("option");
+        opt.value = sotto;
+        opt.textContent = sotto;
+        selectSottomenu.appendChild(opt);
+    });
 }
+
+// ------------------------------
+// EVENTO CAMBIO MENU
+// ------------------------------
+document.addEventListener("DOMContentLoaded", () => {
+    const selectMenu = document.getElementById("menu");
+
+    // Popola menu all'avvio
+    x1_popolaMenu();
+
+    // Quando cambia il menu → aggiorna sottomenu
+    selectMenu.addEventListener("change", function () {
+        x1_popolaSottomenu(this.value);
+    });
+});
