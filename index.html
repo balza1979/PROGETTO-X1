@@ -22,108 +22,104 @@
 
 <style>
 
-/* ======== STRUTTURA BASE ======== */
-/* Nascondi titoli opzionali al primo avvio */
-.optional-title {
-  display:none;
-}
+/* ============================================================
+   STRUTTURA BASE
+   ============================================================ */
+
+/* Titoli opzionali nascosti SOLO all’avvio */
+.optional-title { display:block; }
+.hidden-optional-title { display:none !important; }
+
 body {
   font-family: Arial, sans-serif;
-  background:#202020;
-  color:#f0f0f0;
+  background:#0d0d0d !important;
+  color:#f5f5f5 !important;
   margin:0;
   padding:20px;
 }
 
+/* Contenitore principale */
 .page {
   max-width:600px;
   margin:0 auto;
-  background:#2b2b2b;
-  border:2px solid #aa0000;
+  background:#1a1a1a !important;
+  border:3px solid #cc0000 !important;
   padding:16px;
   box-sizing:border-box;
-  border-radius:8px;
+  border-radius:10px !important;
+  box-shadow:0 0 25px rgba(255,0,0,0.45) !important;
 }
 
-/* ======== BARRA SUPERIORE ======== */
+/* ============================================================
+   BARRA SUPERIORE (BASE)
+   ============================================================ */
 
 .top-bar {
   display:flex;
-  /*justify-content:space-between;*/
   align-items:center;
-  margin-bottom:8px;
+  justify-content:space-between;
+  flex-wrap:nowrap;
+  overflow:hidden;
+  background:#1a0000 !important;
+  padding:6px !important;
+  border-radius:6px !important;
+  border:2px solid #cc0000 !important;
+  box-shadow:0 0 12px rgba(255,0,0,0.35) !important;
+  box-sizing:border-box;
 }
 
 .top-title {
   flex:1;
   text-align:center;
   font-size:16px;
-  color:#ff5555;
-  font-weight:bold;
-}
-.testo_piccolo {
-  flex: 1 1 auto;
-  min-width: 0;          /* 🔴 FONDAMENTALE */
-  max-width: 100%;
-
-  text-align: center;
-  font-size: 16px;
-  color: #ff5555;
-  font-weight: bold;
-height: 20px;
-  padding: 10px;
-  box-sizing: border-box;
-
-  min-height: 15px;
-  margin: 18px 0 6px;
+  color:#ff1a1a !important;
+  font-weight:bold !important;
+  text-shadow:0 0 6px rgba(255,0,0,0.5) !important;
 }
 
-
-/* BOTTONI PICCOLI (MOSTRA / HOME) */
+/* Pulsanti MOSTRA / HOME */
 .top-btn {
-  all: unset;
+  all:unset;
   display:flex;
-  flex-direction:row;
   justify-content:center;
   align-items:center;
   text-align:center;
 
-  background:#550000;
-  border:1px solid #aa0000;
-  color:#fff;
+  background:#660000 !important;
+  border:2px solid #ff1a1a !important;
+  color:white !important;
+  font-weight:bold !important;
+  border-radius:6px !important;
+  box-shadow:0 0 10px rgba(255,0,0,0.4) !important;
 
-  width: 80px;
-  height: 30px;
-  height:15px;
-  padding:0;
-  margin:0;
-
+  width:75px;
+  min-width:75px;
+  max-width:75px;
+  height:34px;
   font-size:12px;
-  line-height:0px;
-  border-radius:4px;
-  
+
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
 }
 
 .top-btn:hover {
-  background:#770000;
+  background:#880000 !important;
+  border-color:#ff3333 !important;
 }
 
-/* ======== SEZIONI ======== */
+/* ============================================================
+   SEZIONI E CAMPI
+   ============================================================ */
 
 .section-title {
   margin:18px 0 6px;
-  font-size:12px;
+  font-size:14px;
   font-weight:bold;
-  color:#ff9999;
-  border-bottom:1px solid #444;
+  color:#ff3333 !important;
+  border-bottom:2px solid #660000 !important;
   padding-bottom:3px;
-}
-
-/* ======== CAMPI ======== */
-
-.full {
-  width:100%;
-  box-sizing:border-box;
+  text-shadow:0 0 4px rgba(255,0,0,0.4) !important;
 }
 
 label {
@@ -134,17 +130,20 @@ label {
 }
 
 input, select, textarea {
-  background:#111;
-  color:#f0f0f0;
-  border:1px solid #555;
+  background:#0d0d0d !important;
+  border:2px solid #660000 !important;
+  color:#ffcccc !important;
   padding:6px;
   font-size:12px;
   width:100%;
   box-sizing:border-box;
-  border-radius:4px;
+  border-radius:6px !important;
 }
 
-/* ======== RIGHE ======== */
+input:focus, select:focus, textarea:focus {
+  border-color:#ff1a1a !important;
+  box-shadow:0 0 10px rgba(255,0,0,0.5) !important;
+}
 
 .row {
   display:flex;
@@ -158,259 +157,144 @@ input, select, textarea {
   flex-direction:column;
 }
 
-/* ======== PULSANTI ======== */
+/* Pulsanti 2×4 */
 .buttons-row {
-  display: flex;
-  gap: 6px;
-  margin-top: 6px;
-  width: 100%;
+  display:flex;
+  gap:6px;
+  margin-top:6px;
+  width:100%;
 }
 
-
-
- .btn-file {
-  flex: 1 1 80px;   /* cresce e si restringe */
-  min-width: 0;     /* 🔴 ESSENZIALE */
-  
-  background: #333;
-  border: 1px solid #777;
-  color: #eee;
-
-  font-size: 10px;
-  padding: 4px;
-  height: 25px;
-
-  text-align: center;
-  border-radius: 4px;
-  cursor: pointer;
-
-  box-sizing: border-box;
-
+.btn-file {
+  flex:1 1 80px;
+  min-width:0;
+  background:#1a1a1a !important;
+  border:2px solid #cc0000 !important;
+  color:#ffffff !important;
+  font-weight:bold !important;
+  border-radius:6px !important;
+  box-shadow:0 0 10px rgba(255,0,0,0.35) !important;
+  font-size:10px;
+  padding:4px;
+  height:25px;
+  text-align:center;
 }
 
 .btn-file:hover {
-  background:#444;
+  background:#330000 !important;
+  border-color:#ff1a1a !important;
+  box-shadow:0 0 14px rgba(255,0,0,0.55) !important;
 }
 
-/* Classe per nascondere pulsanti opzionali */
-.optional {
-  display:none;
-}
-/* Titoli opzionali (AI, CAN, ecc.) */
-.optional-title {
-  display:block;
-}
-
-/* Quando nascosti */
-.hidden-optional-title {
-  display:none !important;
-}
-
-
-
+/* Elementi opzionali */
+.optional { display:none; }
 
 /* ============================================================
-   SUPER ZOOM MOBILE (versione potenziata)
-   Per smartphone, tablet, GitHub Pages
+   MOBILE — SUPER ZOOM + BARRA APP MODERNA
    ============================================================ */
 
-@media only screen and (max-width: 1100px),
-       only screen and (max-device-width: 1100px),
-       only screen and (orientation: portrait),
-       only screen and (-webkit-min-device-pixel-ratio: 2),
-       (pointer: coarse) {
+@media only screen and (max-width:1100px) {
 
-    /* ZOOM MASSICCIO */
-    body {
-        zoom: 2.5;   /* 280% — più grande del vecchio 210% */
-    }
+  /* Zoom massiccio */
+  body { zoom:2.5; }
 
-    /* Titoli */
-    .top-title {
-        font-size: 14px !important;
-    }
-/* BOTTONI PICCOLI (MOSTRA / HOME) */
-    /* Pulsanti superiori */
-    .top-btn {
-        width: 80px !important;
-        height: 30px !important;
-        font-size: 16px !important;
-        line-height: 0px !important;
-        /*all: unset;*/
-        display:flex;
-        flex-direction:row; 
-        justify-content:center;
-        align-items:center;
-        text-align:center;
-        background:#550000;
-        border:1px solid #aa0000; 
-        color:#fff;
-        }
-
-.testo_piccolo {
-  flex: 1 1 auto;
-  min-width: 0;          /* 🔴 FONDAMENTALE */
-  max-width: 100%;
-
-  text-align: center;
-  font-size: 16px;
-  color: #ff5555;
-  font-weight: bold;
-
-  padding: 10px;
-  box-sizing: border-box;
-
-  min-height: 20px;
-  margin: 18px 0 6px;
-}
-
-
-
-
-    /* Pulsanti 2x4 */
-    .btn-file {
-      width: 55px !important;
-        height: 35px !important
-        font-size: 16px !important;
-        padding: 0px 0px !important;
-    }
-
-    /* Input, select, textarea */
-    input, select, textarea {
-        font-size: 18px !important;
-        padding: 10px !important;
-    }
-
-    /* Label */
-    label {
-        font-size: 14px !important;
-    }
-
-    /* Titoli sezioni */
-    .section-title {
-        font-size: 16px !important;
-    }
-}
-
-/* ============================================================
-   FIX: CORNICE ROSSA ADATTIVA + PULSANTI CHE NON ESCONO
-   ============================================================ */
-
-@media only screen and (max-width: 1100px) {
-
-  /* La cornice rossa diventa elastica */
+  /* Cornice elastica */
   .page {
-    max-width: 100% !important;
-    width: 100% !important;
-    margin: 0 !important;
-    padding: 12px !important;
-    box-sizing: border-box !important;
+    max-width:100% !important;
+    width:100% !important;
+    margin:0 !important;
+    padding:12px !important;
   }
 
-  /* La barra superiore non deve allargarsi troppo */
+  /* Barra app moderna */
   .top-bar {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: nowrap;
+    position:sticky;
+    top:0;
+    z-index:9999;
+    background:#111 !important;
+    padding:8px 10px !important;
+    border-bottom:3px solid #ff1a1a !important;
+    box-shadow:0 4px 12px rgba(255,0,0,0.35) !important;
+    border-radius:0 0 10px 10px !important;
   }
 
-  /* Pulsanti 2×4: impediamo che escano */
-  .buttons-row {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 8px;
-    width: 100%;
-    box-sizing: border-box;
-  }
-
-  /* Ogni pulsante occupa metà riga → NON esce mai */
-  .btn-file {
-    flex: 1 1 calc(50% - 10px) !important;
-    max-width: calc(50% - 10px) !important;
-    min-width: 0 !important;
-    box-sizing: border-box !important;
-  }
-
-  /* Pulsanti MOSTRA / HOME */
+  /* Pulsanti simmetrici */
   .top-btn {
-    flex: 0 0 auto;
-    max-width: 80px;
-  }
-}
-
-/* ============================================================
-   FIX DEFINITIVO: MOSTRA e HOME NON ESCONO PIÙ
-   ============================================================ */
-
-@media only screen and (max-width: 1100px) {
-
-  /* La barra superiore non può superare la cornice */
-  .top-bar {
-    width: 100%;
-    display: flex;
-    flex-wrap: nowrap;
-    justify-content: space-between;
-    align-items: center;
-    overflow: hidden; /* 🔥 impedisce lo “straripamento” */
+    width:75px !important;
+    min-width:75px !important;
+    max-width:75px !important;
+    height:34px !important;
+    font-size:12px !important;
   }
 
-  /* Pulsanti MOSTRA / HOME */
-  .top-btn {
-    flex: 0 0 auto;          /* 🔥 NON si allargano */
-    max-width: 70px !important;
-    min-width: 60px !important;
-    height: 40px !important;
-    font-size: 14px !important;
-    line-height: 14px !important;
-    padding: 0 !important;
-    box-sizing: border-box;
-  }
-
-  /* Titolo centrale */
+  /* Titolo app */
   .top-title {
-    flex: 1 1 auto;          /* 🔥 si restringe se serve */
-    min-width: 0;            /* 🔥 fondamentale */
-    text-overflow: ellipsis; /* 🔥 evita che esca */
-    overflow: hidden;
-    white-space: nowrap;
-    font-size: 18px !important;
+    font-size:18px !important;
   }
+
+  /* Pulsanti 2×4 adattivi */
+  .buttons-row {
+    flex-wrap:wrap;
+    justify-content:center;
+  }
+
+  .btn-file {
+    flex:1 1 calc(50% - 10px) !important;
+    max-width:calc(50% - 10px) !important;
+    height:35px !important;
+    font-size:16px !important;
+  }
+
+  /* Campi più grandi */
+  input, select, textarea {
+    font-size:18px !important;
+    padding:10px !important;
+  }
+
+  label { font-size:14px !important; }
+  .section-title { font-size:16px !important; }
 }
+
 /* ============================================================
-   MODALITÀ SCHERMO TROPPO PICCOLO
+   PC — PAGINA PIÙ GRANDE E LEGGIBILE
    ============================================================ */
 
-#screen-warning {
-  display: none;
-  background: #550000;
-  color: white;
-  padding: 20px;
-  margin: 10px 0;
-  border: 2px solid #aa0000;
-  border-radius: 8px;
-  font-size: 20px;
-  text-align: center;
-}
+@media only screen and (min-width:1101px) {
 
-body.too-small .page {
-  display: none !important;
-}
+  .page {
+    max-width:900px !important;
+    margin:20px auto !important;
+    padding:20px !important;
+    transform:scale(1.15);
+    transform-origin:top center;
+  }
 
-#screen-warning {
-  display: none;
-  background: #550000;
-  color: white;
-  padding: 20px;
-  margin: 10px 0;
-  border: 2px solid #aa0000;
-  border-radius: 8px;
-  font-size: 22px;
-  text-align: center;
+  .section-title { font-size:22px !important; }
+
+  select, input, textarea {
+    font-size:18px !important;
+    height:42px !important;
+  }
+
+  .btn-file {
+    font-size:18px !important;
+    height:55px !important;
+  }
+
+  .top-bar { padding:12px 20px !important; }
+
+  .top-btn {
+    width:100px !important;
+    height:40px !important;
+    font-size:14px !important;
+  }
+
+  .top-title { font-size:24px !important; }
 }
 
 </style>
+
+
 </head>
 
 <!-- ========================================================= -->
