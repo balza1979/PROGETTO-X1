@@ -57,20 +57,28 @@ body {
 .top-title {
   flex:1;
   text-align:center;
-  font-size:8px;
+  font-size:16px;
   color:#ff5555;
   font-weight:bold;
 }
-/* campi testo piccoli */
-  .testo_piccolo {
-  flex:1;
-  text-align:center;
-  font-size:8px;
-  color:#ff5555;
-  font-weight:bold;
-    width: 300px;
-  height: 20px;
+.testo_piccolo {
+  flex: 1 1 auto;
+  min-width: 0;          /* 🔴 FONDAMENTALE */
+  max-width: 100%;
+
+  text-align: center;
+  font-size: 16px;
+  color: #ff5555;
+  font-weight: bold;
+height: 20px;
+  padding: 10px;
+  box-sizing: border-box;
+
+  min-height: 15px;
+  margin: 18px 0 6px;
 }
+
+
 /* BOTTONI PICCOLI (MOSTRA / HOME) */
 .top-btn {
   all: unset;
@@ -90,7 +98,7 @@ body {
   padding:0;
   margin:0;
 
-  font-size:4px;
+  font-size:12px;
   line-height:0px;
   border-radius:4px;
   
@@ -119,7 +127,7 @@ body {
 }
 
 label {
-  font-size:10px;
+  font-size:14px;
   color:#cccccc;
   margin-top:6px;
   display:block;
@@ -151,23 +159,33 @@ input, select, textarea {
 }
 
 /* ======== PULSANTI ======== */
-
 .buttons-row {
-  display:flex;
-  justify-content:space-between;
-  margin-top:6px;
+  display: flex;
+  gap: 6px;
+  margin-top: 6px;
+  width: 100%;
 }
 
-.btn-file {
-  background:#333;
-  border:1px solid #777;
-  color:#eee;
-  padding:6px 4px;
-  font-size:8px;
-  cursor:pointer;
-  width:5%;
-  text-align:center;
-  border-radius:4px;
+
+
+ .btn-file {
+  flex: 1 1 80px;   /* cresce e si restringe */
+  min-width: 0;     /* 🔴 ESSENZIALE */
+  
+  background: #333;
+  border: 1px solid #777;
+  color: #eee;
+
+  font-size: 10px;
+  padding: 4px;
+  height: 25px;
+
+  text-align: center;
+  border-radius: 4px;
+  cursor: pointer;
+
+  box-sizing: border-box;
+
 }
 
 .btn-file:hover {
@@ -228,6 +246,26 @@ input, select, textarea {
         border:1px solid #aa0000; 
         color:#fff;
         }
+
+.testo_piccolo {
+  flex: 1 1 auto;
+  min-width: 0;          /* 🔴 FONDAMENTALE */
+  max-width: 100%;
+
+  text-align: center;
+  font-size: 16px;
+  color: #ff5555;
+  font-weight: bold;
+
+  padding: 10px;
+  box-sizing: border-box;
+
+  min-height: 20px;
+  margin: 18px 0 6px;
+}
+
+
+
 
     /* Pulsanti 2x4 */
     .btn-file {
