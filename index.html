@@ -568,7 +568,7 @@ window.addEventListener("resize", checkScreenSize);
 window.addEventListener("load", checkScreenSize);
 </script>
 <div class="section-title">MENU (X)</div>
-<select class="full" id="menu_select">
+<select class="full" id="menu_select" onchange="x1_popolaSottomenu(this.value)">
   <option>— seleziona MENU —</option>
 </select>
 
@@ -577,10 +577,11 @@ window.addEventListener("load", checkScreenSize);
   <option>— seleziona SOTTOMENU —</option>
 </select>
 
-<script src="x1_menu_struttura_data.js"></script>
+<script src="../File%20Superati%20x1/js%20x1%20superati/x1_menu_struttura_data----.js"></script>
 <script src="x1_programmatore_menu.js"></script>
 
-
-
+<script>
+  x1_popolaMenu();   // <--- QUESTA È LA CHIAVE
+</script>
 </body>
 </html>
