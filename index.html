@@ -292,7 +292,123 @@ input, select, textarea {
     }
 }
 
+/* ============================================================
+   FIX: CORNICE ROSSA ADATTIVA + PULSANTI CHE NON ESCONO
+   ============================================================ */
 
+@media only screen and (max-width: 1100px) {
+
+  /* La cornice rossa diventa elastica */
+  .page {
+    max-width: 100% !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 12px !important;
+    box-sizing: border-box !important;
+  }
+
+  /* La barra superiore non deve allargarsi troppo */
+  .top-bar {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: nowrap;
+  }
+
+  /* Pulsanti 2×4: impediamo che escano */
+  .buttons-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  /* Ogni pulsante occupa metà riga → NON esce mai */
+  .btn-file {
+    flex: 1 1 calc(50% - 10px) !important;
+    max-width: calc(50% - 10px) !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
+  }
+
+  /* Pulsanti MOSTRA / HOME */
+  .top-btn {
+    flex: 0 0 auto;
+    max-width: 80px;
+  }
+}
+
+/* ============================================================
+   FIX DEFINITIVO: MOSTRA e HOME NON ESCONO PIÙ
+   ============================================================ */
+
+@media only screen and (max-width: 1100px) {
+
+  /* La barra superiore non può superare la cornice */
+  .top-bar {
+    width: 100%;
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: center;
+    overflow: hidden; /* 🔥 impedisce lo “straripamento” */
+  }
+
+  /* Pulsanti MOSTRA / HOME */
+  .top-btn {
+    flex: 0 0 auto;          /* 🔥 NON si allargano */
+    max-width: 70px !important;
+    min-width: 60px !important;
+    height: 40px !important;
+    font-size: 14px !important;
+    line-height: 14px !important;
+    padding: 0 !important;
+    box-sizing: border-box;
+  }
+
+  /* Titolo centrale */
+  .top-title {
+    flex: 1 1 auto;          /* 🔥 si restringe se serve */
+    min-width: 0;            /* 🔥 fondamentale */
+    text-overflow: ellipsis; /* 🔥 evita che esca */
+    overflow: hidden;
+    white-space: nowrap;
+    font-size: 18px !important;
+  }
+}
+/* ============================================================
+   MODALITÀ SCHERMO TROPPO PICCOLO
+   ============================================================ */
+
+#screen-warning {
+  display: none;
+  background: #550000;
+  color: white;
+  padding: 20px;
+  margin: 10px 0;
+  border: 2px solid #aa0000;
+  border-radius: 8px;
+  font-size: 20px;
+  text-align: center;
+}
+
+body.too-small .page {
+  display: none !important;
+}
+
+#screen-warning {
+  display: none;
+  background: #550000;
+  color: white;
+  padding: 20px;
+  margin: 10px 0;
+  border: 2px solid #aa0000;
+  border-radius: 8px;
+  font-size: 22px;
+  text-align: center;
+}
 
 </style>
 </head>
@@ -302,6 +418,11 @@ input, select, textarea {
 <!-- ========================================================= -->
 
 <body>
+<div id="screen-warning">
+  ⚠️ Formato schermo non supportato  
+  Aumenta la larghezza della finestra
+</div>
+
 <div class="page">
 
   <!-- ========================================================= -->
@@ -542,7 +663,27 @@ document.getElementById("mostra_tutto_btn").onclick = function() {
 document.getElementById("home_btn").onclick = function() {
   window.location.href = "https://balza1979.github.io/Elmi-Documenti/";
 };
+
 </script>
+<script>
+function checkScreenSize() {
+  const minWidth = 500; // limite minimo reale
+  const warning = document.getElementById("screen-warning");
+  const page = document.querySelector(".page");
+
+  if (window.innerWidth < minWidth) {
+    warning.style.display = "block";
+    page.style.display = "none";
+  } else {
+    warning.style.display = "none";
+    page.style.display = "block";
+  }
+}
+
+window.addEventListener("resize", checkScreenSize);
+window.addEventListener("load", checkScreenSize);
+</script>
+
 
 </body>
 </html>
