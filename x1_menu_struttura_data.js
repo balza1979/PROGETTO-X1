@@ -2837,7 +2837,7 @@ const x1Struttura = [
   },
   {
     "cod__menu": "6.9",
-    "menu": "6 = DIAGNOSTICA",
+    "menu": "9 = DIAGNOSTICA",
     "sottomenu": "/",
     "file1_menu": "/",
     "file2_menu": "/",
