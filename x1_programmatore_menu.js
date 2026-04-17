@@ -6,31 +6,28 @@
 // ======================================================================
 
 // Richiede che siano già caricati:
-// - x1_menu_struttura_data.js  → const x1_menu_struttura_data = [...];
-// - x1_parametri_data.js       → const x1_parametri = [...];
+// - x1_menu_struttura_data.js
+// - x1_parametri_data.js
 
 document.addEventListener("DOMContentLoaded", function () {
 
     const selMenu       = document.getElementById("menu");
     const selSottomenu  = document.getElementById("sottomenu");
     const selParametro  = document.getElementById("parametro");
-    const selValore     = document.getElementById("valore");
+    const selValore = document.getElementById("tendina_valori");
 
-    // 1) Popola il MENU
     x1_popolaMenu();
 
-    // 2) Cambio MENU → aggiorna SOTTOMENU
-    selMenu.addEventListener("change", function () {
-        x1_popolaSottomenu(this.value);
-        x1_svuotaParametri();
-    });
+   selMenu.addEventListener("change", function () {
+    x1_popolaSottomenu(this.value);
+    // x1_svuotaParametri();  // ← TOGLI / COMMENTA QUESTA
+});
 
-    // 3) Cambio SOTTOMENU → aggiorna PARAMETRI
+
     selSottomenu.addEventListener("change", function () {
         x1_popolaParametri(this.value);
     });
 
-    // 4) Cambio PARAMETRO → aggiorna INFO + VALORI
     selParametro.addEventListener("change", function () {
         const codice = this.value;
         const param = x1_parametri.find(p => p.PARAMETRO === codice);
@@ -52,13 +49,13 @@ function x1_popolaMenu() {
     const visti = new Set();
 
     x1_menu_struttura_data.forEach(riga => {
-        const cod = String(riga.cod__menu).split(".")[0]; // "1", "2", "3"...
+        const cod = String(riga.cod__menu).split(".")[0];
         if (!visti.has(cod)) {
             visti.add(cod);
 
             const opt = document.createElement("option");
             opt.value = cod;
-            opt.textContent = riga.menu; // es: "1 = MANOVRA"
+            opt.textContent = riga.menu;
             selMenu.appendChild(opt);
         }
     });
@@ -83,7 +80,7 @@ function x1_popolaSottomenu(codMenu) {
 
     lista.forEach(riga => {
         const opt = document.createElement("option");
-        opt.value = riga.cod__menu;     // es: "1.2"
+        opt.value = riga.cod__menu;
         opt.textContent = riga.sottomenu;
         selSottomenu.appendChild(opt);
     });
@@ -102,13 +99,20 @@ function x1_popolaSottomenu(codMenu) {
 
 function x1_svuotaParametri() {
     document.getElementById("parametro").innerHTML = "";
-    document.getElementById("valore").innerHTML = "";
+    // document.getElementById("valore").innerHTML = "";
     document.getElementById("info_parametro").innerHTML = "";
 }
 
+// ======================================================================
+// FILE: /x1_programmatore_menu.js
+// DATA: 17/04/2026 – 12:00
+// MODIFICA: Se il SOTTOMENU non ha parametri (es. 2.0), carica il primo
+//           parametro valido del MENU (es. 2.2.xx).
+// ======================================================================
+
 function x1_popolaParametri(codMenuCompleto) {
     const selParametro = document.getElementById("parametro");
-    const selValore    = document.getElementById("valore");
+    const selValore    = document.getElementById("tendina_valori");  // ← CORRETTO
     const boxInfo      = document.getElementById("info_parametro");
 
     selParametro.innerHTML = "";
@@ -117,10 +121,18 @@ function x1_popolaParametri(codMenuCompleto) {
 
     const prefisso = codMenuCompleto + ".";
 
-    const lista = x1_parametri.filter(p => {
+    // 1) CERCA PARAMETRI DEL SOTTOMENU (es. 2.0.xx)
+    let lista = x1_parametri.filter(p => {
         return p.PARAMETRO && p.PARAMETRO.startsWith(prefisso);
     });
 
+    // 2) SE NON CI SONO, PRENDI IL PRIMO PARAMETRO DEL MENU (es. 2.2.xx)
+    if (lista.length === 0) {
+        const menu = codMenuCompleto.split(".")[0];
+        lista = x1_parametri.filter(p => p.PARAMETRO.startsWith(menu + "."));
+    }
+
+    // 3) POPOLA LA TENDINA PARAMETRO
     lista.forEach(p => {
         const opt = document.createElement("option");
         opt.value = p.PARAMETRO;
@@ -128,18 +140,31 @@ function x1_popolaParametri(codMenuCompleto) {
         selParametro.appendChild(opt);
     });
 
+    // 4) MOSTRA IL PRIMO PARAMETRO VALIDO
     if (lista.length > 0) {
-        selParametro.selectedIndex = 0;
-        const primo = lista[0];
-        x1_mostraInfoParametro(primo);
-        x1_popolaValori(primo);
-    }
+    selParametro.selectedIndex = 0;
+    const primo = lista[0];
+
+    // Aggiorna il select
+    x1_mostraInfoParametro(primo);
+    x1_popolaValori(primo);
+
+    // AGGIORNA I CAMPI VISIVI DELLA UI
+    document.getElementById("codice_parametro").value = primo.PARAMETRO || "";
+    document.getElementById("descrizione_parametro").value = primo.DESCRIZIONE || "";
+}
+
 }
 
 // ======================================================================
 // INFO PARAMETRO + VALORI
 // ======================================================================
 
+// ======================================================================
+// PATCH: Aggiorna i campi visivi PARAMETRO (codice + descrizione)
+// FILE: /x1_programmatore_menu.js
+// DATA: 17/04/2026 – 12:10
+// ======================================================================
 function x1_mostraInfoParametro(param) {
     const box = document.getElementById("info_parametro");
 
@@ -148,11 +173,22 @@ function x1_mostraInfoParametro(param) {
         <b>Descrizione:</b> ${param.DESCRIZIONE}<br>
         <b>Valore grezzo:</b> ${param.VALORE}
     `;
+
+    // Aggiorna i campi visivi della UI
+    document.getElementById("codice_parametro").value = param.PARAMETRO || "";
+    document.getElementById("descrizione_parametro").value = param.DESCRIZIONE || "";
 }
 
+
+
+// ======================================================================
+// PATCH: Popola la tendina corretta dei valori + reset min/max/unità
+// FILE: /x1_programmatore_menu.js
+// DATA: 17/04/2026 – 12:10
+// ======================================================================
 function x1_popolaValori(param) {
-    const selValore = document.getElementById("valore");
-    selValore.innerHTML = "";
+    const tendina = document.getElementById("tendina_valori");
+    tendina.innerHTML = "";
 
     const raw = param.VALORE || "";
     if (!raw) return;
@@ -172,6 +208,11 @@ function x1_popolaValori(param) {
         const opt = document.createElement("option");
         opt.value = codice;
         opt.textContent = codice + " – " + descr;
-        selValore.appendChild(opt);
+        tendina.appendChild(opt);
     });
+
+    // Reset campi numerici (in attesa del CSV completo)
+    document.getElementById("unita_misura").value = "";
+    document.getElementById("val_min").value = "";
+    document.getElementById("val_max").value = "";
 }
