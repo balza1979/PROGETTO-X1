@@ -275,9 +275,16 @@ input:focus, select:focus, textarea:focus {
     font-size:18px !important;
     height:42px !important;
   }
+  
+/* nasconde campi parametro e descrizione usati dal codice per compilare */
+	.hidden-field {
+	display: none;
+	}
+
 
   .btn-file {
-    font-size:18px !important;
+    font-s
+	ize:18px !important;
     height:55px !important;
   }
 
@@ -373,11 +380,11 @@ input:focus, select:focus, textarea:focus {
 <!-- PARAMETRO -->
 <div class="section-title">PARAMETRO</div>
 <select class="full" id="parametro"></select>
-
-<!-- VALORE -->
-<div class="section-title">VALORE</div>
-<select class="full" id="valore"></select>
-
+		<!-- commentati per campo doppio in grafica -->
+		<!-- VALORE -->
+		<!-- <div class="section-title">VALORE</div> -->
+		<!-- <select class="full" id="valore"></select> -->
+		<!-- fine commentati per campo doppio in grafica -->
 <!-- INFO -->
 <div class="section-title">INFO PARAMETRO</div>
 <div id="info_parametro" class="info-box"></div>
@@ -398,17 +405,20 @@ input:focus, select:focus, textarea:focus {
   <!-- ========================================================= -->
   <!--  PARAMETRO (Z / ZZZZ)                                     -->
   <!-- ========================================================= -->
-  <div class="section-title">SELEZIONA PARAMETRO</div>
+		<!-- commentati per campo doppio in grafica -->
+		<!-- <div class="section-title">SELEZIONA PARAMETRO</div>-->
+		<!--<select class="full" id="parametro">-->
+		<!--  <option>— scegli un parametro —</option>-->
+		<!-- </select>-->
+		<!-- fine commentati per campo doppio in grafica -->
+		
+		<!-- qui si nascondono campi per non renderli visibili ma servono al codice -->
+<label class="hidden-field">Parametro:</label>
+<input class="testo_piccolo hidden-field" id="codice_parametro" type="text" readonly>
 
-  <select class="full" id="parametro">
-    <option>— scegli un parametro —</option>
-  </select>
-
-  <label>Parametro:</label>
-  <input class="testo_piccolo" id="codice_parametro" type="text" placeholder="X.Y.ZZ" readonly>
-
-  <label>Descrizione</label>
-  <input class="testo_piccolo" id="descrizione_parametro" type="text" placeholder="descrizione parametro" readonly>
+<label class="hidden-field">Descrizione</label>
+<input class="testo_piccolo hidden-field" id="descrizione_parametro" type="text" readonly>
+<!-- fine nascondono campi per non renderli visibili ma servono al codice -->
 
   <div class="buttons-row optional">
     <button class="btn-file">PARAM 1</button>
@@ -421,8 +431,8 @@ input:focus, select:focus, textarea:focus {
     <button class="btn-file">PARAM 6</button>
     <button class="btn-file">PARAM 7</button>
     <button class="btn-file">PARAM 8</button>
-  </div>
-
+  </div> 
+  
   <!-- ========================================================= -->
   <!--  VALORI DEL PARAMETRO                                     -->
   <!-- ========================================================= -->
@@ -593,15 +603,6 @@ function checkScreenSize() {
 window.addEventListener("resize", checkScreenSize);
 window.addEventListener("load", checkScreenSize);
 </script>
-<div class="section-title">MENU (X)</div>
-<select class="full" id="menu" onchange="x1_popolaSottomenu(this.value)">
-  <option>— seleziona MENU —</option>
-</select>
-
-<div class="section-title">SOTTOMENU (Y)</div>
-<select class="full" id="sottomenu">
-  <option>— seleziona SOTTOMENU —</option>
-</select>
  <script src="x1_menu_struttura_data.js"></script>
  <script src="x1_parametri_data.js"></script>
 
