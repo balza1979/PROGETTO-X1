@@ -2,7 +2,7 @@
 // FILE: x1_filtri_parametri.js
 // DESCRIZIONE: Funzioni di pulizia e normalizzazione valori parametri
 // AUTORE: Luca + Copilot
-// DATA: 17/04/2026 – 18:15
+// DATA: 17/04/2026 â€“ 18:15
 // ======================================================================
 
 
@@ -50,11 +50,14 @@ function x1_pulisciValore(raw) {
 
     if (!raw) return "";
 
-    // TAGLIO DI SICUREZZA: se c'è il blocco Edge, tronca prima
+    // TAGLIO DI SICUREZZA: blocco Edge
     const idx = raw.indexOf("# User's Edge browser tabs metadata");
     if (idx !== -1) {
         raw = raw.substring(0, idx);
     }
+
+    // 0) rimuove escape tipo \"X2\"
+    raw = raw.replace(/\\"/g, '"');
 
     // 1) pulizia base
     let p = pulisci(raw);
