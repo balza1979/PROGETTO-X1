@@ -11,10 +11,15 @@
 // ------------------------------------------------------------
 function pulisci(str) {
     if (!str) return "";
-    str = str.replace(/""/g, '"');        // doppie virgolette ? singola
-    str = str.replace(/^"+|"+$/g, "");    // rimuove virgolette ai bordi
+
+    // ⭐ elimina triple virgolette generate da Excel
+    str = str.replace(/"{3,}/g, '"');
+
+    str = str.replace(/""/g, '"');
+    str = str.replace(/^"+|"+$/g, "");
     return str.trim();
 }
+
 
 
 // ------------------------------------------------------------
