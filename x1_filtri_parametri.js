@@ -18,6 +18,9 @@ function pulisci(str) {
     str = str.replace(/""/g, '"');
     str = str.replace(/^"+|"+$/g, "");
     return str.trim();
+    // elimina virgolette isolate tra numero e testo:  "02" " APB → "02" APB
+p = p.replace(/"\s+"/g, '" ');
+
 }
 
 
