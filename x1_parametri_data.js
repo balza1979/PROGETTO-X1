@@ -2482,7 +2482,7 @@ const x1_parametri = [
   {
     "PARAMETRO": "1.4.01",
     "VALORE": "\"\"\"01\"\" Si\"",
-    "DESCRIZIONE": "Manutenzione in alta velocit‡ ( vedi 8.5.02 )",
+    "DESCRIZIONE": "Manutenzione in alta velocit√† ( vedi 8.5.02 )",
     "TIPO ELENCO": "ELENCO_PREDEFINITO",
     "JS_FONTE_ELENCO_VALORI": "FUNZIONI_IN",
     "TIPO_VARIE_ED_EVENTUALI": "/",
@@ -3040,7 +3040,7 @@ const x1_parametri = [
   {
     "PARAMETRO": "1.5.00",
     "VALORE": "\"\"\"00\"\" Input EM base\"",
-    "DESCRIZIONE": "Emergenza controllo velocit‡ NO/EMG/DIA/ESV",
+    "DESCRIZIONE": "Emergenza controllo velocit√† NO/EMG/DIA/ESV",
     "TIPO ELENCO": "ELENCO_PREDEFINITO",
     "JS_FONTE_ELENCO_VALORI": "FUNZIONI_IN",
     "TIPO_VARIE_ED_EVENTUALI": "/",
@@ -3102,7 +3102,7 @@ const x1_parametri = [
   {
     "PARAMETRO": "1.5.01",
     "VALORE": "\"\"\"00\"\" No ( in V2 senza KV )\"",
-    "DESCRIZIONE": "Emergenza in alta velocit‡ ( vedi 8.5.01 )",
+    "DESCRIZIONE": "Emergenza in alta velocit√† ( vedi 8.5.01 )",
     "TIPO ELENCO": "ELENCO_PREDEFINITO",
     "JS_FONTE_ELENCO_VALORI": "FUNZIONI_IN",
     "TIPO_VARIE_ED_EVENTUALI": "/",
@@ -4465,7 +4465,7 @@ const x1_parametri = [
   },
   {
     "PARAMETRO": "2.0.01",
-    "VALORE": "\"\"\"01\"\" 2 velocit‡\"",
+    "VALORE": "\"\"\"01\"\" 2 velocit√†\"",
     "DESCRIZIONE": "Tipo selettore",
     "TIPO ELENCO": "ELENCO_PREDEFINITO",
     "JS_FONTE_ELENCO_VALORI": "FUNZIONI_IN",
@@ -5582,7 +5582,7 @@ const x1_parametri = [
   {
     "PARAMETRO": "2.1.04",
     "VALORE": "\"\"\"00\"\" /10 Secondo\"",
-    "DESCRIZIONE": "Ritardo cambio velocit‡",
+    "DESCRIZIONE": "Ritardo cambio velocit√†",
     "TIPO ELENCO": "ELENCO_PREDEFINITO",
     "JS_FONTE_ELENCO_VALORI": "FUNZIONI_IN",
     "TIPO_VARIE_ED_EVENTUALI": "/",
@@ -15068,7 +15068,7 @@ const x1_parametri = [
   {
     "PARAMETRO": "4.x.xx",
     "VALORE": "/",
-    "DESCRIZIONE": "Men˘ input \\output a gruppi",
+    "DESCRIZIONE": "Men√π input \\output a gruppi",
     "TIPO ELENCO": "ELENCO_PREDEFINITO",
     "JS_FONTE_ELENCO_VALORI": "FUNZIONI_IN",
     "TIPO_VARIE_ED_EVENTUALI": "/",
@@ -19780,7 +19780,7 @@ const x1_parametri = [
   {
     "PARAMETRO": "4.5.00",
     "VALORE": "Cod.00.  D C B A : 0 0 0 0 0  ( def. / vacon / fuji / ZIEHL-ABEGG )",
-    "DESCRIZIONE": "Codice velocit‡ 00 ( non usato )",
+    "DESCRIZIONE": "Codice velocit√† 00 ( non usato )",
     "TIPO ELENCO": "ELENCO_PREDEFINITO",
     "JS_FONTE_ELENCO_VALORI": "FUNZIONI_IN",
     "TIPO_VARIE_ED_EVENTUALI": "/",
@@ -19842,7 +19842,7 @@ const x1_parametri = [
   {
     "PARAMETRO": "4.5.01",
     "VALORE": "Cod.00.  D C B A : 0 0 0 0 0",
-    "DESCRIZIONE": "Codice velocit‡ 01 ( rilivellamento )",
+    "DESCRIZIONE": "Codice velocit√† 01 ( rilivellamento )",
     "TIPO ELENCO": "ELENCO_PREDEFINITO",
     "JS_FONTE_ELENCO_VALORI": "FUNZIONI_IN",
     "TIPO_VARIE_ED_EVENTUALI": "/",
@@ -19904,7 +19904,7 @@ const x1_parametri = [
   {
     "PARAMETRO": "4.5.02",
     "VALORE": "Cod.00.  D C B A : 0 0 0 0 0",
-    "DESCRIZIONE": "Codice velocit‡ 02 ( livellamento )",
+    "DESCRIZIONE": "Codice velocit√† 02 ( livellamento )",
     "TIPO ELENCO": "ELENCO_PREDEFINITO",
     "JS_FONTE_ELENCO_VALORI": "FUNZIONI_IN",
     "TIPO_VARIE_ED_EVENTUALI": "/",
@@ -19966,7 +19966,7 @@ const x1_parametri = [
   {
     "PARAMETRO": "4.5.03",
     "VALORE": "Cod.00.  D C B A : 0 0 0 0 0  ( def. / vacon / fuji )",
-    "DESCRIZIONE": "Codice velocit‡ 03 ( emergenza )",
+    "DESCRIZIONE": "Codice velocit√† 03 ( emergenza )",
     "TIPO ELENCO": "ELENCO_PREDEFINITO",
     "JS_FONTE_ELENCO_VALORI": "FUNZIONI_IN",
     "TIPO_VARIE_ED_EVENTUALI": "/",
@@ -20028,7 +20028,7 @@ const x1_parametri = [
   {
     "PARAMETRO": "4.5.04",
     "VALORE": "Cod.00.  D C B A : 0 0 0 0 0",
-    "DESCRIZIONE": "Codice velocit‡ 04 ( manutenzione )",
+    "DESCRIZIONE": "Codice velocit√† 04 ( manutenzione )",
     "TIPO ELENCO": "ELENCO_PREDEFINITO",
     "JS_FONTE_ELENCO_VALORI": "FUNZIONI_IN",
     "TIPO_VARIE_ED_EVENTUALI": "/",
@@ -20090,7 +20090,7 @@ const x1_parametri = [
   {
     "PARAMETRO": "4.5.05",
     "VALORE": "Cod.00.  D C B A : 0 0 0 0 0",
-    "DESCRIZIONE": "Codice velocit‡ 05 ( ridotta 2)",
+    "DESCRIZIONE": "Codice velocit√† 05 ( ridotta 2)",
     "TIPO ELENCO": "ELENCO_PREDEFINITO",
     "JS_FONTE_ELENCO_VALORI": "FUNZIONI_IN",
     "TIPO_VARIE_ED_EVENTUALI": "/",
@@ -20152,7 +20152,7 @@ const x1_parametri = [
   {
     "PARAMETRO": "4.5.06",
     "VALORE": "Cod.00.  D C B A : 0 0 0 0 0",
-    "DESCRIZIONE": "Codice velocit‡ 06 ( ridotta 1 )",
+    "DESCRIZIONE": "Codice velocit√† 06 ( ridotta 1 )",
     "TIPO ELENCO": "ELENCO_PREDEFINITO",
     "JS_FONTE_ELENCO_VALORI": "FUNZIONI_IN",
     "TIPO_VARIE_ED_EVENTUALI": "/",
@@ -20214,7 +20214,7 @@ const x1_parametri = [
   {
     "PARAMETRO": "4.5.07",
     "VALORE": "Cod.00.  D C B A : 0 0 0 0 0",
-    "DESCRIZIONE": "Codice velocit‡ 07 ( nominale )",
+    "DESCRIZIONE": "Codice velocit√† 07 ( nominale )",
     "TIPO ELENCO": "ELENCO_PREDEFINITO",
     "JS_FONTE_ELENCO_VALORI": "FUNZIONI_IN",
     "TIPO_VARIE_ED_EVENTUALI": "/",
@@ -20276,7 +20276,7 @@ const x1_parametri = [
   {
     "PARAMETRO": "4.5.08",
     "VALORE": "Cod.00.  D C B A : 0 0 0 0 0  ( def. / vacon / fuji / ZIEHL-ABEGG )",
-    "DESCRIZIONE": "Codice velocit‡ 08 ( arresto per velocita eccessiva )",
+    "DESCRIZIONE": "Codice velocit√† 08 ( arresto per velocita eccessiva )",
     "TIPO ELENCO": "ELENCO_PREDEFINITO",
     "JS_FONTE_ELENCO_VALORI": "FUNZIONI_IN",
     "TIPO_VARIE_ED_EVENTUALI": "/",
@@ -29390,7 +29390,7 @@ const x1_parametri = [
   {
     "PARAMETRO": "5.4.01",
     "VALORE": "\"\"\"00\"\" Norm. aperto\"",
-    "DESCRIZIONE": "Fondo di gravit‡ FG     FI09",
+    "DESCRIZIONE": "Fondo di gravit√† FG     FI09",
     "TIPO ELENCO": "ELENCO_PREDEFINITO",
     "JS_FONTE_ELENCO_VALORI": "FUNZIONI_IN",
     "TIPO_VARIE_ED_EVENTUALI": "/",
@@ -37946,7 +37946,7 @@ const x1_parametri = [
   {
     "PARAMETRO": "8.5.01",
     "VALORE": "\"\"\"00\"\" non attivo\"",
-    "DESCRIZIONE": "Alta velocit‡ emergenza",
+    "DESCRIZIONE": "Alta velocit√† emergenza",
     "TIPO ELENCO": "ELENCO_PREDEFINITO",
     "JS_FONTE_ELENCO_VALORI": "FUNZIONI_IN",
     "TIPO_VARIE_ED_EVENTUALI": "/",
@@ -38008,7 +38008,7 @@ const x1_parametri = [
   {
     "PARAMETRO": "8.5.02",
     "VALORE": "\"\"\"00\"\" non attivo\"",
-    "DESCRIZIONE": "Alta velocit‡ manutenzione",
+    "DESCRIZIONE": "Alta velocit√† manutenzione",
     "TIPO ELENCO": "ELENCO_PREDEFINITO",
     "JS_FONTE_ELENCO_VALORI": "FUNZIONI_IN",
     "TIPO_VARIE_ED_EVENTUALI": "/",
@@ -38070,7 +38070,7 @@ const x1_parametri = [
   {
     "PARAMETRO": "8.5.03",
     "VALORE": "\"\"\"00\"\" non attivo\"",
-    "DESCRIZIONE": "Velocit‡ apprendimento",
+    "DESCRIZIONE": "Velocit√† apprendimento",
     "TIPO ELENCO": "ELENCO_PREDEFINITO",
     "JS_FONTE_ELENCO_VALORI": "FUNZIONI_IN",
     "TIPO_VARIE_ED_EVENTUALI": "/",
@@ -38132,7 +38132,7 @@ const x1_parametri = [
   {
     "PARAMETRO": "8.5.04",
     "VALORE": "\"\"\"00\"\" non attivo\"",
-    "DESCRIZIONE": "Velocit‡ manutenzione quadro",
+    "DESCRIZIONE": "Velocit√† manutenzione quadro",
     "TIPO ELENCO": "ELENCO_PREDEFINITO",
     "JS_FONTE_ELENCO_VALORI": "FUNZIONI_IN",
     "TIPO_VARIE_ED_EVENTUALI": "/",
@@ -38194,7 +38194,7 @@ const x1_parametri = [
   {
     "PARAMETRO": "8.5.05",
     "VALORE": "0.00",
-    "DESCRIZIONE": "Ritardo controllo velocit‡  ( ms )",
+    "DESCRIZIONE": "Ritardo controllo velocit√†  ( ms )",
     "TIPO ELENCO": "ELENCO_PREDEFINITO",
     "JS_FONTE_ELENCO_VALORI": "FUNZIONI_IN",
     "TIPO_VARIE_ED_EVENTUALI": "/",
@@ -38256,7 +38256,7 @@ const x1_parametri = [
   {
     "PARAMETRO": "8.5.06",
     "VALORE": "0.00",
-    "DESCRIZIONE": "Velocit‡ controllo rallentamento se partito in V6 ( ms )",
+    "DESCRIZIONE": "Velocit√† controllo rallentamento se partito in V6 ( ms )",
     "TIPO ELENCO": "ELENCO_PREDEFINITO",
     "JS_FONTE_ELENCO_VALORI": "FUNZIONI_IN",
     "TIPO_VARIE_ED_EVENTUALI": "/",
@@ -38318,7 +38318,7 @@ const x1_parametri = [
   {
     "PARAMETRO": "8.5.07",
     "VALORE": "0.00",
-    "DESCRIZIONE": "Velocit‡ controllo rallentamento se partito in V7 ( ms )",
+    "DESCRIZIONE": "Velocit√† controllo rallentamento se partito in V7 ( ms )",
     "TIPO ELENCO": "ELENCO_PREDEFINITO",
     "JS_FONTE_ELENCO_VALORI": "FUNZIONI_IN",
     "TIPO_VARIE_ED_EVENTUALI": "/",
@@ -38566,7 +38566,7 @@ const x1_parametri = [
   {
     "PARAMETRO": "8.6.03",
     "VALORE": "x",
-    "DESCRIZIONE": "Velocit‡ max x100 se partito in V2 \\ V3",
+    "DESCRIZIONE": "Velocit√† max x100 se partito in V2 \\ V3",
     "TIPO ELENCO": "ELENCO_PREDEFINITO",
     "JS_FONTE_ELENCO_VALORI": "FUNZIONI_IN",
     "TIPO_VARIE_ED_EVENTUALI": "/",
@@ -38628,7 +38628,7 @@ const x1_parametri = [
   {
     "PARAMETRO": "8.6.04",
     "VALORE": "x",
-    "DESCRIZIONE": "Velocit‡ max x100 se partito in V4",
+    "DESCRIZIONE": "Velocit√† max x100 se partito in V4",
     "TIPO ELENCO": "ELENCO_PREDEFINITO",
     "JS_FONTE_ELENCO_VALORI": "FUNZIONI_IN",
     "TIPO_VARIE_ED_EVENTUALI": "/",
@@ -38690,7 +38690,7 @@ const x1_parametri = [
   {
     "PARAMETRO": "8.6.05",
     "VALORE": "x",
-    "DESCRIZIONE": "Velocit‡ max x100 se partito in V5",
+    "DESCRIZIONE": "Velocit√† max x100 se partito in V5",
     "TIPO ELENCO": "ELENCO_PREDEFINITO",
     "JS_FONTE_ELENCO_VALORI": "FUNZIONI_IN",
     "TIPO_VARIE_ED_EVENTUALI": "/",
@@ -38752,7 +38752,7 @@ const x1_parametri = [
   {
     "PARAMETRO": "8.6.06",
     "VALORE": "Y",
-    "DESCRIZIONE": "Velocit‡ max x100 se partito in V6",
+    "DESCRIZIONE": "Velocit√† max x100 se partito in V6",
     "TIPO ELENCO": "ELENCO_PREDEFINITO",
     "JS_FONTE_ELENCO_VALORI": "FUNZIONI_IN",
     "TIPO_VARIE_ED_EVENTUALI": "/",
@@ -38814,7 +38814,7 @@ const x1_parametri = [
   {
     "PARAMETRO": "8.6.07",
     "VALORE": "x.xx lettura tempo reale   /    0.00 valore impostato",
-    "DESCRIZIONE": "Velocit‡ max x100 se partito in V7",
+    "DESCRIZIONE": "Velocit√† max x100 se partito in V7",
     "TIPO ELENCO": "ELENCO_PREDEFINITO",
     "JS_FONTE_ELENCO_VALORI": "FUNZIONI_IN",
     "TIPO_VARIE_ED_EVENTUALI": "/",
@@ -39186,7 +39186,7 @@ const x1_parametri = [
   {
     "PARAMETRO": "8.7.05",
     "VALORE": "x",
-    "DESCRIZIONE": "Velocit‡ nominale impianto",
+    "DESCRIZIONE": "Velocit√† nominale impianto",
     "TIPO ELENCO": "ELENCO_PREDEFINITO",
     "JS_FONTE_ELENCO_VALORI": "FUNZIONI_IN",
     "TIPO_VARIE_ED_EVENTUALI": "/",
