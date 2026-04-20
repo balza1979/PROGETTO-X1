@@ -153,12 +153,13 @@ function x1_mostraInfoParametro(param) {
     box.innerHTML = `
         <b>Codice:</b> ${param.PARAMETRO}<br>
         <b>Descrizione:</b> ${param.DESCRIZIONE}<br>
-        <b>Valore grezzo:</b> ${param.VALORE}
+        <b>Valore grezzo:</b> ${x1_pulisciValore(param.VALORE)}
     `;
 
     document.getElementById("codice_parametro").value = param.PARAMETRO || "";
     document.getElementById("descrizione_parametro").value = param.DESCRIZIONE || "";
 }
+
 
 // ======================================================================
 // VALORI
