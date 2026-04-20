@@ -11,18 +11,13 @@
 // ------------------------------------------------------------
 function pulisci(str) {
     if (!str) return "";
-
-    // ⭐ elimina triple virgolette generate da Excel
-    str = str.replace(/"{3,}/g, '"');
-
-    str = str.replace(/""/g, '"');
-    str = str.replace(/^"+|"+$/g, "");
-
+    str = str.replace(/""/g, '"');        // doppie virgolette ? singola
+    str = str.replace(/^"+|"+$/g, "");    // rimuove virgolette ai bordi
+	
     return str.trim();
-  
+
 
 }
-
 
 
 // ------------------------------------------------------------
@@ -58,21 +53,18 @@ function x1_pulisciValore(raw) {
 
     if (!raw) return "";
 
-    // TAGLIO DI SICUREZZA: blocco Edge
+    // TAGLIO DI SICUREZZA: se c'è il blocco Edge, tronca prima
     const idx = raw.indexOf("# User's Edge browser tabs metadata");
     if (idx !== -1) {
         raw = raw.substring(0, idx);
     }
-
-    // 0) rimuove escape tipo \"X2\"
-    raw = raw.replace(/\\"/g, '"');
 
     // 1) pulizia base
     let p = pulisci(raw);
 
     // 2) normalizzazione ID/morsetto
     p = normalizzaMorsetto(p);
-      // elimina virgolette isolate tra numero e testo:  "02" " APB → "02" APB
+	// elimina virgolette isolate tra numero e testo:  "02" " APB ? "02" APB
 p = p.replace(/"\s+"/g, '" ');
     return p.trim();
 }
