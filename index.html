@@ -208,7 +208,7 @@ input:focus, select:focus, textarea:focus {
 
   /* Barra app moderna */
   .top-bar {
-     /*position:sticky; */
+   /* position:sticky; */
     top:0;
     z-index:9999;
     background:#111 !important;
@@ -383,7 +383,16 @@ input:focus, select:focus, textarea:focus {
 
 <!-- PARAMETRO -->
 <div class="section-title">PARAMETRO</div>
-<select class="full" id="parametro"></select>
+
+<div style="display:flex; align-items:center; gap:8px;">
+    <select class="full" id="parametro"></select>
+
+    <div style="display:flex; flex-direction:column; gap:2px;">
+        <button id="parametro_up"   style="padding:2px 6px;">▲</button>
+        <button id="parametro_down" style="padding:2px 6px;">▼</button>
+    </div>
+</div>
+
 		<!-- commentati per campo doppio in grafica -->
 		<!-- VALORE -->
 		<!-- <div class="section-title">VALORE</div> -->
@@ -417,6 +426,12 @@ input:focus, select:focus, textarea:focus {
 		<!-- fine commentati per campo doppio in grafica -->
 		
 		<!-- qui si nascondono campi per non renderli visibili ma servono al codice -->
+		
+		
+
+
+		
+		
 <label class="hidden-field">Parametro:</label>
 <input class="testo_piccolo hidden-field" id="codice_parametro" type="text" readonly>
 
@@ -610,7 +625,9 @@ window.addEventListener("load", checkScreenSize);
 <script src="x1_menu_struttura_data.js"></script>
 <script src="x1_parametri_data.js"></script>  
 <script src="x1_filtri_parametri.js"></script>
+<script src="js/valori_parametri/x1_param_1_0_00.js"></script>
 <script src="x1_programmatore_menu.js"></script>
+
 
 <script>
   x1_popolaMenu();   // <--- QUESTA È LA CHIAVE
