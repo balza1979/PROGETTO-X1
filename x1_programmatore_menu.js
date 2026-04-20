@@ -169,6 +169,36 @@ function x1_popolaValori(param) {
     const tendina = document.getElementById("tendina_valori");
     tendina.innerHTML = "";
 
+    // 1) Caso speciale: parametro 1.0.00
+    if (param.PARAMETRO === "1.0.00") {
+
+        // Popola tendina
+        x1_param_1_0_00.forEach(voce => {
+            const opt = document.createElement("option");
+            const pulita = x1_pulisciValore(voce);
+            opt.value = pulita;
+            opt.textContent = pulita;
+            tendina.appendChild(opt);
+        });
+
+        // Seleziona valore grezzo
+        const id = x1_pulisciValore(param.VALORE);
+        for (let i = 0; i < tendina.options.length; i++) {
+            if (tendina.options[i].textContent.includes(id)) {
+                tendina.selectedIndex = i;
+                break;
+            }
+        }
+
+        // 🔥 QUI: azzera unità/min/max
+        document.getElementById("unita_misura").value = "/";
+        document.getElementById("val_min").value = "/";
+        document.getElementById("val_max").value = "/";
+
+        return;
+    }
+
+    // 2) Metodo standard per gli altri parametri
     const raw = param.VALORE || "";
     if (!raw) return;
 
@@ -176,10 +206,9 @@ function x1_popolaValori(param) {
 
     parti.forEach(voce => {
         const opt = document.createElement("option");
-        let pulita = x1_pulisciValore(voce);
-opt.value = pulita;
-opt.textContent = pulita;
-
+        const pulita = x1_pulisciValore(voce);
+        opt.value = pulita;
+        opt.textContent = pulita;
         tendina.appendChild(opt);
     });
 
@@ -187,3 +216,24 @@ opt.textContent = pulita;
     document.getElementById("val_min").value = "";
     document.getElementById("val_max").value = "";
 }
+
+
+document.getElementById("parametro_up").addEventListener("click", () => {
+    const sel = document.getElementById("parametro");
+    if (sel.selectedIndex > 0) {
+        sel.selectedIndex--;
+        const param = x1_parametri.find(p => p.PARAMETRO === sel.value);
+        x1_mostraInfoParametro(param);
+        x1_popolaValori(param);
+    }
+});
+
+document.getElementById("parametro_down").addEventListener("click", () => {
+    const sel = document.getElementById("parametro");
+    if (sel.selectedIndex < sel.options.length - 1) {
+        sel.selectedIndex++;
+        const param = x1_parametri.find(p => p.PARAMETRO === sel.value);
+        x1_mostraInfoParametro(param);
+        x1_popolaValori(param);
+    }
+});
