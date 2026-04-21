@@ -439,18 +439,20 @@ input:focus, select:focus, textarea:focus {
 <input class="testo_piccolo hidden-field" id="descrizione_parametro" type="text" readonly>
 <!-- fine nascondono campi per non renderli visibili ma servono al codice -->
 
-  <div class="buttons-row optional">
-    <button class="btn-file">PARAM 1</button>
-    <button class="btn-file">PARAM 2</button>
-    <button class="btn-file">PARAM 3</button>
-    <button class="btn-file">PARAM 4</button>
-  </div>
-  <div class="buttons-row optional">
-    <button class="btn-file">PARAM 5</button>
-    <button class="btn-file">PARAM 6</button>
-    <button class="btn-file">PARAM 7</button>
-    <button class="btn-file">PARAM 8</button>
-  </div> 
+ <div class="buttons-row optional">
+  <button id="btn_param1" class="btn-file" onclick="x1_apriFileParametro(1)">PARAM 1</button>
+  <button id="btn_param2" class="btn-file" onclick="x1_apriFileParametro(2)">PARAM 2</button>
+  <button id="btn_param3" class="btn-file" onclick="x1_apriFileParametro(3)">PARAM 3</button>
+  <button id="btn_param4" class="btn-file" onclick="x1_apriFileParametro(4)">PARAM 4</button>
+</div>
+
+<div class="buttons-row optional">
+  <button id="btn_param5" class="btn-file" onclick="x1_apriFileParametro(5)">PARAM 5</button>
+  <button id="btn_param6" class="btn-file" onclick="x1_apriFileParametro(6)">PARAM 6</button>
+  <button id="btn_param7" class="btn-file" onclick="x1_apriFileParametro(7)">PARAM 7</button>
+  <button id="btn_param8" class="btn-file" onclick="x1_apriFileParametro(8)">PARAM 8</button>
+</div>
+
   
   <!-- ========================================================= -->
   <!--  VALORI DEL PARAMETRO                                     -->
