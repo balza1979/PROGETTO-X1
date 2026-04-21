@@ -217,6 +217,7 @@ function x1_mostraFilePerValore(parametro, valorePulito) {
     const tabella = x1_file_parametri[parametro];
     if (!tabella) return;
 
+    // Estrae ID dai primi due caratteri
     const id = x1_estraiID(valorePulito);
     if (!id) return;
 
@@ -276,3 +277,4 @@ document.getElementById("parametro_down").addEventListener("click", () => {
         x1_popolaValori(param);
     }
 });
+
