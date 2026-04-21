@@ -166,6 +166,8 @@ function x1_mostraInfoParametro(param) {
 // ======================================================================
 
 function x1_popolaValori(param) {
+	console.log("PARAM:", param.PARAMETRO, "VALORE:", param.VALORE);
+
     const tendina = document.getElementById("tendina_valori");
     tendina.innerHTML = "";
 
@@ -197,6 +199,35 @@ function x1_popolaValori(param) {
 
         return;
     }
+// PARAMETRO 1.0.01
+if (param.PARAMETRO === "1.0.01") {
+
+    tendina.innerHTML = "";
+
+    x1_param_1_0_01.forEach(voce => {
+        const opt = document.createElement("option");
+        const pulita = x1_pulisciValore(voce);
+        opt.value = pulita;
+        opt.textContent = pulita;
+        tendina.appendChild(opt);
+    });
+
+    const id = x1_pulisciValore(param.VALORE);
+    for (let i = 0; i < tendina.options.length; i++) {
+        if (tendina.options[i].textContent.includes(id)) {
+            tendina.selectedIndex = i;
+            break;
+        }
+    }
+
+    document.getElementById("unita_misura").value = "/";
+    document.getElementById("val_min").value = "/";
+    document.getElementById("val_max").value = "/";
+
+    return; // <--- fondamentale
+}
+
+
 
     // 2) Metodo standard per gli altri parametri
     const raw = param.VALORE || "";
