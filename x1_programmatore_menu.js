@@ -321,10 +321,7 @@ function x1_mostraFilePerValore(parametro, valorePulito) {
 
     for (let i = 0; i < 8; i++) {
         const btn = document.getElementById("btn_param" + (i + 1));
-        const lbl = document.getElementById("lbl_param" + (i + 1));
-
         if (btn) btn.dataset.file = files[i];
-        if (lbl) lbl.textContent = files[i];
     }
 }
 
