@@ -1,13 +1,14 @@
 // ======================================================================
 // FILE: x1_programmatore_menu.js
-// DESCRIZIONE: Logica MENU → SOTTOMENU → PARAMETRI → VALORI
+// DESCRIZIONE: Logica MENU → SOTTOMENU → PARAMETRI → VALORI + FILE
 // AUTORE: Luca + Copilot
-// DATA: 17/04/2026
+// DATA: 21/04/2026
 // ======================================================================
 
 // Richiede che siano già caricati:
 // - x1_menu_struttura_data.js
 // - x1_parametri_data.js
+// - x1_file_parametri.js
 
 document.addEventListener("DOMContentLoaded", function () {
 
@@ -160,116 +161,19 @@ function x1_mostraInfoParametro(param) {
     document.getElementById("descrizione_parametro").value = param.DESCRIZIONE || "";
 }
 
-
 // ======================================================================
-// VALORI
+// VALORI + FILE ASSOCIATI
 // ======================================================================
 
 function x1_popolaValori(param) {
-	console.log("PARAM:", param.PARAMETRO, "VALORE:", param.VALORE);
 
     const tendina = document.getElementById("tendina_valori");
     tendina.innerHTML = "";
 
-  // 1) Caso speciale: parametro 1.0.00
-if (param.PARAMETRO === "1.0.00") {
-
-    // Popola tendina
-    tendina.innerHTML = "";
-    x1_param_1_0_00.forEach(voce => {
-        const opt = document.createElement("option");
-        const pulita = x1_pulisciValore(voce);
-        opt.value = pulita;
-        opt.textContent = pulita;
-        tendina.appendChild(opt);
-    });
-
-    // Seleziona valore grezzo
-    const id = x1_pulisciValore(param.VALORE);
-    for (let i = 0; i < tendina.options.length; i++) {
-        if (tendina.options[i].textContent.includes(id)) {
-            tendina.selectedIndex = i;
-            break;
-        }
-    }
-
-    // 🔥 MOSTRA I FILE ASSOCIATI AI TASTI
-    x1_mostraFilePerValore("1.0.00", id);
-
-    // 🔥 Azzera campi numerici
-    document.getElementById("unita_misura").value = "/";
-    document.getElementById("val_min").value = "/";
-    document.getElementById("val_max").value = "/";
-
-    return;
-}
-
-// PARAMETRO 1.0.01
-if (param.PARAMETRO === "1.0.01") {
-
-    tendina.innerHTML = "";
-
-    x1_param_1_0_01.forEach(voce => {
-        const opt = document.createElement("option");
-        const pulita = x1_pulisciValore(voce);
-        opt.value = pulita;
-        opt.textContent = pulita;
-        tendina.appendChild(opt);
-    });
-
-    const id = x1_pulisciValore(param.VALORE);
-    for (let i = 0; i < tendina.options.length; i++) {
-        if (tendina.options[i].textContent.includes(id)) {
-            tendina.selectedIndex = i;
-            break;
-        }
-    }
-
-    document.getElementById("unita_misura").value = "/";
-    document.getElementById("val_min").value = "/";
-    document.getElementById("val_max").value = "/";
-
-    return; // <--- fondamentale
-}
-
-
-// PARAMETRO 1.0.02
-if (param.PARAMETRO === "1.0.02") {
-
-    tendina.innerHTML = "";
-
-    x1_param_1_0_02.forEach(voce => {
-        const opt = document.createElement("option");
-        const pulita = x1_pulisciValore(voce);
-        opt.value = pulita;
-        opt.textContent = pulita;
-        tendina.appendChild(opt);
-    });
-
-    const id = x1_pulisciValore(param.VALORE);
-    for (let i = 0; i < tendina.options.length; i++) {
-        if (tendina.options[i].textContent.includes(id)) {
-            tendina.selectedIndex = i;
-            break;
-        }
-    }
-
-    document.getElementById("unita_misura").value = "/";
-    document.getElementById("val_min").value = "/";
-    document.getElementById("val_max").value = "/";
-
-    return;
-}
-
-	
-
-
-    // 2) Metodo standard per gli altri parametri
     const raw = param.VALORE || "";
-    if (!raw) return;
-
     const parti = raw.split(";").map(v => v.trim()).filter(v => v !== "");
 
+    // Popola tendina
     parti.forEach(voce => {
         const opt = document.createElement("option");
         const pulita = x1_pulisciValore(voce);
@@ -278,31 +182,22 @@ if (param.PARAMETRO === "1.0.02") {
         tendina.appendChild(opt);
     });
 
+    const valorePulito = x1_pulisciValore(param.VALORE);
+    tendina.value = valorePulito;
+
+    // 🔥 POPOLA I BOTTONI VAL1…VAL8
+    x1_mostraFilePerValore(param.PARAMETRO, valorePulito);
+
+    // Reset campi numerici
     document.getElementById("unita_misura").value = "";
     document.getElementById("val_min").value = "";
     document.getElementById("val_max").value = "";
 }
 
+// ======================================================================
+// FILE ASSOCIATI → POPOLA BOTTONI VAL1…VAL8
+// ======================================================================
 
-document.getElementById("parametro_up").addEventListener("click", () => {
-    const sel = document.getElementById("parametro");
-    if (sel.selectedIndex > 0) {
-        sel.selectedIndex--;
-        const param = x1_parametri.find(p => p.PARAMETRO === sel.value);
-        x1_mostraInfoParametro(param);
-        x1_popolaValori(param);
-    }
-});
-
-document.getElementById("parametro_down").addEventListener("click", () => {
-    const sel = document.getElementById("parametro");
-    if (sel.selectedIndex < sel.options.length - 1) {
-        sel.selectedIndex++;
-        const param = x1_parametri.find(p => p.PARAMETRO === sel.value);
-        x1_mostraInfoParametro(param);
-        x1_popolaValori(param);
-    }
-});
 function x1_mostraFilePerValore(parametro, valorePulito) {
 
     const tabella = x1_file_parametri[parametro];
@@ -320,18 +215,21 @@ function x1_mostraFilePerValore(parametro, valorePulito) {
     const files = tabella[chiave];
 
     for (let i = 0; i < 8; i++) {
-        const btn = document.getElementById("btn_param" + (i + 1));
+        const btn = document.getElementById("val" + (i + 1));
         if (btn) {
-            btn.textContent = files[i];     // 🔥 il testo del bottone diventa "1.JPG"
-            btn.dataset.file = files[i];    // 🔥 salvo il file da aprire
+            btn.textContent = files[i] || "—";
+            btn.dataset.file = files[i] || "";
         }
     }
 }
 
+// ======================================================================
+// APRI FILE
+// ======================================================================
 
 function x1_apriFileParametro(numero) {
 
-    const btn = document.getElementById("btn_param" + numero);
+    const btn = document.getElementById("val" + numero);
     if (!btn) return;
 
     const file = btn.dataset.file;
