@@ -228,6 +228,20 @@ if (param.PARAMETRO === "1.0.01") {
 }
 
 
+if (param.PARAMETRO === "1.0.02") {
+    x1_param_1_0_02.forEach(v => {
+        const opt = document.createElement("option");
+        opt.value = v;
+        opt.textContent = v;
+        select.appendChild(opt);
+    });
+
+    select.value = valoreAttuale;
+    return;
+}
+
+	
+
 
     // 2) Metodo standard per gli altri parametri
     const raw = param.VALORE || "";
