@@ -171,34 +171,39 @@ function x1_popolaValori(param) {
     const tendina = document.getElementById("tendina_valori");
     tendina.innerHTML = "";
 
-    // 1) Caso speciale: parametro 1.0.00
-    if (param.PARAMETRO === "1.0.00") {
+  // 1) Caso speciale: parametro 1.0.00
+if (param.PARAMETRO === "1.0.00") {
 
-        // Popola tendina
-        x1_param_1_0_00.forEach(voce => {
-            const opt = document.createElement("option");
-            const pulita = x1_pulisciValore(voce);
-            opt.value = pulita;
-            opt.textContent = pulita;
-            tendina.appendChild(opt);
-        });
+    // Popola tendina
+    tendina.innerHTML = "";
+    x1_param_1_0_00.forEach(voce => {
+        const opt = document.createElement("option");
+        const pulita = x1_pulisciValore(voce);
+        opt.value = pulita;
+        opt.textContent = pulita;
+        tendina.appendChild(opt);
+    });
 
-        // Seleziona valore grezzo
-        const id = x1_pulisciValore(param.VALORE);
-        for (let i = 0; i < tendina.options.length; i++) {
-            if (tendina.options[i].textContent.includes(id)) {
-                tendina.selectedIndex = i;
-                break;
-            }
+    // Seleziona valore grezzo
+    const id = x1_pulisciValore(param.VALORE);
+    for (let i = 0; i < tendina.options.length; i++) {
+        if (tendina.options[i].textContent.includes(id)) {
+            tendina.selectedIndex = i;
+            break;
         }
-
-        // 🔥 QUI: azzera unità/min/max
-        document.getElementById("unita_misura").value = "/";
-        document.getElementById("val_min").value = "/";
-        document.getElementById("val_max").value = "/";
-
-        return;
     }
+
+    // 🔥 MOSTRA I FILE ASSOCIATI AI TASTI
+    x1_mostraFilePerValore("1.0.00", id);
+
+    // 🔥 Azzera campi numerici
+    document.getElementById("unita_misura").value = "/";
+    document.getElementById("val_min").value = "/";
+    document.getElementById("val_max").value = "/";
+
+    return;
+}
+
 // PARAMETRO 1.0.01
 if (param.PARAMETRO === "1.0.01") {
 
