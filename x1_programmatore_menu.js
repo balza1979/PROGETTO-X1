@@ -12,12 +12,12 @@
 
 
 // ======================================================================
-// FUNZIONE CRITICA: PULIZIA VALORI
+// PULIZIA VALORI
 // ======================================================================
 function x1_pulisciValore(v) {
     if (!v) return "";
     return v
-        .replace(/"/g, "")      // rimuove tutte le virgolette
+        .replace(/"/g, "")      // rimuove virgolette
         .replace(/\s+/g, " ")   // normalizza spazi
         .trim();
 }
@@ -261,3 +261,27 @@ function x1_apriFileParametro(numero) {
 
     window.open(path, "_blank");
 }
+
+
+// ======================================================================
+// FRECCE SU/GIÙ PER CAMBIARE PARAMETRO
+// ======================================================================
+document.getElementById("parametro_up").addEventListener("click", () => {
+    const sel = document.getElementById("parametro");
+    if (sel.selectedIndex > 0) {
+        sel.selectedIndex--;
+        const param = x1_parametri.find(p => p.PARAMETRO === sel.value);
+        x1_mostraInfoParametro(param);
+        x1_popolaValori(param);
+    }
+});
+
+document.getElementById("parametro_down").addEventListener("click", () => {
+    const sel = document.getElementById("parametro");
+    if (sel.selectedIndex < sel.options.length - 1) {
+        sel.selectedIndex++;
+        const param = x1_parametri.find(p => p.PARAMETRO === sel.value);
+        x1_mostraInfoParametro(param);
+        x1_popolaValori(param);
+    }
+});
