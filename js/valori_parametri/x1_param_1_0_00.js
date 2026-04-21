@@ -1,7 +1,7 @@
 // -----------------------------
 // VALORI PARAMETRO
 // -----------------------------
-const valori_raw = [
+const x1_param_1_0_00_raw = [
   "00 UPR cab/piano.",
   "01 UPR cab/APBpi.",
   "02 APB cab/piano.",
