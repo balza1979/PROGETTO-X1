@@ -303,3 +303,44 @@ document.getElementById("parametro_down").addEventListener("click", () => {
         x1_popolaValori(param);
     }
 });
+function x1_mostraFilePerValore(parametro, valorePulito) {
+
+    const tabella = x1_file_parametri[parametro];
+    if (!tabella) return;
+
+    let chiave = null;
+    for (let k in tabella) {
+        if (k.includes(valorePulito)) {
+            chiave = k;
+            break;
+        }
+    }
+    if (!chiave) return;
+
+    const files = tabella[chiave];
+
+    for (let i = 0; i < 8; i++) {
+        const btn = document.getElementById("btn_param" + (i + 1));
+        const lbl = document.getElementById("lbl_param" + (i + 1));
+
+        if (btn) btn.dataset.file = files[i];
+        if (lbl) lbl.textContent = files[i];
+    }
+}
+
+function x1_apriFileParametro(numero) {
+
+    const btn = document.getElementById("btn_param" + numero);
+    if (!btn) return;
+
+    const file = btn.dataset.file;
+    if (!file) return;
+
+    let path = "FILES/" + file;
+
+    if (!file.includes(".")) {
+        path = "FILES/" + file + ".JPG";
+    }
+
+    window.open(path, "_blank");
+}
