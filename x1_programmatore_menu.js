@@ -5,13 +5,6 @@
 // DATA: 21/04/2026
 // ======================================================================
 
-// Richiede che siano già caricati:
-// - x1_menu_struttura_data.js
-// - x1_parametri_data.js
-// - x1_filtri_parametri.js
-// - x1_param_1_0_00.js (e altri parametri)
-// - x1_file_parametri.js
-
 
 // ======================================================================
 // AVVIO
@@ -183,65 +176,6 @@ function x1_popolaValori(param) {
     const tendina = document.getElementById("tendina_valori");
     tendina.innerHTML = "";
 
-    // Caso speciale 1.0.00
-    if (param.PARAMETRO === "1.0.00") {
-
-        x1_param_1_0_00.forEach(voce => {
-            const opt = document.createElement("option");
-            const pulita = x1_pulisciValore(voce);
-            opt.value = pulita;
-            opt.textContent = pulita;
-            tendina.appendChild(opt);
-        });
-
-        const id = x1_pulisciValore(param.VALORE);
-        for (let i = 0; i < tendina.options.length; i++) {
-            if (tendina.options[i].textContent.includes(id)) {
-                tendina.selectedIndex = i;
-                break;
-            }
-        }
-
-        const valoreSelezionato = tendina.value;
-        x1_mostraFilePerValore(param.PARAMETRO, valoreSelezionato);
-
-        document.getElementById("unita_misura").value = "/";
-        document.getElementById("val_min").value = "/";
-        document.getElementById("val_max").value = "/";
-
-        return;
-    }
-
-    // Caso speciale 1.0.01
-    if (param.PARAMETRO === "1.0.01") {
-
-        x1_param_1_0_01.forEach(voce => {
-            const opt = document.createElement("option");
-            const pulita = x1_pulisciValore(voce);
-            opt.value = pulita;
-            opt.textContent = pulita;
-            tendina.appendChild(opt);
-        });
-
-        const id = x1_pulisciValore(param.VALORE);
-        for (let i = 0; i < tendina.options.length; i++) {
-            if (tendina.options[i].textContent.includes(id)) {
-                tendina.selectedIndex = i;
-                break;
-            }
-        }
-
-        const valoreSelezionato = tendina.value;
-        x1_mostraFilePerValore(param.PARAMETRO, valoreSelezionato);
-
-        document.getElementById("unita_misura").value = "/";
-        document.getElementById("val_min").value = "/";
-        document.getElementById("val_max").value = "/";
-
-        return;
-    }
-
-    // Metodo standard
     const raw = param.VALORE || "";
     if (!raw) return;
 
@@ -265,6 +199,15 @@ function x1_popolaValori(param) {
 
 
 // ======================================================================
+// ESTRATTORE ID (primi due numeri)
+// ======================================================================
+function x1_estraiID(valore) {
+    const match = valore.match(/^(\d{2})/);
+    return match ? match[1] : null;
+}
+
+
+// ======================================================================
 // FILE ASSOCIATI → POPOLA BOTTONI
 // ======================================================================
 function x1_mostraFilePerValore(parametro, valorePulito) {
@@ -274,7 +217,10 @@ function x1_mostraFilePerValore(parametro, valorePulito) {
     const tabella = x1_file_parametri[parametro];
     if (!tabella) return;
 
-    const files = tabella[valorePulito];
+    const id = x1_estraiID(valorePulito);
+    if (!id) return;
+
+    const files = tabella[id];
     if (!files) return;
 
     for (let i = 0; i < 8; i++) {
