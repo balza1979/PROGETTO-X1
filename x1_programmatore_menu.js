@@ -10,12 +10,27 @@
 // - x1_parametri_data.js
 // - x1_file_parametri.js
 
+
+// ======================================================================
+// FUNZIONE CRITICA: PULIZIA VALORI
+// ======================================================================
+function x1_pulisciValore(v) {
+    if (!v) return "";
+    return v
+        .replace(/"/g, "")      // rimuove tutte le virgolette
+        .replace(/\s+/g, " ")   // normalizza spazi
+        .trim();
+}
+
+
+// ======================================================================
+// AVVIO
+// ======================================================================
 document.addEventListener("DOMContentLoaded", function () {
 
     const selMenu       = document.getElementById("menu");
     const selSottomenu  = document.getElementById("sottomenu");
     const selParametro  = document.getElementById("parametro");
-    const selValore     = document.getElementById("tendina_valori");
 
     x1_popolaMenu();
 
@@ -37,10 +52,10 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
+
 // ======================================================================
 // MENU
 // ======================================================================
-
 function x1_popolaMenu() {
     const selMenu = document.getElementById("menu");
     selMenu.innerHTML = "";
@@ -65,10 +80,10 @@ function x1_popolaMenu() {
     }
 }
 
+
 // ======================================================================
 // SOTTOMENU
 // ======================================================================
-
 function x1_popolaSottomenu(codMenu) {
     const selSottomenu = document.getElementById("sottomenu");
     selSottomenu.innerHTML = "";
@@ -92,19 +107,19 @@ function x1_popolaSottomenu(codMenu) {
     }
 }
 
+
 // ======================================================================
 // PARAMETRI
 // ======================================================================
-
 function x1_svuotaParametri() {
     document.getElementById("parametro").innerHTML = "";
     document.getElementById("info_parametro").innerHTML = "";
 }
 
+
 // ======================================================================
 // PARAMETRI → POPOLA
 // ======================================================================
-
 function x1_popolaParametri(codMenuCompleto) {
     const selParametro = document.getElementById("parametro");
     const selValore    = document.getElementById("tendina_valori");
@@ -144,10 +159,10 @@ function x1_popolaParametri(codMenuCompleto) {
     }
 }
 
+
 // ======================================================================
 // INFO PARAMETRO
 // ======================================================================
-
 function x1_mostraInfoParametro(param) {
     const box = document.getElementById("info_parametro");
 
@@ -161,10 +176,10 @@ function x1_mostraInfoParametro(param) {
     document.getElementById("descrizione_parametro").value = param.DESCRIZIONE || "";
 }
 
+
 // ======================================================================
 // VALORI + FILE ASSOCIATI
 // ======================================================================
-
 function x1_popolaValori(param) {
 
     const tendina = document.getElementById("tendina_valori");
@@ -175,8 +190,8 @@ function x1_popolaValori(param) {
 
     // Popola tendina
     parti.forEach(voce => {
-        const opt = document.createElement("option");
         const pulita = x1_pulisciValore(voce);
+        const opt = document.createElement("option");
         opt.value = pulita;
         opt.textContent = pulita;
         tendina.appendChild(opt);
@@ -194,23 +209,25 @@ function x1_popolaValori(param) {
     document.getElementById("val_max").value = "";
 }
 
+
 // ======================================================================
 // FILE ASSOCIATI → POPOLA BOTTONI VAL1…VAL8
 // ======================================================================
-
 function x1_mostraFilePerValore(parametro, valorePulito) {
- console.log("MOSTRA FILE:", parametro, valorePulito);
 
     const tabella = x1_file_parametri[parametro];
     if (!tabella) return;
 
     let chiave = null;
+
+    // Cerca la chiave corretta
     for (let k in tabella) {
         if (k.includes(valorePulito)) {
             chiave = k;
             break;
         }
     }
+
     if (!chiave) return;
 
     const files = tabella[chiave];
@@ -224,10 +241,10 @@ function x1_mostraFilePerValore(parametro, valorePulito) {
     }
 }
 
+
 // ======================================================================
 // APRI FILE
 // ======================================================================
-
 function x1_apriFileParametro(numero) {
 
     const btn = document.getElementById("val" + numero);
