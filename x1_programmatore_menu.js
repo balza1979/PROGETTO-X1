@@ -199,6 +199,7 @@ function x1_popolaValori(param) {
 // ======================================================================
 
 function x1_mostraFilePerValore(parametro, valorePulito) {
+ console.log("MOSTRA FILE:", parametro, valorePulito);
 
     const tabella = x1_file_parametri[parametro];
     if (!tabella) return;
