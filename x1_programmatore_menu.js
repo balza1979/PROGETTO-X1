@@ -228,15 +228,31 @@ if (param.PARAMETRO === "1.0.01") {
 }
 
 
+// PARAMETRO 1.0.02
 if (param.PARAMETRO === "1.0.02") {
-    x1_param_1_0_02.forEach(v => {
+
+    tendina.innerHTML = "";
+
+    x1_param_1_0_02.forEach(voce => {
         const opt = document.createElement("option");
-        opt.value = v;
-        opt.textContent = v;
-        select.appendChild(opt);
+        const pulita = x1_pulisciValore(voce);
+        opt.value = pulita;
+        opt.textContent = pulita;
+        tendina.appendChild(opt);
     });
 
-    select.value = valoreAttuale;
+    const id = x1_pulisciValore(param.VALORE);
+    for (let i = 0; i < tendina.options.length; i++) {
+        if (tendina.options[i].textContent.includes(id)) {
+            tendina.selectedIndex = i;
+            break;
+        }
+    }
+
+    document.getElementById("unita_misura").value = "/";
+    document.getElementById("val_min").value = "/";
+    document.getElementById("val_max").value = "/";
+
     return;
 }
 
