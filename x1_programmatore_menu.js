@@ -137,7 +137,7 @@ function x1_popolaMenu() {
 }
 
 // ---------------------- SOTTOMENU ----------------------
-function x1_popolaSottomenu(codMenu) {
+async function x1_popolaSottomenu(codMenu) {
     const sel = document.getElementById("sottomenu");
     sel.innerHTML = "";
 
@@ -153,22 +153,21 @@ function x1_popolaSottomenu(codMenu) {
     });
 
     if (sel.options.length > 0) {
-    sel.selectedIndex = 0;
+        sel.selectedIndex = 0;
 
-    // Popola i parametri del nuovo sottomenu
-    await x1_popolaParametri(sel.value);
+        // Popola i parametri del nuovo sottomenu
+        await x1_popolaParametri(sel.value);
 
-    // FORZA il cambio parametro → reset corretto
-    const parametro = document.getElementById("parametro");
-    if (parametro.options.length > 0) {
-        parametro.selectedIndex = 0;
-        parametro.dispatchEvent(new Event("change"));
+        // FORZA il cambio parametro → reset corretto
+        const parametro = document.getElementById("parametro");
+        if (parametro.options.length > 0) {
+            parametro.selectedIndex = 0;
+            parametro.dispatchEvent(new Event("change"));
+        }
+
+    } else {
+        x1_svuotaParametri();
     }
-
-} else {
-    x1_svuotaParametri();
-}
-
 }
 
 // ---------------------- PARAMETRI ----------------------
