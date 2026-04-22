@@ -172,48 +172,46 @@ async function x1_popolaSottomenu(codMenu) {
 }
 
 // ---------------------- PARAMETRI ----------------------
+// [22/04/2026 - 18:20] FIX completo funzione x1_popolaParametri
+// Motivo: doppia dichiarazione "const sel" rompeva la select PARAMETRO → rimaneva vuota → tasti sempre “—”
+
 async function x1_popolaParametri(codMenuCompleto) {
 
-    // 🔥 SVUOTA SEMPRE LA SELECT DEI PARAMETRI
     const sel = document.getElementById("parametro");
     sel.innerHTML = "";
 
     const nomeFunzione = codMenuCompleto + ".00";
     const dati = await x1_caricaJSON(nomeFunzione + ".json");
 
-   // SE IL JSON NON ESISTE → PULIZIA + MESSAGGIO
-if (!dati || Object.keys(dati).length === 0) {
+    // JSON NON ESISTE
+    if (!dati || Object.keys(dati).length === 0) {
 
-    // 🔥 SVUOTA E MOSTRA MESSAGGIO NEL PARAMETRO
-    const sel = document.getElementById("parametro");
-    sel.innerHTML = "";
+        // PARAMETRO
+        sel.innerHTML = "";
+        const optPar = document.createElement("option");
+        optPar.value = "";
+        optPar.textContent = `Menu ${codMenuCompleto} non ha parametri`;
+        sel.appendChild(optPar);
 
-    const optPar = document.createElement("option");
-    optPar.value = "";
-    optPar.textContent = `Menu ${codMenuCompleto} non ha parametri`;
-    sel.appendChild(optPar);
+        // VALORI
+        const tendina = document.getElementById("tendina_valori");
+        tendina.innerHTML = "";
+        const opt = document.createElement("option");
+        opt.value = "";
+        opt.textContent = `Database "${nomeFunzione}" non previsto`;
+        tendina.appendChild(opt);
 
-    // 🔥 SVUOTA LA TENDINA VALORI
-    const tendina = document.getElementById("tendina_valori");
-    tendina.innerHTML = "";
+        // FILE
+        for (let i = 1; i <= 8; i++) {
+            const btn = document.getElementById("val" + i);
+            btn.textContent = "—";
+            btn.dataset.file = "";
+        }
 
-    const opt = document.createElement("option");
-    opt.value = "";
-    opt.textContent = `Database "${nomeFunzione}" non previsto`;
-    tendina.appendChild(opt);
-
-    // 🔥 PULISCE I PULSANTI FILE
-    for (let i = 1; i <= 8; i++) {
-        const btn = document.getElementById("val" + i);
-        btn.textContent = "—";
-        btn.dataset.file = "";
+        return;
     }
 
-    return;
-}
-
-
-    // SE IL JSON ESISTE → PROCEDO
+    // JSON ESISTE
     window.x1_file_parametri = x1_convertiJSON(nomeFunzione, dati);
 
     const lista = x1_parametri.filter(p => p.PARAMETRO.startsWith(codMenuCompleto + "."));
@@ -225,31 +223,24 @@ if (!dati || Object.keys(dati).length === 0) {
         sel.appendChild(opt);
     });
 
-// ---------------------- PARAMETRI ----------------------
-// [22/04/2026 - 18:10] FIX parametro non popolato
-// Motivo: lista[0] non veniva passato come oggetto completo → select parametro rimaneva vuota
+    // SE CI SONO PARAMETRI
+    if (lista.length > 0) {
 
-if (lista.length > 0) {
+        sel.selectedIndex = 0;
 
-    sel.selectedIndex = 0;
+        const paramObj = {
+            PARAMETRO: lista[0].PARAMETRO,
+            DESCRIZIONE: lista[0].DESCRIZIONE,
+            VALORE: lista[0].VALORE
+        };
 
-    // Costruisco l’oggetto parametro completo
-    const paramObj = {
-        PARAMETRO: lista[0].PARAMETRO,
-        DESCRIZIONE: lista[0].DESCRIZIONE,
-        VALORE: lista[0].VALORE
-    };
+        // Imposta il parametro nella select
+        sel.value = paramObj.PARAMETRO;
 
-    // Mostra info
-    x1_mostraInfoParametro(paramObj);
-
-    // Popola valori
-    x1_popolaValori(paramObj);
-
-    // Imposta il parametro nella select
-    document.getElementById("parametro").value = paramObj.PARAMETRO;
-}
-
+        // Aggiorna UI
+        x1_mostraInfoParametro(paramObj);
+        x1_popolaValori(paramObj);
+    }
 }
 
 //// ---------------------- VALORI ----------------------
