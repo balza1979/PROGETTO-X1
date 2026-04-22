@@ -3,7 +3,7 @@
 // LOGICA: MENU → SOTTOMENU → PARAMETRI → VALORI (JSON) → FILE (JSON)
 // ======================================================================
 
-// ---------------------- UTILITÀ ----------------------
+// ---------------------- UTILITÀ  ----------------------
 async function x1_caricaJSON(nomeFile) {
     const risposta = await fetch(nomeFile);
     if (!risposta.ok) {
