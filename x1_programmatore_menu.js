@@ -133,21 +133,26 @@ async function x1_popolaParametri(codMenuCompleto) {
     const dati = await x1_caricaJSON(nomeFunzione + ".json");
 
     // SE IL JSON NON ESISTE → PULIZIA + MESSAGGIO
-    if (!dati || Object.keys(dati).length === 0) {
+   if (!dati || Object.keys(dati).length === 0) {
 
-        document.getElementById("parametro").innerHTML = "";
-        document.getElementById("tendina_valori").innerHTML = "";
-        document.getElementById("info_parametro").innerHTML =
-            `<b>Database "${nomeFunzione}" non previsto</b>`;
+    const tendina = document.getElementById("tendina_valori");
+    tendina.innerHTML = "";
 
-        for (let i = 1; i <= 8; i++) {
-            const btn = document.getElementById("val" + i);
-            btn.textContent = "—";
-            btn.dataset.file = "";
-        }
+    const opt = document.createElement("option");
+    opt.value = "";
+    opt.textContent = `Database "${codice}" non previsto`;
+    tendina.appendChild(opt);
 
-        return;
+    // Pulisce i pulsanti FILE
+    for (let i = 1; i <= 8; i++) {
+        const btn = document.getElementById("val" + i);
+        btn.textContent = "—";
+        btn.dataset.file = "";
     }
+
+    return;
+}
+
 
     // SE IL JSON ESISTE → PROCEDO
     window.x1_file_parametri = x1_convertiJSON(nomeFunzione, dati);
