@@ -275,6 +275,9 @@ function x1_popolaValori(param) {
     // Aggiorna i pulsanti
     x1_mostraFilePerValore(tendina.value);
 }
+document.getElementById("tendina_valori").addEventListener("change", function () {
+    x1_mostraFilePerValore(this.value);
+});
 
 
 // ---------------------- FILE ----------------------
