@@ -58,6 +58,24 @@ document.addEventListener("DOMContentLoaded", () => {
         }
         return;
     }
+function x1_cambiaParametro(direzione) {
+    const sel = document.getElementById("parametro");
+    let idx = sel.selectedIndex;
+
+    if (idx < 0) return;
+
+    if (direzione === "su") {
+        if (idx > 0) idx--;
+    } else if (direzione === "giu") {
+        if (idx < sel.options.length - 1) idx++;
+    }
+
+    sel.selectedIndex = idx;
+
+    // Simula il cambio parametro → richiama l’evento change
+    const evento = new Event("change");
+    sel.dispatchEvent(evento);
+}
 
     // Converte il JSON corretto
     window.x1_file_parametri = x1_convertiJSON(codice, dati);
