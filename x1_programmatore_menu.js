@@ -166,6 +166,7 @@ function x1_popolaValori(param) {
         return;
     }
 
+    // Popola la tendina valori
     Object.keys(window.x1_file_parametri).forEach(id => {
         const opt = document.createElement("option");
         opt.value = id;
@@ -173,9 +174,25 @@ function x1_popolaValori(param) {
         tendina.appendChild(opt);
     });
 
-    tendina.selectedIndex = 0;
+    // 🔥 seleziona il valore di default (param.VALORE), se esiste
+    let defaultIndex = 0;
+    const valoreDefault = String(param.VALORE || "").trim();
+
+    if (valoreDefault !== "") {
+        for (let i = 0; i < tendina.options.length; i++) {
+            if (tendina.options[i].value === valoreDefault) {
+                defaultIndex = i;
+                break;
+            }
+        }
+    }
+
+    tendina.selectedIndex = defaultIndex;
+
+    // aggiorna i pulsanti in base al valore selezionato
     x1_mostraFilePerValore(tendina.value);
 }
+
 
 
 // ---------------------- FILE ----------------------
