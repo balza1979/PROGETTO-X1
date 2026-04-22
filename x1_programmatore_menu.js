@@ -243,7 +243,7 @@ async function x1_popolaParametri(codMenuCompleto) {
     }
 }
 
-//// ---------------------- VALORI ----------------------
+//// ---------------------- VALORI  ----------------------
 function x1_mostraInfoParametro(param) {
     document.getElementById("info_parametro").innerHTML = `
         <b>Codice:</b> ${param.PARAMETRO}<br>
