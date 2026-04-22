@@ -39,13 +39,38 @@ document.addEventListener("DOMContentLoaded", () => {
         x1_popolaParametri(e.target.value);
     });
 
-    document.getElementById("parametro").addEventListener("change", e => {
-        const param = x1_parametri.find(p => p.PARAMETRO === e.target.value);
-        if (param) {
-            x1_mostraInfoParametro(param);
-            x1_popolaValori(param);
+ document.getElementById("parametro").addEventListener("change", async e => {
+
+    const codice = e.target.value;   // esempio: "1.0.01"
+    const nomeFile = codice + ".json";
+
+    // Carica il JSON del parametro selezionato
+    const dati = await x1_caricaJSON(nomeFile);
+
+    if (!dati || Object.keys(dati).length === 0) {
+        document.getElementById("tendina_valori").innerHTML = "";
+        document.getElementById("info_parametro").innerHTML =
+            `<b>Database "${codice}" non previsto</b>`;
+        for (let i = 1; i <= 8; i++) {
+            const btn = document.getElementById("val" + i);
+            btn.textContent = "—";
+            btn.dataset.file = "";
         }
-    });
+        return;
+    }
+
+    // Converte il JSON corretto
+    window.x1_file_parametri = x1_convertiJSON(codice, dati);
+
+    // Trova il parametro nella lista
+    const param = x1_parametri.find(p => p.PARAMETRO === codice);
+
+    if (param) {
+        x1_mostraInfoParametro(param);
+        x1_popolaValori(param);
+    }
+});
+
 
     document.getElementById("tendina_valori").addEventListener("change", e => {
         const parametro = document.getElementById("parametro").value;
