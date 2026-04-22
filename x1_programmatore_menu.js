@@ -1,6 +1,6 @@
 // ======================================================================
 // FILE: x1_programmatore_menu.js
-// VERSIONE STABILE: 22/04/2026 – 18:40
+// VERSIONE DEFINITIVA: 22/04/2026 – 21:59
 // LOGICA: MENU → SOTTOMENU → PARAMETRI → VALORI (JSON) → FILE (JSON)
 // ======================================================================
 
@@ -20,7 +20,7 @@ function x1_convertiJSON(nomeFunzione, dati) {
     Object.keys(blocco).forEach(id => {
         out[id] = {
             descrizione: blocco[id].descrizione || "",
-            param: blocco[id].param || []   // <-- CORRETTO
+            param: blocco[id].param || []
         };
     });
     return out;
@@ -28,7 +28,7 @@ function x1_convertiJSON(nomeFunzione, dati) {
 
 
 // ---------------------- AVVIO ----------------------
-document.addEventListener("DOMContentLoaded", () => {     // <--- APRE QUI
+document.addEventListener("DOMContentLoaded", () => {
 
     x1_popolaMenu();
 
@@ -42,8 +42,8 @@ document.addEventListener("DOMContentLoaded", () => {     // <--- APRE QUI
 
     document.getElementById("parametro").addEventListener("change", async e => {
 
-        const codice = e.target.value;       // es: "1.0.00"
-        const nomeFile = codice + ".json";   // es: "1.0.00.json"
+        const codice = e.target.value;
+        const nomeFile = codice + ".json";
 
         const dati = await x1_caricaJSON(nomeFile);
 
@@ -53,15 +53,15 @@ document.addEventListener("DOMContentLoaded", () => {     // <--- APRE QUI
             return;
         }
 
-        // Converte il JSON corretto
         window.x1_file_parametri = x1_convertiJSON(codice, dati);
 
-        // Trova il parametro nella lista
         const param = x1_parametri.find(p => p.PARAMETRO === codice);
 
         if (param) {
             x1_mostraInfoParametro(param);
             x1_popolaValori(param);
+        } else {
+            document.getElementById("info_parametro").innerHTML = "Parametro non previsto";
         }
     });
 
@@ -69,7 +69,7 @@ document.addEventListener("DOMContentLoaded", () => {     // <--- APRE QUI
         x1_mostraFilePerValore(e.target.value);
     });
 
-    // ⭐ QUI DEVI METTERE I CLICK DEI TASTI
+    // CLICK DEI TASTI FILE
     for (let i = 1; i <= 8; i++) {
         document.getElementById("val" + i).addEventListener("click", function () {
             const file = this.dataset.file;
@@ -77,12 +77,10 @@ document.addEventListener("DOMContentLoaded", () => {     // <--- APRE QUI
         });
     }
 
-});   // <--- CHIUDE QUI IL DOMContentLoaded
+});
 
 
-// ---------------------- menu ----------------------
-
-
+// ---------------------- MENU ----------------------
 function x1_popolaMenu() {
     const sel = document.getElementById("menu");
     sel.innerHTML = "";
@@ -152,7 +150,7 @@ async function x1_popolaParametri(codMenuCompleto) {
 
     if (lista.length > 0) {
         sel.selectedIndex = 0;
-        sel.dispatchEvent(new Event("change"));   // <-- JSON caricato qui
+        sel.dispatchEvent(new Event("change"));
     }
 }
 
@@ -176,27 +174,21 @@ function x1_popolaValori(param) {
         return;
     }
 
-    // Popola la tendina valori
     Object.keys(window.x1_file_parametri).forEach(id => {
         const opt = document.createElement("option");
-        opt.value = id;  // "00", "01", "02", ...
+        opt.value = id;
         opt.textContent = id + " – " + window.x1_file_parametri[id].descrizione;
         tendina.appendChild(opt);
     });
 
-    // 🔥 ripulisce il VALORE del parametro (toglie virgolette, spazi, ecc.)
     let defaultIndex = 0;
     let valoreDefault = String(param.VALORE || "").trim();
-
-    // togli tutte le virgolette
     valoreDefault = valoreDefault.replace(/"/g, "").trim();
 
-    // se è più lungo di 2 caratteri, prendi le ultime 2 cifre (es. ...02)
     if (valoreDefault.length > 2) {
         valoreDefault = valoreDefault.slice(-2);
     }
 
-    // cerca la option con value uguale al valore pulito
     for (let i = 0; i < tendina.options.length; i++) {
         if (tendina.options[i].value === valoreDefault) {
             defaultIndex = i;
@@ -206,9 +198,9 @@ function x1_popolaValori(param) {
 
     tendina.selectedIndex = defaultIndex;
 
-    // aggiorna i pulsanti in base al valore selezionato
     x1_mostraFilePerValore(tendina.value);
 }
+
 
 // ---------------------- FILE ----------------------
 function x1_mostraFilePerValore(valore) {
@@ -220,34 +212,42 @@ function x1_mostraFilePerValore(valore) {
         return;
     }
 
-    const files = window.x1_file_parametri[valore].param;   // <-- CORRETTO
+    const files = window.x1_file_parametri[valore].param;
 
     for (let i = 1; i <= 8; i++) {
         const btn = document.getElementById("val" + i);
 
-        if (files[i - 1]) {
+        if (files[i - 1] && files[i - 1].trim() !== "") {
             btn.textContent = files[i - 1];
             btn.dataset.file = files[i - 1];
             btn.disabled = false;
         } else {
-            btn.textContent = "—";
+            btn.textContent = "–";
             btn.dataset.file = "";
             btn.disabled = true;
         }
     }
 }
 
+function x1_apriFile(nomeFile) {
+    if (!nomeFile) return;
+    window.open(nomeFile, "_blank");
+}
+
 
 // ---------------------- PULIZIE ----------------------
 function x1_svuotaValori() {
-    const tendina = document.getElementById("tendina_valori");
-    tendina.innerHTML = "";
+    document.getElementById("tendina_valori").innerHTML = "";
+}
+
+function x1_svuotaParametri() {
+    document.getElementById("parametro").innerHTML = "";
 }
 
 function x1_pulisciPulsantiValori() {
     for (let i = 1; i <= 8; i++) {
         const btn = document.getElementById("val" + i);
-        btn.textContent = "—";
+        btn.textContent = "–";
         btn.dataset.file = "";
         btn.disabled = true;
     }
