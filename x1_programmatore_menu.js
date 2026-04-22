@@ -111,8 +111,7 @@ function x1_svuotaParametri() {
 async function x1_popolaParametri(codMenuCompleto) {
 
     // I TUOI JSON SONO DEL TIPO "1.0.00.json"
-    // quindi da "1.0" → "1.0.00"
-    const nomeFunzione = codMenuCompleto + "0";
+    const nomeFunzione = codMenuCompleto + ".00";
 
     const dati = await x1_caricaJSON(nomeFunzione + ".json");
     window.x1_file_parametri = x1_convertiJSON(nomeFunzione, dati);
@@ -120,7 +119,6 @@ async function x1_popolaParametri(codMenuCompleto) {
     const sel = document.getElementById("parametro");
     sel.innerHTML = "";
 
-    // I tuoi parametri sono esattamente "1.0.00", "1.0.01", ecc.
     const lista = x1_parametri.filter(p => p.PARAMETRO === nomeFunzione);
 
     lista.forEach(p => {
