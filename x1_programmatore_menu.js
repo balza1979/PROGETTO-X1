@@ -102,24 +102,18 @@ function x1_popolaSottomenu(codMenu) {
 }
 
 // ---------------------- PARAMETRI ----------------------
-function x1_svuotaParametri() {
-    document.getElementById("parametro").innerHTML = "";
-    document.getElementById("info_parametro").innerHTML = "";
-    document.getElementById("tendina_valori").innerHTML = "";
-}
-
 async function x1_popolaParametri(codMenuCompleto) {
 
     // I TUOI JSON SONO DEL TIPO "1.0.00.json"
-    const nomeFunzione = codMenuCompleto + ".00";
+    const nomeFunzione = codMenuCompleto + "0";
 
-    const dati = await x1_caricaJSON(nomeFunzione + ".json");
-    window.x1_file_parametri = x1_convertiJSON(nomeFunzione, dati);
+    const dati = await x1_caricaJSON(nomeFunzione + "0.json");
+    window.x1_file_parametri = x1_convertiJSON(nomeFunzione + "0", dati);
 
     const sel = document.getElementById("parametro");
     sel.innerHTML = "";
 
-    const lista = x1_parametri.filter(p => p.PARAMETRO === nomeFunzione);
+    const lista = x1_parametri.filter(p => p.PARAMETRO === nomeFunzione + "0");
 
     lista.forEach(p => {
         const opt = document.createElement("option");
