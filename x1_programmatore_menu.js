@@ -1,6 +1,6 @@
 // ======================================================================
 // FILE: x1_programmatore_menu.js
-// LOGICA: MENU → SOTTOMENU → PARAMETRI → VALORI → FILE (JSON)
+// LOGICA: MENU → SOTTOMENU → PARAMETRI → VALORI (JSON) → FILE (JSON)
 // ======================================================================
 
 // ----------------------------------------------------------------------
@@ -18,7 +18,7 @@ async function x1_caricaJSON(nomeFile) {
 }
 
 // Converte il JSON nel formato:
-// window.x1_file_parametri[idValore] = { files:[...], testo:"..." }
+// window.x1_file_parametri[id] = { descrizione:"", files:[...] }
 function x1_convertiJSON(nomeFunzione, dati) {
     const blocco = dati[nomeFunzione];
     if (!blocco) {
@@ -28,24 +28,12 @@ function x1_convertiJSON(nomeFunzione, dati) {
 
     const risultato = {};
     Object.keys(blocco).forEach(id => {
-        const riga = blocco[id] || {};
         risultato[id] = {
-            files: riga.param || [],
-            testo: riga.testo || riga.label || riga.descrizione || ""
+            descrizione: blocco[id].descrizione || "",
+            files: blocco[id].param || []
         };
     });
     return risultato;
-}
-
-// Non strippiamo l’ID, solo trim
-function x1_pulisciValore(v) {
-    return (v || "").trim();
-}
-
-// Estrae i primi 2 numeri dal valore (es: "03 APB..." → "03")
-function x1_estraiID(valore) {
-    const match = (valore || "").match(/^(\d{2})/);
-    return match ? match[1] : null;
 }
 
 // ----------------------------------------------------------------------
@@ -58,20 +46,16 @@ document.addEventListener("DOMContentLoaded", () => {
     const selParametro = document.getElementById("parametro");
     const selValore    = document.getElementById("tendina_valori");
 
-    // Popola subito il MENU
     x1_popolaMenu();
 
-    // Cambio MENU → ricarica SOTTOMENU
     selMenu.addEventListener("change", function () {
         x1_popolaSottomenu(this.value);
     });
 
-    // Cambio SOTTOMENU → ricarica PARAMETRI
     selSottomenu.addEventListener("change", function () {
         x1_popolaParametri(this.value);
     });
 
-    // Cambio PARAMETRO → info + valori
     selParametro.addEventListener("change", function () {
         const codice = this.value;
         const param = x1_parametri.find(p => p.PARAMETRO === codice);
@@ -81,37 +65,10 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    // Cambio VALORE → aggiorna bottoni file
     selValore.addEventListener("change", function () {
         const parametro = document.getElementById("parametro").value;
-        const idValore  = this.value; // ora è solo ID (es: "03")
+        const idValore  = this.value;
         x1_mostraFilePerValore(parametro, idValore);
-    });
-
-    // FRECCIA SU
-    document.getElementById("parametro_up").addEventListener("click", () => {
-        const sel = document.getElementById("parametro");
-        if (sel.selectedIndex > 0) {
-            sel.selectedIndex--;
-            const param = x1_parametri.find(p => p.PARAMETRO === sel.value);
-            if (param) {
-                x1_mostraInfoParametro(param);
-                x1_popolaValori(param);
-            }
-        }
-    });
-
-    // FRECCIA GIÙ
-    document.getElementById("parametro_down").addEventListener("click", () => {
-        const sel = document.getElementById("parametro");
-        if (sel.selectedIndex < sel.options.length - 1) {
-            sel.selectedIndex++;
-            const param = x1_parametri.find(p => p.PARAMETRO === sel.value);
-            if (param) {
-                x1_mostraInfoParametro(param);
-                x1_popolaValori(param);
-            }
-        }
     });
 });
 
@@ -124,7 +81,6 @@ function x1_popolaMenu() {
 
     const visti = new Set();
 
-    // x1_menu_struttura_data viene da x1_menu_struttura_data.js
     x1_menu_struttura_data.forEach(riga => {
         const cod = String(riga.cod__menu).split(".")[0];
         if (!visti.has(cod)) {
@@ -155,7 +111,7 @@ function x1_popolaSottomenu(codMenu) {
 
     lista.forEach(riga => {
         const opt = document.createElement("option");
-        opt.value = riga.cod__menu;   // es: "1.0.00"
+        opt.value = riga.cod__menu;
         opt.textContent = riga.sottomenu;
         selSottomenu.appendChild(opt);
     });
@@ -177,36 +133,27 @@ function x1_svuotaParametri() {
     document.getElementById("tendina_valori").innerHTML = "";
 }
 
-// Carica JSON + popola lista parametri
 async function x1_popolaParametri(codMenuCompleto) {
-    // codMenuCompleto es: "1.0.00"
+
     const nomeFunzione = codMenuCompleto;
 
     try {
         const dati = await x1_caricaJSON(nomeFunzione + ".json");
-        // mappa: idValore → { files:[...], testo:"..." }
         window.x1_file_parametri = x1_convertiJSON(nomeFunzione, dati);
     } catch (err) {
-        console.error("Errore nel caricamento JSON:", err);
+        console.error("Errore JSON:", err);
         window.x1_file_parametri = {};
     }
 
     const selParametro = document.getElementById("parametro");
-    const selValore    = document.getElementById("tendina_valori");
-    const boxInfo      = document.getElementById("info_parametro");
-
     selParametro.innerHTML = "";
-    selValore.innerHTML    = "";
-    boxInfo.innerHTML      = "";
 
-    const prefisso = codMenuCompleto + ".";   // es: "1.0.00."
+    const prefisso = codMenuCompleto + ".";
 
-    // x1_parametri viene da x1_parametri_data.js
     let lista = x1_parametri.filter(p =>
         p.PARAMETRO && p.PARAMETRO.startsWith(prefisso)
     );
 
-    // fallback: se non trova nulla, usa solo il menu principale
     if (lista.length === 0) {
         const menu = codMenuCompleto.split(".")[0];
         lista = x1_parametri.filter(p =>
@@ -216,7 +163,7 @@ async function x1_popolaParametri(codMenuCompleto) {
 
     lista.forEach(p => {
         const opt = document.createElement("option");
-        opt.value = p.PARAMETRO; // es: "1.0.00.03"
+        opt.value = p.PARAMETRO;
         opt.textContent = p.PARAMETRO + " – " + (p.DESCRIZIONE || "");
         selParametro.appendChild(opt);
     });
@@ -238,7 +185,7 @@ function x1_mostraInfoParametro(param) {
     box.innerHTML = `
         <b>Codice:</b> ${param.PARAMETRO}<br>
         <b>Descrizione:</b> ${param.DESCRIZIONE || ""}<br>
-        <b>Valore di default (grezzo CSV):</b> ${x1_pulisciValore(param.VALORE || "")}
+        <b>Valore attuale (ID):</b> ${param.VALORE || ""}
     `;
 
     document.getElementById("codice_parametro").value      = param.PARAMETRO || "";
@@ -246,77 +193,51 @@ function x1_mostraInfoParametro(param) {
 }
 
 // ----------------------------------------------------------------------
-// VALORI DEL PARAMETRO (da JSON, non più dal CSV)
+// VALORI (SOLO JSON)
 // ----------------------------------------------------------------------
 function x1_popolaValori(param) {
+
     const tendina = document.getElementById("tendina_valori");
     tendina.innerHTML = "";
 
     const tabella = window.x1_file_parametri || {};
     const ids = Object.keys(tabella);
-    if (ids.length === 0) {
-        // niente JSON → nessuna tendina
-        return;
-    }
 
-    // Valore di default grezzo dal CSV (es: "02")
-    const defaultRaw = x1_pulisciValore(param.VALORE || "");
-    const defaultID  = x1_estraiID(defaultRaw) || defaultRaw;
+    if (ids.length === 0) return;
 
-    // Ordino gli ID
+    const defaultID = (param.VALORE || "").trim();
+
     ids.sort();
 
     ids.forEach(id => {
-        const info = tabella[id] || {};
-        const testo = info.testo || "";
-        const label = (testo ? (id + " " + testo) : id);
+        const info = tabella[id];
+        const label = id + " " + (info.descrizione || "");
 
         const opt = document.createElement("option");
-        opt.value = id;        // SOLO ID (es: "03")
+        opt.value = id;
         opt.textContent = label;
         tendina.appendChild(opt);
     });
 
-    // Se possibile seleziono il valore di default
-    if (defaultID && tendina.options.length > 0) {
-        for (let i = 0; i < tendina.options.length; i++) {
-            if (tendina.options[i].value === defaultID) {
-                tendina.selectedIndex = i;
-                break;
-            }
-        }
-    } else if (tendina.options.length > 0) {
-        tendina.selectedIndex = 0;
+    if (defaultID && tendina.querySelector(`option[value="${defaultID}"]`)) {
+        tendina.value = defaultID;
     }
 
-    // Aggiorno i file per il valore selezionato
-    if (tendina.options.length > 0) {
-        const idSelezionato = tendina.value;
-        x1_mostraFilePerValore(param.PARAMETRO, idSelezionato);
-    }
-
-    // Campi unità / min / max (per ora vuoti, da CSV o altro in futuro)
-    document.getElementById("unita_misura").value = "";
-    document.getElementById("val_min").value      = "";
-    document.getElementById("val_max").value      = "";
+    x1_mostraFilePerValore(param.PARAMETRO, tendina.value);
 }
 
 // ----------------------------------------------------------------------
-// FILE ASSOCIATI → POPOLA BOTTONI VAL1–VAL8
+// FILE VAL1–VAL8 (SOLO JSON)
 // ----------------------------------------------------------------------
 function x1_mostraFilePerValore(parametro, idValore) {
-    // parametro es: "1.0.00.03"
-    // idValore es: "03"
 
-    if (!window.x1_file_parametri) return;
-
-    const tabella = window.x1_file_parametri;
+    const tabella = window.x1_file_parametri || {};
     const info = tabella[idValore];
+
     if (!info) return;
 
-    const files = Array.isArray(info.files) ? info.files : info;
+    const files = info.files || [];
 
-    // Popolo i bottoni VAL1–VAL8
     for (let i = 0; i < 8; i++) {
         const btn = document.getElementById("val" + (i + 1));
         if (btn) {
@@ -327,7 +248,7 @@ function x1_mostraFilePerValore(parametro, idValore) {
 }
 
 // ----------------------------------------------------------------------
-// APRI FILE (usato da VAL1–VAL8)
+// APRI FILE
 // ----------------------------------------------------------------------
 function x1_apriFileParametro(numero) {
     const btn = document.getElementById("val" + numero);
@@ -337,9 +258,5 @@ function x1_apriFileParametro(numero) {
     if (!file) return;
 
     let path = "FILES/" + file;
-    if (!file.includes(".")) {
-        path = "FILES/" + file + ".JPG";
-    }
-
     window.open(path, "_blank");
 }
