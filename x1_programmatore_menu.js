@@ -1,6 +1,6 @@
 // ======================================================================
 // FILE: x1_programmatore_menu.js
-// VERSIONE: 22/04/2026 – 22:24
+// VERSIONE: 23/04/2026 – 00:07
 // LOGICA: MENU → SOTTOMENU → PARAMETRI → VALORI (JSON) → FILE (JSON)
 // ======================================================================
 
@@ -34,10 +34,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
     document.getElementById("menu").addEventListener("change", async e => {
         await x1_popolaSottomenu(e.target.value);
+
+        // ⭐ FORZA CAMBIO SOTTOMENU
+        document.getElementById("sottomenu").dispatchEvent(new Event("change"));
     });
 
     document.getElementById("sottomenu").addEventListener("change", async e => {
         await x1_popolaParametri(e.target.value);
+
+        // ⭐ FORZA CAMBIO PARAMETRO
+        document.getElementById("parametro").dispatchEvent(new Event("change"));
     });
 
     document.getElementById("parametro").addEventListener("change", async e => {
@@ -75,6 +81,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
         x1_mostraInfoParametro(param);
         x1_popolaValori(param);
+
+        // ⭐ FORZA CAMBIO VALORE
+        document.getElementById("tendina_valori").dispatchEvent(new Event("change"));
     });
 
     document.getElementById("tendina_valori").addEventListener("change", e => {
@@ -217,7 +226,6 @@ function x1_popolaValori(param) {
 // ---------------------- FILE ----------------------
 function x1_mostraFilePerValore(valore) {
 
-    // ---------------------- MESSAGGIO: VALORE NON PREVISTO ----------------------
     if (!window.x1_file_parametri ||
         !window.x1_file_parametri[valore]) {
 
@@ -236,7 +244,6 @@ function x1_mostraFilePerValore(valore) {
     for (let i = 1; i <= 8; i++) {
         const btn = document.getElementById("val" + i);
 
-        // ---------------------- MESSAGGIO: FILE MANCANTE → “–” ----------------------
         if (!files[i - 1] || files[i - 1].trim() === "") {
             btn.textContent = "–";
             btn.dataset.file = "";
@@ -273,3 +280,15 @@ function x1_pulisciPulsantiValori() {
         btn.disabled = true;
     }
 }
+
+
+// ======================================================================
+// ⭐ AVVIO AUTOMATICO: MENU 0
+// ======================================================================
+window.addEventListener("load", () => {
+    const menu = document.getElementById("menu");
+    if (menu.options.length > 0) {
+        menu.selectedIndex = 0;
+        menu.dispatchEvent(new Event("change"));
+    }
+});
