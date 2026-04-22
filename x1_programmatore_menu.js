@@ -278,20 +278,34 @@ function x1_popolaValori(param) {
 
 
 // ---------------------- FILE ----------------------
-function x1_mostraFilePerValore(parametro, idValore) {
-    const info = window.x1_file_parametri[idValore];
-    if (!info) return;
+function x1_mostraFilePerValore(valore) {
 
-    const files = info.files;
+    const parametroSel = document.getElementById("parametro").value;
 
-    for (let i = 0; i < 8; i++) {
-        const btn = document.getElementById("val" + (i + 1));
-        btn.textContent = files[i] || "—";
-        btn.dataset.file = files[i] || "";
+    // Se manca tutto → pulizia
+    if (!window.x1_file_parametri ||
+        !window.x1_file_parametri[parametroSel] ||
+        !window.x1_file_parametri[parametroSel][valore]) {
+
+        x1_pulisciPulsantiValori();
+        return;
+    }
+
+    const files = window.x1_file_parametri[parametroSel][valore].param;
+
+    // Aggiorna i pulsanti
+    for (let i = 1; i <= 8; i++) {
+        const btn = document.getElementById("val" + i);
+
+        if (files[i - 1]) {
+            btn.textContent = files[i - 1];
+            btn.dataset.file = files[i - 1];
+            btn.disabled = false;
+        } else {
+            btn.textContent = "—";
+            btn.dataset.file = "";
+            btn.disabled = true;
+        }
     }
 }
 
-function x1_apriFileParametro(n) {
-    const file = document.getElementById("val" + n).dataset.file;
-    if (file) window.open("FILES/" + file, "_blank");
-}
