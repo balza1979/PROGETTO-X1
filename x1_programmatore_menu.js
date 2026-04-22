@@ -1,9 +1,35 @@
 // ======================================================================
 // FILE: x1_programmatore_menu.js
-// DESCRIZIONE: Logica MENU → SOTTOMENU → PARAMETRI → VALORI + FILE
+// DESCRIZIONE: Logica MENU → SOTTOMENU → PARAMETRI → VALORI + FILE (JSON VERSION)
 // AUTORE: Luca + Copilot
-// DATA: 21/04/2026
+// DATA: 22/04/2026
 // ======================================================================
+
+
+// ======================================================================
+// FUNZIONI JSON
+// ======================================================================
+
+// Carica un file JSON (es: "1.0.00.json")
+async function x1_caricaJSON(nomeFile) {
+    const risposta = await fetch(nomeFile);
+    const dati = await risposta.json();
+    return dati;
+}
+
+// Converte il JSON nel formato richiesto da x1_file_parametri
+function x1_convertiJSON(nomeFunzione, dati) {
+    const blocco = dati[nomeFunzione];
+    if (!blocco) return {};
+
+    const risultato = {};
+
+    Object.keys(blocco).forEach(id => {
+        risultato[id] = blocco[id].param;
+    });
+
+    return risultato;
+}
 
 
 // ======================================================================
@@ -35,7 +61,6 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
-    // Cambio valore → aggiorna bottoni
     selValore.addEventListener("change", function () {
         const parametro = document.getElementById("parametro").value;
         const valore = this.value;
@@ -111,7 +136,24 @@ function x1_svuotaParametri() {
 // ======================================================================
 // PARAMETRI → POPOLA
 // ======================================================================
-function x1_popolaParametri(codMenuCompleto) {
+async function x1_popolaParametri(codMenuCompleto) {
+
+    // ============================================================
+    // 🔥 CARICA IL JSON DELLA FUNZIONE (es: "1.0.00.json")
+    // ============================================================
+    const nomeFunzione = codMenuCompleto;
+
+    try {
+        const dati = await x1_caricaJSON(nomeFunzione + ".json");
+        window.x1_file_parametri = x1_convertiJSON(nomeFunzione, dati);
+    } catch (err) {
+        console.error("Errore nel caricamento JSON:", err);
+        window.x1_file_parametri = {};
+    }
+
+    // ============================================================
+    // LOGICA PARAMETRI (IDENTICA ALLA TUA)
+    // ============================================================
     const selParametro = document.getElementById("parametro");
     const selValore    = document.getElementById("tendina_valori");
     const boxInfo      = document.getElementById("info_parametro");
@@ -217,7 +259,6 @@ function x1_mostraFilePerValore(parametro, valorePulito) {
     const tabella = x1_file_parametri[parametro];
     if (!tabella) return;
 
-    // Estrae ID dai primi due caratteri
     const id = x1_estraiID(valorePulito);
     if (!id) return;
 
@@ -277,4 +318,3 @@ document.getElementById("parametro_down").addEventListener("click", () => {
         x1_popolaValori(param);
     }
 });
-
