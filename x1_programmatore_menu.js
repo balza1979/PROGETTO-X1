@@ -298,7 +298,7 @@ document.getElementById("tendina_valori").addEventListener("change", function ()
     x1_mostraFilePerValore(this.value);
 });
 
-// ---------------------- FILE ----------------------
+// ---------------------- FILE  ----------------------
 function x1_mostraFilePerValore(valore) {
 
     const parametroSel = document.getElementById("parametro").value;
