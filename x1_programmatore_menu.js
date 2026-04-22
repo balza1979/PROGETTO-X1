@@ -1,7 +1,6 @@
 // =========================================================
 //  PROGRAMMATORE – LOGICA MENU / SOTTOMENU / PARAMETRI / VALORI
-//  Versione DEFINITIVA – Coerente con formato X.Y.ZZ
-//  Non modifica HTML, CSS o grafica
+//  Versione FUNZIONANTE – Coerente con formato X.Y.ZZ
 // =========================================================
 
 
@@ -157,4 +156,13 @@ valoreSelect.addEventListener("change", () => {
         const file = v.file && v.file[i] ? v.file[i] : "";
         t.textContent = file !== "" ? file : "–";
     });
+});
+
+
+// =========================================================
+//  ⭐ STATO INIZIALE – MENU 0
+// =========================================================
+window.addEventListener("load", () => {
+    menuSelect.value = "0";
+    menuSelect.dispatchEvent(new Event("change"));
 });
