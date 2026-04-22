@@ -137,25 +137,42 @@ function x1_popolaMenu() {
     }
 }
 
-// ---------------------- SOTTOMENU  ----------------------
-// [22/04/2026 - 18:30] FIX: forzata chiamata parametri come versione originale
-// Motivo: x1_popolaParametri non veniva più eseguita → parametro vuoto → tasti “—”
+// ---------------------- SOTTOMENU ----------------------
+async function x1_popolaSottomenu(codMenu) {
 
-if (sel.options.length > 0) {
+    const sel = document.getElementById("sottomenu");
+    sel.innerHTML = "";
 
-    sel.selectedIndex = 0;
+    const lista = x1_menu_struttura_data.filter(r =>
+        String(r.cod__menu).startsWith(codMenu + ".")
+    );
 
-    // 🔥 CHIAMATA DIRETTA (come funzionava prima)
-    await x1_popolaParametri(sel.value);
+    lista.forEach(r => {
+        const opt = document.createElement("option");
+        opt.value = r.cod__menu;
+        opt.textContent = r.sottomenu;
+        sel.appendChild(opt);
+    });
 
-    // 🔥 FORZO IL PARAMETRO A RICARICARE
-    const parametro = document.getElementById("parametro");
-    parametro.selectedIndex = 0;
-    parametro.dispatchEvent(new Event("change"));
+    if (sel.options.length > 0) {
 
-} else {
-    x1_svuotaParametri();
+        sel.selectedIndex = 0;
+
+        // 🔥 CHIAMATA PARAMETRI (questa è la parte che prima funzionava)
+        await x1_popolaParametri(sel.value);
+
+        // 🔥 FORZA IL PARAMETRO A RICARICARE
+        const parametro = document.getElementById("parametro");
+        if (parametro.options.length > 0) {
+            parametro.selectedIndex = 0;
+            parametro.dispatchEvent(new Event("change"));
+        }
+
+    } else {
+        x1_svuotaParametri();
+    }
 }
+
 
 // ---------------------- PARAMETRI ----------------------
 // [22/04/2026 - 18:20] FIX completo funzione x1_popolaParametri
