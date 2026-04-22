@@ -78,23 +78,24 @@ document.getElementById("parametro").addEventListener("change", async e => {
         x1_popolaValori(param);
     }
 });
+function x1_cambiaParametro(direzione) {
+    const sel = document.getElementById("parametro");
+    let idx = sel.selectedIndex;
 
-document.getElementById("parametro_down").addEventListener("click", () => {
-    x1_cambiaParametro("giu");
-});
+    if (idx < 0) return;
 
-    // Converte il JSON corretto
-    window.x1_file_parametri = x1_convertiJSON(codice, dati);
-
-    // Trova il parametro nella lista
-    const param = x1_parametri.find(p => p.PARAMETRO === codice);
-
-    if (param) {
-        x1_mostraInfoParametro(param);
-        x1_popolaValori(param);
+    if (direzione === "su") {
+        if (idx > 0) idx--;
+    } else if (direzione === "giu") {
+        if (idx < sel.options.length - 1) idx++;
     }
-});
 
+    sel.selectedIndex = idx;
+
+    // Simula il cambio parametro → richiama l’evento change
+    const evento = new Event("change");
+    sel.dispatchEvent(evento);
+}
 
     document.getElementById("tendina_valori").addEventListener("change", e => {
         const parametro = document.getElementById("parametro").value;
