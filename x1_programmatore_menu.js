@@ -86,6 +86,31 @@ document.addEventListener("DOMContentLoaded", () => {
 
 }); //  <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
      //  CHIUSURA CORRETTA DI DOMContentLoaded
+function x1_cambiaParametro(direzione) {
+    const sel = document.getElementById("parametro");
+    let idx = sel.selectedIndex;
+
+    if (idx < 0) return;
+
+    if (direzione === "su") {
+        if (idx > 0) idx--;
+    } else if (direzione === "giu") {
+        if (idx < sel.options.length - 1) idx++;
+    }
+
+    sel.selectedIndex = idx;
+
+    // Simula il cambio parametro → richiama l’evento change
+    const evento = new Event("change");
+    sel.dispatchEvent(evento);
+}
+document.getElementById("parametro_up").addEventListener("click", () => {
+    x1_cambiaParametro("su");
+});
+
+document.getElementById("parametro_down").addEventListener("click", () => {
+    x1_cambiaParametro("giu");
+});
 
 // ---------------------- MENU  ----------------------
 function x1_popolaMenu() {
