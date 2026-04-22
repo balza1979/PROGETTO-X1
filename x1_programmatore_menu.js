@@ -39,7 +39,7 @@ document.addEventListener("DOMContentLoaded", () => {
         x1_popolaParametri(e.target.value);
     });
 
- document.getElementById("parametro").addEventListener("change", async e => {
+document.getElementById("parametro").addEventListener("change", async e => {
 
     const codice = e.target.value;   // esempio: "1.0.01"
     const nomeFile = codice + ".json";
@@ -48,36 +48,35 @@ document.addEventListener("DOMContentLoaded", () => {
     const dati = await x1_caricaJSON(nomeFile);
 
     if (!dati || Object.keys(dati).length === 0) {
-        document.getElementById("tendina_valori").innerHTML = "";
-        document.getElementById("info_parametro").innerHTML =
-            `<b>Database "${codice}" non previsto</b>`;
+
+        const tendina = document.getElementById("tendina_valori");
+        tendina.innerHTML = "";
+
+        const opt = document.createElement("option");
+        opt.value = "";
+        opt.textContent = `Database "${codice}" non previsto`;
+        tendina.appendChild(opt);
+
+        // Pulisce i pulsanti FILE
         for (let i = 1; i <= 8; i++) {
             const btn = document.getElementById("val" + i);
             btn.textContent = "—";
             btn.dataset.file = "";
         }
+
         return;
     }
-function x1_cambiaParametro(direzione) {
-    const sel = document.getElementById("parametro");
-    let idx = sel.selectedIndex;
 
-    if (idx < 0) return;
+    // Converte il JSON corretto
+    window.x1_file_parametri = x1_convertiJSON(codice, dati);
 
-    if (direzione === "su") {
-        if (idx > 0) idx--;
-    } else if (direzione === "giu") {
-        if (idx < sel.options.length - 1) idx++;
+    // Trova il parametro nella lista
+    const param = x1_parametri.find(p => p.PARAMETRO === codice);
+
+    if (param) {
+        x1_mostraInfoParametro(param);
+        x1_popolaValori(param);
     }
-
-    sel.selectedIndex = idx;
-
-    // Simula il cambio parametro → richiama l’evento change
-    const evento = new Event("change");
-    sel.dispatchEvent(evento);
-}
-document.getElementById("parametro_up").addEventListener("click", () => {
-    x1_cambiaParametro("su");
 });
 
 document.getElementById("parametro_down").addEventListener("click", () => {
