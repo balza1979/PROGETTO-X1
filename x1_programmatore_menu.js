@@ -31,9 +31,10 @@ function x1_convertiJSON(nomeFunzione, dati) {
 document.addEventListener("DOMContentLoaded", () => {
     x1_popolaMenu();
 
-    document.getElementById("menu").addEventListener("change", e => {
-        x1_popolaSottomenu(e.target.value);
-    });
+  document.getElementById("menu").addEventListener("change", async e => {
+    await x1_popolaSottomenu(e.target.value);
+});
+
 
     document.getElementById("sottomenu").addEventListener("change", e => {
         x1_popolaParametri(e.target.value);
