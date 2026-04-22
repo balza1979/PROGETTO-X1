@@ -1,3 +1,5 @@
+//// ==== INIZIO BLOCCO 1 ====
+
 // ======================================================================
 // FILE: x1_programmatore_menu.js
 // DESCRIZIONE: Logica MENU → SOTTOMENU → PARAMETRI → VALORI + FILE (JSON VERSION)
@@ -68,6 +70,8 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
+//// ==== FINE BLOCCO 1 ====
+//// ==== INIZIO BLOCCO 2 ====
 
 // ======================================================================
 // MENU
@@ -132,15 +136,15 @@ function x1_svuotaParametri() {
     document.getElementById("info_parametro").innerHTML = "";
 }
 
+//// ==== FINE BLOCCO 2 ====
+//// ==== INIZIO BLOCCO 3 ====
 
 // ======================================================================
 // PARAMETRI → POPOLA
 // ======================================================================
 async function x1_popolaParametri(codMenuCompleto) {
 
-    // ============================================================
-    // 🔥 CARICA IL JSON DELLA FUNZIONE (es: "1.0.00.json")
-    // ============================================================
+    // CARICA JSON
     const nomeFunzione = codMenuCompleto;
 
     try {
@@ -151,9 +155,6 @@ async function x1_popolaParametri(codMenuCompleto) {
         window.x1_file_parametri = {};
     }
 
-    // ============================================================
-    // LOGICA PARAMETRI (IDENTICA ALLA TUA)
-    // ============================================================
     const selParametro = document.getElementById("parametro");
     const selValore    = document.getElementById("tendina_valori");
     const boxInfo      = document.getElementById("info_parametro");
@@ -239,6 +240,8 @@ function x1_popolaValori(param) {
     document.getElementById("val_max").value = "";
 }
 
+//// ==== FINE BLOCCO 3 ====
+//// ==== INIZIO BLOCCO 4 ====
 
 // ======================================================================
 // ESTRATTORE ID (primi due numeri)
@@ -318,3 +321,6 @@ document.getElementById("parametro_down").addEventListener("click", () => {
         x1_popolaValori(param);
     }
 });
+
+//// ==== FINE BLOCCO 4 ====
+
