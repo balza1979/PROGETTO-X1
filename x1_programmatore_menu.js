@@ -138,40 +138,23 @@ function x1_popolaMenu() {
 }
 
 // ---------------------- SOTTOMENU  ----------------------
-async function x1_popolaSottomenu(codMenu) {
-    const sel = document.getElementById("sottomenu");
-    sel.innerHTML = "";
+// [22/04/2026 - 18:30] FIX: forzata chiamata parametri come versione originale
+// Motivo: x1_popolaParametri non veniva più eseguita → parametro vuoto → tasti “—”
 
-   // [22/04/2026 - 18:25] FIX filtro sottomenu
-// Motivo: cod__menu è numerico → startsWith fallisce → parametro rimane vuoto
-const lista = x1_menu_struttura_data.filter(r =>
-    String(r.cod__menu).startsWith(String(codMenu) + ".")
-);
+if (sel.options.length > 0) {
 
+    sel.selectedIndex = 0;
 
-    lista.forEach(r => {
-        const opt = document.createElement("option");
-        opt.value = r.cod__menu;
-        opt.textContent = r.sottomenu;
-        sel.appendChild(opt);
-    });
+    // 🔥 CHIAMATA DIRETTA (come funzionava prima)
+    await x1_popolaParametri(sel.value);
 
-    if (sel.options.length > 0) {
-        sel.selectedIndex = 0;
+    // 🔥 FORZO IL PARAMETRO A RICARICARE
+    const parametro = document.getElementById("parametro");
+    parametro.selectedIndex = 0;
+    parametro.dispatchEvent(new Event("change"));
 
-        // Popola i parametri del nuovo sottomenu
-        await x1_popolaParametri(sel.value);
-
-        // FORZA il cambio parametro → reset corretto
-        const parametro = document.getElementById("parametro");
-        if (parametro.options.length > 0) {
-            parametro.selectedIndex = 0;
-            parametro.dispatchEvent(new Event("change"));
-        }
-
-    } else {
-        x1_svuotaParametri();
-    }
+} else {
+    x1_svuotaParametri();
 }
 
 // ---------------------- PARAMETRI ----------------------
