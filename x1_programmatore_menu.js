@@ -259,7 +259,9 @@ function x1_mostraFilePerValore(parametro, valorePulito) {
 
     if (!window.x1_file_parametri) return;
 
-    const tabella = x1_file_parametri[parametro];
+  const idFunzione = parametro.split(".")[0] + "." + parametro.split(".")[1];
+const tabella = x1_file_parametri[idFunzione];
+
     if (!tabella) return;
 
     const id = x1_estraiID(valorePulito);
