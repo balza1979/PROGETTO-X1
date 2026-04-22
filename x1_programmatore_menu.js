@@ -96,6 +96,13 @@ function x1_cambiaParametro(direzione) {
     const evento = new Event("change");
     sel.dispatchEvent(evento);
 }
+document.getElementById("parametro_up").addEventListener("click", () => {
+    x1_cambiaParametro("su");
+});
+
+document.getElementById("parametro_down").addEventListener("click", () => {
+    x1_cambiaParametro("giu");
+});
 
     document.getElementById("tendina_valori").addEventListener("change", e => {
         const parametro = document.getElementById("parametro").value;
