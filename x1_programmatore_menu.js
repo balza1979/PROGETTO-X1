@@ -153,11 +153,22 @@ function x1_popolaSottomenu(codMenu) {
     });
 
     if (sel.options.length > 0) {
-        sel.selectedIndex = 0;
-        x1_popolaParametri(sel.value);
-    } else {
-        x1_svuotaParametri();
+    sel.selectedIndex = 0;
+
+    // Popola i parametri del nuovo sottomenu
+    await x1_popolaParametri(sel.value);
+
+    // FORZA il cambio parametro → reset corretto
+    const parametro = document.getElementById("parametro");
+    if (parametro.options.length > 0) {
+        parametro.selectedIndex = 0;
+        parametro.dispatchEvent(new Event("change"));
     }
+
+} else {
+    x1_svuotaParametri();
+}
+
 }
 
 // ---------------------- PARAMETRI ----------------------
