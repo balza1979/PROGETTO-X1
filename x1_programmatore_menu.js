@@ -105,15 +105,15 @@ function x1_popolaSottomenu(codMenu) {
 async function x1_popolaParametri(codMenuCompleto) {
 
     // I TUOI JSON SONO DEL TIPO "1.0.00.json"
-    const nomeFunzione = codMenuCompleto + "0";
+    const nomeFunzione = codMenuCompleto + ".00";
 
-    const dati = await x1_caricaJSON(nomeFunzione + "0.json");
-    window.x1_file_parametri = x1_convertiJSON(nomeFunzione + "0", dati);
+    const dati = await x1_caricaJSON(nomeFunzione + ".json");
+    window.x1_file_parametri = x1_convertiJSON(nomeFunzione, dati);
 
     const sel = document.getElementById("parametro");
     sel.innerHTML = "";
 
-    const lista = x1_parametri.filter(p => p.PARAMETRO === nomeFunzione + "0");
+    const lista = x1_parametri.filter(p => p.PARAMETRO === nomeFunzione);
 
     lista.forEach(p => {
         const opt = document.createElement("option");
@@ -128,6 +128,7 @@ async function x1_popolaParametri(codMenuCompleto) {
         x1_popolaValori(lista[0]);
     }
 }
+
 
 // ---------------------- INFO PARAMETRO ----------------------
 function x1_mostraInfoParametro(param) {
