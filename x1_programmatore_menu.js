@@ -142,9 +142,12 @@ async function x1_popolaSottomenu(codMenu) {
     const sel = document.getElementById("sottomenu");
     sel.innerHTML = "";
 
-    const lista = x1_menu_struttura_data.filter(r =>
-        String(r.cod__menu).startsWith(codMenu + ".")
-    );
+   // [22/04/2026 - 18:25] FIX filtro sottomenu
+// Motivo: cod__menu è numerico → startsWith fallisce → parametro rimane vuoto
+const lista = x1_menu_struttura_data.filter(r =>
+    String(r.cod__menu).startsWith(String(codMenu) + ".")
+);
+
 
     lista.forEach(r => {
         const opt = document.createElement("option");
