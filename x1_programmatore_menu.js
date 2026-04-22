@@ -39,76 +39,53 @@ document.addEventListener("DOMContentLoaded", () => {
         x1_popolaParametri(e.target.value);
     });
 
-document.getElementById("parametro").addEventListener("change", async e => {
+    document.getElementById("parametro").addEventListener("change", async e => {
 
-    const codice = e.target.value;   // esempio: "1.0.01"
-    const nomeFile = codice + ".json";
+        const codice = e.target.value;   // esempio: "1.0.01"
+        const nomeFile = codice + ".json";
 
-    // Carica il JSON del parametro selezionato
-    const dati = await x1_caricaJSON(nomeFile);
+        // Carica il JSON del parametro selezionato
+        const dati = await x1_caricaJSON(nomeFile);
 
-    if (!dati || Object.keys(dati).length === 0) {
+        if (!dati || Object.keys(dati).length === 0) {
 
-        const tendina = document.getElementById("tendina_valori");
-        tendina.innerHTML = "";
+            const tendina = document.getElementById("tendina_valori");
+            tendina.innerHTML = "";
 
-        const opt = document.createElement("option");
-        opt.value = "";
-        opt.textContent = `Database "${codice}" non previsto`;
-        tendina.appendChild(opt);
+            const opt = document.createElement("option");
+            opt.value = "";
+            opt.textContent = `Database "${codice}" non previsto`;
+            tendina.appendChild(opt);
 
-        // Pulisce i pulsanti FILE
-        for (let i = 1; i <= 8; i++) {
-            const btn = document.getElementById("val" + i);
-            btn.textContent = "—";
-            btn.dataset.file = "";
+            // Pulisce i pulsanti FILE
+            for (let i = 1; i <= 8; i++) {
+                const btn = document.getElementById("val" + i);
+                btn.textContent = "—";
+                btn.dataset.file = "";
+            }
+
+            return;
         }
 
-        return;
-    }
+        // Converte il JSON corretto
+        window.x1_file_parametri = x1_convertiJSON(codice, dati);
 
-    // Converte il JSON corretto
-    window.x1_file_parametri = x1_convertiJSON(codice, dati);
+        // Trova il parametro nella lista
+        const param = x1_parametri.find(p => p.PARAMETRO === codice);
 
-    // Trova il parametro nella lista
-    const param = x1_parametri.find(p => p.PARAMETRO === codice);
-
-    if (param) {
-        x1_mostraInfoParametro(param);
-        x1_popolaValori(param);
-    }
-});
-function x1_cambiaParametro(direzione) {
-    const sel = document.getElementById("parametro");
-    let idx = sel.selectedIndex;
-
-    if (idx < 0) return;
-
-    if (direzione === "su") {
-        if (idx > 0) idx--;
-    } else if (direzione === "giu") {
-        if (idx < sel.options.length - 1) idx++;
-    }
-
-    sel.selectedIndex = idx;
-
-    // Simula il cambio parametro → richiama l’evento change
-    const evento = new Event("change");
-    sel.dispatchEvent(evento);
-}
-document.getElementById("parametro_up").addEventListener("click", () => {
-    x1_cambiaParametro("su");
-});
-
-document.getElementById("parametro_down").addEventListener("click", () => {
-    x1_cambiaParametro("giu");
-});
+        if (param) {
+            x1_mostraInfoParametro(param);
+            x1_popolaValori(param);
+        }
+    });
 
     document.getElementById("tendina_valori").addEventListener("change", e => {
         const parametro = document.getElementById("parametro").value;
         x1_mostraFilePerValore(parametro, e.target.value);
     });
-});
+
+}); //  <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+     //  CHIUSURA CORRETTA DI DOMContentLoaded
 
 // ---------------------- MENU ----------------------
 function x1_popolaMenu() {
