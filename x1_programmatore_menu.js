@@ -76,6 +76,13 @@ function x1_cambiaParametro(direzione) {
     const evento = new Event("change");
     sel.dispatchEvent(evento);
 }
+document.getElementById("parametro_up").addEventListener("click", () => {
+    x1_cambiaParametro("su");
+});
+
+document.getElementById("parametro_down").addEventListener("click", () => {
+    x1_cambiaParametro("giu");
+});
 
     // Converte il JSON corretto
     window.x1_file_parametri = x1_convertiJSON(codice, dati);
