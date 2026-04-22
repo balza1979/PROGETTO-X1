@@ -1,7 +1,6 @@
 // ======================================================================
 // FILE: x1_programmatore_menu.js
-// VERSIONE: 22/04/2026 – 22:33
-// LOGICA: MENU → SOTTOMENU → PARAMETRI → VALORI (JSON) → FILE (JSON)
+// VERSIONE: 22/04/2026 – 22:39
 // ======================================================================
 
 
@@ -33,28 +32,27 @@ document.addEventListener("DOMContentLoaded", () => {
     x1_popolaMenu();
 
     document.getElementById("menu").addEventListener("change", async e => {
+
         await x1_popolaSottomenu(e.target.value);
 
-        // ---------------------- PATCH: MENU SENZA PARAMETRI ----------------------
         const primoSottomenu = document.getElementById("sottomenu").value;
+
         const listaParam = x1_parametri.filter(p =>
             p.PARAMETRO.startsWith(primoSottomenu + ".")
         );
 
         if (listaParam.length === 0) {
 
-            // Parametro non previsto
             document.getElementById("info_parametro").innerHTML = "Parametro non previsto";
 
-            // Database non previsto
             const tendina = document.getElementById("tendina_valori");
             tendina.innerHTML = "";
             const opt = document.createElement("option");
             opt.textContent = "Database non previsto";
             tendina.appendChild(opt);
 
-            // Tasti puliti
             x1_pulisciPulsantiValori();
+            x1_svuotaParametri();
 
             return;
         }
@@ -71,7 +69,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const dati = await x1_caricaJSON(nomeFile);
 
-        // ---------------------- MESSAGGIO: DATABASE NON PREVISTO ----------------------
         if (!dati || Object.keys(dati).length === 0) {
 
             const tendina = document.getElementById("tendina_valori");
@@ -89,7 +86,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const param = x1_parametri.find(p => p.PARAMETRO === codice);
 
-        // ---------------------- MESSAGGIO: PARAMETRO NON PREVISTO ----------------------
         if (!param) {
             document.getElementById("info_parametro").innerHTML = "Parametro non previsto";
             x1_svuotaValori();
@@ -105,7 +101,6 @@ document.addEventListener("DOMContentLoaded", () => {
         x1_mostraFilePerValore(e.target.value);
     });
 
-    // CLICK DEI TASTI FILE
     for (let i = 1; i <= 8; i++) {
         document.getElementById("val" + i).addEventListener("click", function () {
             const file = this.dataset.file;
@@ -158,11 +153,10 @@ async function x1_popolaSottomenu(codMenu) {
         sel.appendChild(opt);
     });
 
-    if (sel.options.length > 0) {
-        sel.selectedIndex = 0;
-        await x1_popolaParametri(sel.value);
-    } else {
+    if (sel.options.length === 0) {
         x1_svuotaParametri();
+        x1_svuotaValori();
+        x1_pulisciPulsantiValori();
     }
 }
 
@@ -177,6 +171,11 @@ async function x1_popolaParametri(codMenuCompleto) {
         p.PARAMETRO.startsWith(codMenuCompleto + ".")
     );
 
+    if (lista.length === 0) {
+        x1_svuotaParametri();
+        return;
+    }
+
     lista.forEach(p => {
         const opt = document.createElement("option");
         opt.value = p.PARAMETRO;
@@ -184,10 +183,8 @@ async function x1_popolaParametri(codMenuCompleto) {
         sel.appendChild(opt);
     });
 
-    if (lista.length > 0) {
-        sel.selectedIndex = 0;
-        sel.dispatchEvent(new Event("change"));
-    }
+    sel.selectedIndex = 0;
+    sel.dispatchEvent(new Event("change"));
 }
 
 
@@ -241,7 +238,6 @@ function x1_popolaValori(param) {
 // ---------------------- FILE ----------------------
 function x1_mostraFilePerValore(valore) {
 
-    // ---------------------- MESSAGGIO: VALORE NON PREVISTO ----------------------
     if (!window.x1_file_parametri ||
         !window.x1_file_parametri[valore]) {
 
@@ -260,7 +256,6 @@ function x1_mostraFilePerValore(valore) {
     for (let i = 1; i <= 8; i++) {
         const btn = document.getElementById("val" + i);
 
-        // ---------------------- FILE MANCANTE → “–” ----------------------
         if (!files[i - 1] || files[i - 1].trim() === "") {
             btn.textContent = "–";
             btn.dataset.file = "";
