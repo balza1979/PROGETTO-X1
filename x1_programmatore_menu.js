@@ -225,8 +225,9 @@ if (!dati || Object.keys(dati).length === 0) {
         sel.appendChild(opt);
     });
 
-  // [22/04/2026 - 18:00] FIX parametro non passato correttamente
-// Motivo: lista[0] non contiene PARAMETRO → i valori non si popolano
+// ---------------------- PARAMETRI ----------------------
+// [22/04/2026 - 18:10] FIX parametro non popolato
+// Motivo: lista[0] non veniva passato come oggetto completo → select parametro rimaneva vuota
 
 if (lista.length > 0) {
 
@@ -239,8 +240,14 @@ if (lista.length > 0) {
         VALORE: lista[0].VALORE
     };
 
+    // Mostra info
     x1_mostraInfoParametro(paramObj);
+
+    // Popola valori
     x1_popolaValori(paramObj);
+
+    // Imposta il parametro nella select
+    document.getElementById("parametro").value = paramObj.PARAMETRO;
 }
 
 }
