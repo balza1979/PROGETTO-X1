@@ -174,7 +174,8 @@ async function x1_popolaParametri(codMenuCompleto) {
 
     const opt = document.createElement("option");
     opt.value = "";
-    opt.textContent = `Database "${codice}" non previsto`;
+ opt.textContent = `Database "${nomeFunzione}" non previsto`;
+
     tendina.appendChild(opt);
 
     // Pulisce i pulsanti FILE
