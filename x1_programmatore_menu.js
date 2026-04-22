@@ -181,26 +181,37 @@ async function x1_popolaParametri(codMenuCompleto) {
     const nomeFunzione = codMenuCompleto + ".00";
     const dati = await x1_caricaJSON(nomeFunzione + ".json");
 
-    // SE IL JSON NON ESISTE → PULIZIA + MESSAGGIO
-    if (!dati || Object.keys(dati).length === 0) {
+   // SE IL JSON NON ESISTE → PULIZIA + MESSAGGIO
+if (!dati || Object.keys(dati).length === 0) {
 
-        const tendina = document.getElementById("tendina_valori");
-        tendina.innerHTML = "";
+    // 🔥 SVUOTA E MOSTRA MESSAGGIO NEL PARAMETRO
+    const sel = document.getElementById("parametro");
+    sel.innerHTML = "";
 
-        const opt = document.createElement("option");
-        opt.value = "";
-        opt.textContent = `Database "${nomeFunzione}" non previsto`;
-        tendina.appendChild(opt);
+    const optPar = document.createElement("option");
+    optPar.value = "";
+    optPar.textContent = `Menu ${codMenuCompleto} non ha parametri`;
+    sel.appendChild(optPar);
 
-        // Pulisce i pulsanti FILE
-        for (let i = 1; i <= 8; i++) {
-            const btn = document.getElementById("val" + i);
-            btn.textContent = "—";
-            btn.dataset.file = "";
-        }
+    // 🔥 SVUOTA LA TENDINA VALORI
+    const tendina = document.getElementById("tendina_valori");
+    tendina.innerHTML = "";
 
-        return;
+    const opt = document.createElement("option");
+    opt.value = "";
+    opt.textContent = `Database "${nomeFunzione}" non previsto`;
+    tendina.appendChild(opt);
+
+    // 🔥 PULISCE I PULSANTI FILE
+    for (let i = 1; i <= 8; i++) {
+        const btn = document.getElementById("val" + i);
+        btn.textContent = "—";
+        btn.dataset.file = "";
     }
+
+    return;
+}
+
 
     // SE IL JSON ESISTE → PROCEDO
     window.x1_file_parametri = x1_convertiJSON(nomeFunzione, dati);
