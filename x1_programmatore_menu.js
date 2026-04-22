@@ -148,16 +148,15 @@ async function x1_popolaParametri(codMenuCompleto) {
     const selParametro = document.getElementById("parametro");
     selParametro.innerHTML = "";
 
-    const prefisso = codMenuCompleto + ".";
-
+    // FIX: i tuoi parametri NON hanno suffisso
     let lista = x1_parametri.filter(p =>
-        p.PARAMETRO && p.PARAMETRO.startsWith(prefisso)
+        p.PARAMETRO === codMenuCompleto
     );
 
     if (lista.length === 0) {
         const menu = codMenuCompleto.split(".")[0];
         lista = x1_parametri.filter(p =>
-            p.PARAMETRO && p.PARAMETRO.startsWith(menu + ".")
+            p.PARAMETRO.startsWith(menu + ".")
         );
     }
 
