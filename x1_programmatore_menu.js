@@ -104,15 +104,19 @@ function x1_popolaSottomenu(codMenu) {
 // ---------------------- PARAMETRI ----------------------
 async function x1_popolaParametri(codMenuCompleto) {
 
-    // I TUOI JSON SONO DEL TIPO "1.0.00.json"
+    // Esempio: "1.0" → "1.0.00"
     const nomeFunzione = codMenuCompleto + ".00";
 
+    // Carica il file JSON corretto: "1.0.00.json"
     const dati = await x1_caricaJSON(nomeFunzione + ".json");
+
+    // Converte il blocco JSON
     window.x1_file_parametri = x1_convertiJSON(nomeFunzione, dati);
 
     const sel = document.getElementById("parametro");
     sel.innerHTML = "";
 
+    // Cerca i parametri esatti: "1.0.00"
     const lista = x1_parametri.filter(p => p.PARAMETRO === nomeFunzione);
 
     lista.forEach(p => {
@@ -128,6 +132,7 @@ async function x1_popolaParametri(codMenuCompleto) {
         x1_popolaValori(lista[0]);
     }
 }
+
 
 
 // ---------------------- INFO PARAMETRO ----------------------
