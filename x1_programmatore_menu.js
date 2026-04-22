@@ -242,6 +242,9 @@ function x1_mostraInfoParametro(param) {
 }
 
 // ---------------------- VALORI ----------------------
+// [22/04/2026 - 17:50] Inserita funzione x1_popolaValori
+// Motivo: popola la tendina dei valori e richiama l'aggiornamento dei pulsanti
+
 function x1_popolaValori(param) {
 
     const tendina = document.getElementById("tendina_valori");
@@ -264,7 +267,7 @@ function x1_popolaValori(param) {
     // Popola la tendina valori
     Object.keys(valori).forEach(id => {
         const opt = document.createElement("option");
-        opt.value = id;
+        opt.value = id;   // <-- VALORE CORRETTO (solo "00", "01", ecc.)
         opt.textContent = id + " – " + valori[id].descrizione;
         tendina.appendChild(opt);
     });
@@ -275,10 +278,11 @@ function x1_popolaValori(param) {
     // Aggiorna i pulsanti
     x1_mostraFilePerValore(tendina.value);
 }
+
+// [22/04/2026 - 17:50] Evento cambio tendina valori
 document.getElementById("tendina_valori").addEventListener("change", function () {
     x1_mostraFilePerValore(this.value);
 });
-
 
 // ---------------------- FILE ----------------------
 function x1_mostraFilePerValore(valore) {
