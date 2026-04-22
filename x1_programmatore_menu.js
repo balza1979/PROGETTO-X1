@@ -225,11 +225,24 @@ if (!dati || Object.keys(dati).length === 0) {
         sel.appendChild(opt);
     });
 
-    if (lista.length > 0) {
-        sel.selectedIndex = 0;
-        x1_mostraInfoParametro(lista[0]);
-        x1_popolaValori(lista[0]);
-    }
+  // [22/04/2026 - 18:00] FIX parametro non passato correttamente
+// Motivo: lista[0] non contiene PARAMETRO → i valori non si popolano
+
+if (lista.length > 0) {
+
+    sel.selectedIndex = 0;
+
+    // Costruisco l’oggetto parametro completo
+    const paramObj = {
+        PARAMETRO: lista[0].PARAMETRO,
+        DESCRIZIONE: lista[0].DESCRIZIONE,
+        VALORE: lista[0].VALORE
+    };
+
+    x1_mostraInfoParametro(paramObj);
+    x1_popolaValori(paramObj);
+}
+
 }
 
 //// ---------------------- VALORI ----------------------
