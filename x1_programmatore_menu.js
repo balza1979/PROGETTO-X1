@@ -1,295 +1,154 @@
-// ======================================================================
-// FILE: x1_programmatore_menu.js
-// VERSIONE: 22/04/2026 – 22:45
-// ======================================================================
+// =========================================================
+//  PROGRAMMATORE – LOGICA MENU / SOTTOMENU / PARAMETRI / VALORI
+//  Versione DEFINITIVA – Coerente con formato X.Y.ZZ
+//  Non modifica HTML, CSS o grafica
+// =========================================================
 
 
-// ---------------------- UTILITÀ ----------------------
-async function x1_caricaJSON(nomeFile) {
-    const risposta = await fetch(nomeFile);
-    if (!risposta.ok) return {};
-    return await risposta.json();
+// -----------------------------
+// 1) RIFERIMENTI AI CAMPI
+// -----------------------------
+const menuSelect = document.getElementById("menu_select");
+const submenuSelect = document.getElementById("submenu_select");
+const parametroSelect = document.getElementById("parametro_select");
+const valoreSelect = document.getElementById("valore_select");
+
+const infoCodice = document.getElementById("info_codice");
+const infoDescrizione = document.getElementById("info_descrizione");
+const infoValore = document.getElementById("info_valore");
+
+const tasti = [
+    document.getElementById("file1"),
+    document.getElementById("file2"),
+    document.getElementById("file3"),
+    document.getElementById("file4"),
+    document.getElementById("file5"),
+    document.getElementById("file6"),
+    document.getElementById("file7"),
+    document.getElementById("file8")
+];
+
+
+// -----------------------------
+// 2) FUNZIONI DI UTILITÀ
+// -----------------------------
+
+function svuotaSotto() {
+    parametroSelect.innerHTML = "";
+    valoreSelect.innerHTML = "";
+    infoCodice.textContent = "";
+    infoDescrizione.textContent = "";
+    infoValore.textContent = "";
+    tasti.forEach(t => t.textContent = "–");
 }
 
-function x1_convertiJSON(nomeFunzione, dati) {
-    const blocco = dati[nomeFunzione];
-    if (!blocco) return {};
+function creaOption(testo, valore) {
+    const opt = document.createElement("option");
+    opt.textContent = testo;
+    opt.value = valore;
+    return opt;
+}
 
-    const out = {};
-    Object.keys(blocco).forEach(id => {
-        out[id] = {
-            descrizione: blocco[id].descrizione || "",
-            param: blocco[id].param || []
-        };
-    });
-    return out;
+function placeholderZZ(codiceXY) {
+    return codiceXY + ".ZZ";
 }
 
 
-// ---------------------- AVVIO ----------------------
-document.addEventListener("DOMContentLoaded", () => {
+// -----------------------------
+// 3) CAMBIO MENU
+// -----------------------------
+menuSelect.addEventListener("change", () => {
+    const menu = menuSelect.value;
+    submenuSelect.innerHTML = "";
+    svuotaSotto();
 
-    x1_popolaMenu();
+    const sotto = menu_struttura.filter(s => s.startsWith(menu + "."));
 
-    document.getElementById("menu").addEventListener("change", async e => {
-
-        await x1_popolaSottomenu(e.target.value);
-
-        const primoSottomenu = document.getElementById("sottomenu").value;
-
-        const listaParam = x1_parametri.filter(p =>
-            p.PARAMETRO.startsWith(primoSottomenu + ".")
-        );
-
-        // ---------------------- SE NON CI SONO PARAMETRI ----------------------
-        if (listaParam.length === 0) {
-
-            document.getElementById("info_parametro").innerHTML = "Parametro non previsto";
-
-            const tendina = document.getElementById("tendina_valori");
-            tendina.innerHTML = "";
-            const opt = document.createElement("option");
-            opt.textContent = "Database non previsto";
-            tendina.appendChild(opt);
-
-            x1_pulisciPulsantiValori();
-
-            // ⚠️ NON svuoto i parametri PRIMA del controllo
-            return;
-        }
-    });
-
-    document.getElementById("sottomenu").addEventListener("change", async e => {
-        await x1_popolaParametri(e.target.value);
-    });
-
-    document.getElementById("parametro").addEventListener("change", async e => {
-
-        const codice = e.target.value;
-        const nomeFile = codice + ".json";
-
-        const dati = await x1_caricaJSON(nomeFile);
-
-        if (!dati || Object.keys(dati).length === 0) {
-
-            const tendina = document.getElementById("tendina_valori");
-            tendina.innerHTML = "";
-            const opt = document.createElement("option");
-            opt.textContent = "Database non previsto";
-            tendina.appendChild(opt);
-
-            x1_pulisciPulsantiValori();
-            document.getElementById("info_parametro").innerHTML = "";
-            return;
-        }
-
-        window.x1_file_parametri = x1_convertiJSON(codice, dati);
-
-        const param = x1_parametri.find(p => p.PARAMETRO === codice);
-
-        if (!param) {
-            document.getElementById("info_parametro").innerHTML = "Parametro non previsto";
-            x1_svuotaValori();
-            x1_pulisciPulsantiValori();
-            return;
-        }
-
-        x1_mostraInfoParametro(param);
-        x1_popolaValori(param);
-    });
-
-    document.getElementById("tendina_valori").addEventListener("change", e => {
-        x1_mostraFilePerValore(e.target.value);
-    });
-
-    for (let i = 1; i <= 8; i++) {
-        document.getElementById("val" + i).addEventListener("click", function () {
-            const file = this.dataset.file;
-            if (file) x1_apriFile(file);
-        });
+    if (sotto.length === 0) {
+        const codice = placeholderZZ(menu + ".0");
+        submenuSelect.appendChild(creaOption(`Sottomenu ${codice} non previsto`, codice));
+        return;
     }
 
+    sotto.forEach(s => submenuSelect.appendChild(creaOption(s, s)));
 });
 
 
-// ---------------------- MENU ----------------------
-function x1_popolaMenu() {
-    const sel = document.getElementById("menu");
-    sel.innerHTML = "";
+// -----------------------------
+// 4) CAMBIO SOTTOMENU
+// -----------------------------
+submenuSelect.addEventListener("change", () => {
+    const sm = submenuSelect.value;
+    parametroSelect.innerHTML = "";
+    svuotaSotto();
 
-    const visti = new Set();
+    const param = parametri.filter(p => p.startsWith(sm + "."));
 
-    x1_menu_struttura_data.forEach(r => {
-        const cod = String(r.cod__menu).split(".")[0];
-        if (!visti.has(cod)) {
-            visti.add(cod);
-            const opt = document.createElement("option");
-            opt.value = cod;
-            opt.textContent = r.menu;
-            sel.appendChild(opt);
-        }
-    });
-
-    if (sel.options.length > 0) {
-        sel.selectedIndex = 0;
-        x1_popolaSottomenu(sel.value);
-    }
-}
-
-
-// ---------------------- SOTTOMENU ----------------------
-async function x1_popolaSottomenu(codMenu) {
-
-    const sel = document.getElementById("sottomenu");
-    sel.innerHTML = "";
-
-    const lista = x1_menu_struttura_data.filter(r =>
-        String(r.cod__menu).startsWith(codMenu + ".")
-    );
-
-    lista.forEach(r => {
-        const opt = document.createElement("option");
-        opt.value = r.cod__menu;
-        opt.textContent = r.sottomenu;
-        sel.appendChild(opt);
-    });
-
-    if (sel.options.length === 0) {
-        x1_svuotaParametri();
-        x1_svuotaValori();
-        x1_pulisciPulsantiValori();
-    }
-}
-
-
-// ---------------------- PARAMETRI ----------------------
-async function x1_popolaParametri(codMenuCompleto) {
-
-    const sel = document.getElementById("parametro");
-    sel.innerHTML = "";
-
-    const lista = x1_parametri.filter(p =>
-        p.PARAMETRO.startsWith(codMenuCompleto + ".")
-    );
-
-    if (lista.length === 0) {
-        x1_svuotaParametri();
+    if (param.length === 0) {
+        const codice = placeholderZZ(sm);
+        parametroSelect.appendChild(creaOption(`Parametri ${codice} non previsti`, codice));
         return;
     }
 
-    lista.forEach(p => {
-        const opt = document.createElement("option");
-        opt.value = p.PARAMETRO;
-        opt.textContent = p.PARAMETRO + " – " + (p.DESCRIZIONE || "");
-        sel.appendChild(opt);
-    });
-
-    sel.selectedIndex = 0;
-    sel.dispatchEvent(new Event("change"));
-}
+    param.forEach(p => parametroSelect.appendChild(creaOption(p, p)));
+});
 
 
-// ---------------------- VALORI ----------------------
-function x1_mostraInfoParametro(param) {
-    document.getElementById("info_parametro").innerHTML = `
-        <b>Codice:</b> ${param.PARAMETRO}<br>
-        <b>Descrizione:</b> ${param.DESCRIZIONE}<br>
-        <b>Valore attuale:</b> ${param.VALORE}
-    `;
-}
+// -----------------------------
+// 5) CAMBIO PARAMETRO
+// -----------------------------
+parametroSelect.addEventListener("change", () => {
+    const codice = parametroSelect.value;
+    valoreSelect.innerHTML = "";
+    infoCodice.textContent = codice;
+    infoDescrizione.textContent = "";
+    infoValore.textContent = "";
+    tasti.forEach(t => t.textContent = "–");
 
-function x1_popolaValori(param) {
-
-    const tendina = document.getElementById("tendina_valori");
-    tendina.innerHTML = "";
-
-    if (!window.x1_file_parametri) {
-        x1_svuotaValori();
+    // Se è un placeholder ZZ → non caricare JSON
+    if (codice.endsWith(".ZZ")) {
+        valoreSelect.appendChild(creaOption(`Database non previsto per ${codice}`, codice));
         return;
     }
 
-    Object.keys(window.x1_file_parametri).forEach(id => {
-        const opt = document.createElement("option");
-        opt.value = id;
-        opt.textContent = id + " – " + window.x1_file_parametri[id].descrizione;
-        tendina.appendChild(opt);
-    });
+    const jsonFile = `json/${codice}.json`;
 
-    let defaultIndex = 0;
-    let valoreDefault = String(param.VALORE || "").trim();
-    valoreDefault = valoreDefault.replace(/"/g, "").trim();
+    fetch(jsonFile)
+        .then(r => r.json())
+        .then(data => {
+            if (!data.valori || data.valori.length === 0) {
+                valoreSelect.appendChild(creaOption(`Database non previsto per ${codice}`, codice));
+                return;
+            }
 
-    if (valoreDefault.length > 2) {
-        valoreDefault = valoreDefault.slice(-2);
-    }
-
-    for (let i = 0; i < tendina.options.length; i++) {
-        if (tendina.options[i].value === valoreDefault) {
-            defaultIndex = i;
-            break;
-        }
-    }
-
-    tendina.selectedIndex = defaultIndex;
-
-    x1_mostraFilePerValore(tendina.value);
-}
+            data.valori.forEach(v => valoreSelect.appendChild(creaOption(v.nome, JSON.stringify(v))));
+        })
+        .catch(() => {
+            valoreSelect.appendChild(creaOption(`Database non previsto per ${codice}`, codice));
+        });
+});
 
 
-// ---------------------- FILE ----------------------
-function x1_mostraFilePerValore(valore) {
+// -----------------------------
+// 6) CAMBIO VALORE
+// -----------------------------
+valoreSelect.addEventListener("change", () => {
+    const raw = valoreSelect.value;
 
-    if (!window.x1_file_parametri ||
-        !window.x1_file_parametri[valore]) {
-
-        const tendina = document.getElementById("tendina_valori");
-        tendina.innerHTML = "";
-        const opt = document.createElement("option");
-        opt.textContent = "Valore non previsto";
-        tendina.appendChild(opt);
-
-        x1_pulisciPulsantiValori();
+    if (!raw || raw.startsWith("Database")) {
+        infoDescrizione.textContent = "";
+        infoValore.textContent = "";
+        tasti.forEach(t => t.textContent = "–");
         return;
     }
 
-    const files = window.x1_file_parametri[valore].param;
+    const v = JSON.parse(raw);
 
-    for (let i = 1; i <= 8; i++) {
-        const btn = document.getElementById("val" + i);
+    infoDescrizione.textContent = v.descrizione || "";
+    infoValore.textContent = v.valore || "";
 
-        if (!files[i - 1] || files[i - 1].trim() === "") {
-            btn.textContent = "–";
-            btn.dataset.file = "";
-            btn.disabled = true;
-            continue;
-        }
-
-        btn.textContent = files[i - 1];
-        btn.dataset.file = files[i - 1];
-        btn.disabled = false;
-    }
-}
-
-function x1_apriFile(nomeFile) {
-    if (!nomeFile) return;
-    window.open(nomeFile, "_blank");
-}
-
-
-// ---------------------- PULIZIE ----------------------
-function x1_svuotaValori() {
-    document.getElementById("tendina_valori").innerHTML = "";
-}
-
-function x1_svuotaParametri() {
-    document.getElementById("parametro").innerHTML = "";
-}
-
-function x1_pulisciPulsantiValori() {
-    for (let i = 1; i <= 8; i++) {
-        const btn = document.getElementById("val" + i);
-        btn.textContent = "–";
-        btn.dataset.file = "";
-        btn.disabled = true;
-    }
-}
+    tasti.forEach((t, i) => {
+        const file = v.file && v.file[i] ? v.file[i] : "";
+        t.textContent = file !== "" ? file : "–";
+    });
+});
