@@ -1,7 +1,7 @@
 // ======================================================================
 // FILE: x1_programmatore_menu.js
-// LOGICA: MENU → SOTTOMENU → PARAMETRI → VALORI (JSON) → FILE (JSON)
 // VERSIONE STABILE: 22/04/2026 – 18:40
+// LOGICA: MENU → SOTTOMENU → PARAMETRI → VALORI (JSON) → FILE (JSON)
 // ======================================================================
 
 
