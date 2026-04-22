@@ -136,7 +136,7 @@ function x1_popolaMenu() {
     }
 }
 
-// ---------------------- SOTTOMENU ----------------------
+// ---------------------- SOTTOMENU  ----------------------
 async function x1_popolaSottomenu(codMenu) {
     const sel = document.getElementById("sottomenu");
     sel.innerHTML = "";
