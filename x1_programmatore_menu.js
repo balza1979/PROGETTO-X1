@@ -232,7 +232,7 @@ if (!dati || Object.keys(dati).length === 0) {
     }
 }
 
-// ---------------------- INFO PARAMETRO ----------------------
+//// ---------------------- VALORI ----------------------
 function x1_mostraInfoParametro(param) {
     document.getElementById("info_parametro").innerHTML = `
         <b>Codice:</b> ${param.PARAMETRO}<br>
@@ -243,25 +243,39 @@ function x1_mostraInfoParametro(param) {
 
 // ---------------------- VALORI ----------------------
 function x1_popolaValori(param) {
+
     const tendina = document.getElementById("tendina_valori");
     tendina.innerHTML = "";
 
-    const tab = window.x1_file_parametri;
-    const ids = Object.keys(tab);
+    // Se non esiste il JSON convertito → svuota tutto
+    if (!window.x1_file_parametri || !window.x1_file_parametri[param.PARAMETRO]) {
 
-    ids.sort().forEach(id => {
+        const opt = document.createElement("option");
+        opt.value = "";
+        opt.textContent = `Nessun valore disponibile`;
+        tendina.appendChild(opt);
+
+        x1_pulisciPulsantiValori();
+        return;
+    }
+
+    const valori = window.x1_file_parametri[param.PARAMETRO];
+
+    // Popola la tendina valori
+    Object.keys(valori).forEach(id => {
         const opt = document.createElement("option");
         opt.value = id;
-        opt.textContent = id + " " + tab[id].descrizione;
+        opt.textContent = id + " – " + valori[id].descrizione;
         tendina.appendChild(opt);
     });
 
-    if (param.VALORE && tendina.querySelector(`option[value="${param.VALORE}"]`)) {
-        tendina.value = param.VALORE;
-    }
+    // Seleziona il primo valore
+    tendina.selectedIndex = 0;
 
-    x1_mostraFilePerValore(param.PARAMETRO, tendina.value);
+    // Aggiorna i pulsanti
+    x1_mostraFilePerValore(tendina.value);
 }
+
 
 // ---------------------- FILE ----------------------
 function x1_mostraFilePerValore(parametro, idValore) {
