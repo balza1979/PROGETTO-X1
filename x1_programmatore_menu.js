@@ -1,6 +1,6 @@
 // ======================================================================
 // FILE: x1_programmatore_menu.js
-// VERSIONE: 22/04/2026 – 22:24
+// VERSIONE: 22/04/2026 – 22:33
 // LOGICA: MENU → SOTTOMENU → PARAMETRI → VALORI (JSON) → FILE (JSON)
 // ======================================================================
 
@@ -34,6 +34,30 @@ document.addEventListener("DOMContentLoaded", () => {
 
     document.getElementById("menu").addEventListener("change", async e => {
         await x1_popolaSottomenu(e.target.value);
+
+        // ---------------------- PATCH: MENU SENZA PARAMETRI ----------------------
+        const primoSottomenu = document.getElementById("sottomenu").value;
+        const listaParam = x1_parametri.filter(p =>
+            p.PARAMETRO.startsWith(primoSottomenu + ".")
+        );
+
+        if (listaParam.length === 0) {
+
+            // Parametro non previsto
+            document.getElementById("info_parametro").innerHTML = "Parametro non previsto";
+
+            // Database non previsto
+            const tendina = document.getElementById("tendina_valori");
+            tendina.innerHTML = "";
+            const opt = document.createElement("option");
+            opt.textContent = "Database non previsto";
+            tendina.appendChild(opt);
+
+            // Tasti puliti
+            x1_pulisciPulsantiValori();
+
+            return;
+        }
     });
 
     document.getElementById("sottomenu").addEventListener("change", async e => {
@@ -236,7 +260,7 @@ function x1_mostraFilePerValore(valore) {
     for (let i = 1; i <= 8; i++) {
         const btn = document.getElementById("val" + i);
 
-        // ---------------------- MESSAGGIO: FILE MANCANTE → “–” ----------------------
+        // ---------------------- FILE MANCANTE → “–” ----------------------
         if (!files[i - 1] || files[i - 1].trim() === "") {
             btn.textContent = "–";
             btn.dataset.file = "";
