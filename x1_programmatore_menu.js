@@ -32,7 +32,6 @@ const tasti = [
 // -----------------------------
 // 2) FUNZIONI DI UTILITÀ
 // -----------------------------
-
 function svuotaSotto() {
     parametroSelect.innerHTML = "";
     valoreSelect.innerHTML = "";
@@ -67,10 +66,12 @@ menuSelect.addEventListener("change", () => {
     if (sotto.length === 0) {
         const codice = placeholderZZ(menu + ".0");
         submenuSelect.appendChild(creaOption(`Sottomenu ${codice} non previsto`, codice));
-        return;
+    } else {
+        sotto.forEach(s => submenuSelect.appendChild(creaOption(s, s)));
     }
 
-    sotto.forEach(s => submenuSelect.appendChild(creaOption(s, s)));
+    // ⭐ FORZA CAMBIO SOTTOMENU
+    submenuSelect.dispatchEvent(new Event("change"));
 });
 
 
@@ -87,10 +88,12 @@ submenuSelect.addEventListener("change", () => {
     if (param.length === 0) {
         const codice = placeholderZZ(sm);
         parametroSelect.appendChild(creaOption(`Parametri ${codice} non previsti`, codice));
-        return;
+    } else {
+        param.forEach(p => parametroSelect.appendChild(creaOption(p, p)));
     }
 
-    param.forEach(p => parametroSelect.appendChild(creaOption(p, p)));
+    // ⭐ FORZA CAMBIO PARAMETRO
+    parametroSelect.dispatchEvent(new Event("change"));
 });
 
 
@@ -105,7 +108,6 @@ parametroSelect.addEventListener("change", () => {
     infoValore.textContent = "";
     tasti.forEach(t => t.textContent = "–");
 
-    // Se è un placeholder ZZ → non caricare JSON
     if (codice.endsWith(".ZZ")) {
         valoreSelect.appendChild(creaOption(`Database non previsto per ${codice}`, codice));
         return;
@@ -125,6 +127,10 @@ parametroSelect.addEventListener("change", () => {
         })
         .catch(() => {
             valoreSelect.appendChild(creaOption(`Database non previsto per ${codice}`, codice));
+        })
+        .finally(() => {
+            // ⭐ FORZA CAMBIO VALORE
+            valoreSelect.dispatchEvent(new Event("change"));
         });
 });
 
