@@ -256,6 +256,8 @@ function x1_estraiID(valore) {
 // FILE ASSOCIATI → POPOLA BOTTONI
 // ======================================================================
 function x1_mostraFilePerValore(parametro, valorePulito) {
+console.log("PARAMETRO:", parametro);
+console.log("VALORE:", valorePulito);
 
     if (!window.x1_file_parametri) return;
 
