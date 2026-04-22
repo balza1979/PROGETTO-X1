@@ -87,7 +87,7 @@ document.addEventListener("DOMContentLoaded", () => {
 }); //  <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
      //  CHIUSURA CORRETTA DI DOMContentLoaded
 
-// ---------------------- MENU ----------------------
+// ---------------------- MENU  ----------------------
 function x1_popolaMenu() {
     const sel = document.getElementById("menu");
     sel.innerHTML = "";
