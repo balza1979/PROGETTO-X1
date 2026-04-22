@@ -1,6 +1,6 @@
 // ======================================================================
 // FILE: x1_programmatore_menu.js
-// VERSIONE: 22/04/2026 – 22:39
+// VERSIONE: 22/04/2026 – 22:45
 // ======================================================================
 
 
@@ -41,6 +41,7 @@ document.addEventListener("DOMContentLoaded", () => {
             p.PARAMETRO.startsWith(primoSottomenu + ".")
         );
 
+        // ---------------------- SE NON CI SONO PARAMETRI ----------------------
         if (listaParam.length === 0) {
 
             document.getElementById("info_parametro").innerHTML = "Parametro non previsto";
@@ -52,8 +53,8 @@ document.addEventListener("DOMContentLoaded", () => {
             tendina.appendChild(opt);
 
             x1_pulisciPulsantiValori();
-            x1_svuotaParametri();
 
+            // ⚠️ NON svuoto i parametri PRIMA del controllo
             return;
         }
     });
