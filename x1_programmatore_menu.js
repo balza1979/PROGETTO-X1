@@ -109,15 +109,13 @@ async function x1_popolaParametri(codMenuCompleto) {
 
     // Carica il file JSON corretto: "1.0.00.json"
     const dati = await x1_caricaJSON(nomeFunzione + ".json");
-
-    // Converte il blocco JSON
     window.x1_file_parametri = x1_convertiJSON(nomeFunzione, dati);
 
     const sel = document.getElementById("parametro");
     sel.innerHTML = "";
 
-    // Cerca i parametri esatti: "1.0.00"
-    const lista = x1_parametri.filter(p => p.PARAMETRO === nomeFunzione);
+    // MOSTRA TUTTI I PARAMETRI CHE INIZIANO CON "1.0."
+    const lista = x1_parametri.filter(p => p.PARAMETRO.startsWith(codMenuCompleto + "."));
 
     lista.forEach(p => {
         const opt = document.createElement("option");
@@ -132,7 +130,6 @@ async function x1_popolaParametri(codMenuCompleto) {
         x1_popolaValori(lista[0]);
     }
 }
-
 
 
 // ---------------------- INFO PARAMETRO ----------------------
