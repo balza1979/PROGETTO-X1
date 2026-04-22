@@ -1,11 +1,15 @@
 // ======================================================================
 // FILE: x1_programmatore_menu.js
+// LOGICA: MENU → SOTTOMENU → PARAMETRI → VALORI (JSON) → FILE (JSON)
 // ======================================================================
 
 // ---------------------- UTILITÀ ----------------------
 async function x1_caricaJSON(nomeFile) {
     const risposta = await fetch(nomeFile);
-    if (!risposta.ok) return {};
+    if (!risposta.ok) {
+        console.error("Errore fetch JSON:", nomeFile, risposta.status);
+        return {};
+    }
     return await risposta.json();
 }
 
@@ -57,7 +61,7 @@ function x1_popolaMenu() {
     const visti = new Set();
 
     x1_menu_struttura_data.forEach(r => {
-        const cod = String(r.cod__menu).split(".")[0]; // ← FUNZIONA COME PRIMA
+        const cod = String(r.cod__menu).split(".")[0];
         if (!visti.has(cod)) {
             visti.add(cod);
             const opt = document.createElement("option");
@@ -92,20 +96,32 @@ function x1_popolaSottomenu(codMenu) {
     if (sel.options.length > 0) {
         sel.selectedIndex = 0;
         x1_popolaParametri(sel.value);
+    } else {
+        x1_svuotaParametri();
     }
 }
 
 // ---------------------- PARAMETRI ----------------------
+function x1_svuotaParametri() {
+    document.getElementById("parametro").innerHTML = "";
+    document.getElementById("info_parametro").innerHTML = "";
+    document.getElementById("tendina_valori").innerHTML = "";
+}
+
 async function x1_popolaParametri(codMenuCompleto) {
 
-    const dati = await x1_caricaJSON(codMenuCompleto + ".json");
-    window.x1_file_parametri = x1_convertiJSON(codMenuCompleto, dati);
+    // I TUOI JSON SONO DEL TIPO "1.0.00.json"
+    // quindi da "1.0" → "1.0.00"
+    const nomeFunzione = codMenuCompleto + "0";
+
+    const dati = await x1_caricaJSON(nomeFunzione + ".json");
+    window.x1_file_parametri = x1_convertiJSON(nomeFunzione, dati);
 
     const sel = document.getElementById("parametro");
     sel.innerHTML = "";
 
-    // I TUOI PARAMETRI SONO ESATTAMENTE "1.0.00", "1.0.01", ecc.
-    const lista = x1_parametri.filter(p => p.PARAMETRO === codMenuCompleto);
+    // I tuoi parametri sono esattamente "1.0.00", "1.0.01", ecc.
+    const lista = x1_parametri.filter(p => p.PARAMETRO === nomeFunzione);
 
     lista.forEach(p => {
         const opt = document.createElement("option");
@@ -121,7 +137,7 @@ async function x1_popolaParametri(codMenuCompleto) {
     }
 }
 
-// ---------------------- INFO ----------------------
+// ---------------------- INFO PARAMETRO ----------------------
 function x1_mostraInfoParametro(param) {
     document.getElementById("info_parametro").innerHTML = `
         <b>Codice:</b> ${param.PARAMETRO}<br>
