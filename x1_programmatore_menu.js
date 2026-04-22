@@ -174,37 +174,36 @@ async function x1_popolaSottomenu(codMenu) {
 // ---------------------- PARAMETRI ----------------------
 async function x1_popolaParametri(codMenuCompleto) {
 
+    // 🔥 SVUOTA SEMPRE LA SELECT DEI PARAMETRI
+    const sel = document.getElementById("parametro");
+    sel.innerHTML = "";
+
     const nomeFunzione = codMenuCompleto + ".00";
     const dati = await x1_caricaJSON(nomeFunzione + ".json");
 
     // SE IL JSON NON ESISTE → PULIZIA + MESSAGGIO
-   if (!dati || Object.keys(dati).length === 0) {
+    if (!dati || Object.keys(dati).length === 0) {
 
-    const tendina = document.getElementById("tendina_valori");
-    tendina.innerHTML = "";
+        const tendina = document.getElementById("tendina_valori");
+        tendina.innerHTML = "";
 
-    const opt = document.createElement("option");
-    opt.value = "";
- opt.textContent = `Database "${nomeFunzione}" non previsto`;
+        const opt = document.createElement("option");
+        opt.value = "";
+        opt.textContent = `Database "${nomeFunzione}" non previsto`;
+        tendina.appendChild(opt);
 
-    tendina.appendChild(opt);
+        // Pulisce i pulsanti FILE
+        for (let i = 1; i <= 8; i++) {
+            const btn = document.getElementById("val" + i);
+            btn.textContent = "—";
+            btn.dataset.file = "";
+        }
 
-    // Pulisce i pulsanti FILE
-    for (let i = 1; i <= 8; i++) {
-        const btn = document.getElementById("val" + i);
-        btn.textContent = "—";
-        btn.dataset.file = "";
+        return;
     }
-
-    return;
-}
-
 
     // SE IL JSON ESISTE → PROCEDO
     window.x1_file_parametri = x1_convertiJSON(nomeFunzione, dati);
-
-    const sel = document.getElementById("parametro");
-    sel.innerHTML = "";
 
     const lista = x1_parametri.filter(p => p.PARAMETRO.startsWith(codMenuCompleto + "."));
 
@@ -221,7 +220,6 @@ async function x1_popolaParametri(codMenuCompleto) {
         x1_popolaValori(lista[0]);
     }
 }
-
 
 // ---------------------- INFO PARAMETRO ----------------------
 function x1_mostraInfoParametro(param) {
