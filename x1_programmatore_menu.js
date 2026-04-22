@@ -169,21 +169,28 @@ function x1_popolaValori(param) {
     // Popola la tendina valori
     Object.keys(window.x1_file_parametri).forEach(id => {
         const opt = document.createElement("option");
-        opt.value = id;
+        opt.value = id;  // "00", "01", "02", ...
         opt.textContent = id + " – " + window.x1_file_parametri[id].descrizione;
         tendina.appendChild(opt);
     });
 
-    // 🔥 seleziona il valore di default (param.VALORE), se esiste
+    // 🔥 ripulisce il VALORE del parametro (toglie virgolette, spazi, ecc.)
     let defaultIndex = 0;
-    const valoreDefault = String(param.VALORE || "").trim();
+    let valoreDefault = String(param.VALORE || "").trim();
 
-    if (valoreDefault !== "") {
-        for (let i = 0; i < tendina.options.length; i++) {
-            if (tendina.options[i].value === valoreDefault) {
-                defaultIndex = i;
-                break;
-            }
+    // togli tutte le virgolette
+    valoreDefault = valoreDefault.replace(/"/g, "").trim();
+
+    // se è più lungo di 2 caratteri, prendi le ultime 2 cifre (es. ...02)
+    if (valoreDefault.length > 2) {
+        valoreDefault = valoreDefault.slice(-2);
+    }
+
+    // cerca la option con value uguale al valore pulito
+    for (let i = 0; i < tendina.options.length; i++) {
+        if (tendina.options[i].value === valoreDefault) {
+            defaultIndex = i;
+            break;
         }
     }
 
@@ -192,8 +199,6 @@ function x1_popolaValori(param) {
     // aggiorna i pulsanti in base al valore selezionato
     x1_mostraFilePerValore(tendina.value);
 }
-
-
 
 // ---------------------- FILE ----------------------
 function x1_mostraFilePerValore(valore) {
