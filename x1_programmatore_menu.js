@@ -1,6 +1,6 @@
 // ======================================================================
 // FILE: x1_programmatore_menu.js
-// VERSIONE DEFINITIVA: 22/04/2026 – 21:59
+// VERSIONE: 22/04/2026 – 22:24
 // LOGICA: MENU → SOTTOMENU → PARAMETRI → VALORI (JSON) → FILE (JSON)
 // ======================================================================
 
@@ -47,9 +47,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const dati = await x1_caricaJSON(nomeFile);
 
+        // ---------------------- MESSAGGIO: DATABASE NON PREVISTO ----------------------
         if (!dati || Object.keys(dati).length === 0) {
-            x1_svuotaValori();
+
+            const tendina = document.getElementById("tendina_valori");
+            tendina.innerHTML = "";
+            const opt = document.createElement("option");
+            opt.textContent = "Database non previsto";
+            tendina.appendChild(opt);
+
             x1_pulisciPulsantiValori();
+            document.getElementById("info_parametro").innerHTML = "";
             return;
         }
 
@@ -57,12 +65,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const param = x1_parametri.find(p => p.PARAMETRO === codice);
 
-        if (param) {
-            x1_mostraInfoParametro(param);
-            x1_popolaValori(param);
-        } else {
+        // ---------------------- MESSAGGIO: PARAMETRO NON PREVISTO ----------------------
+        if (!param) {
             document.getElementById("info_parametro").innerHTML = "Parametro non previsto";
+            x1_svuotaValori();
+            x1_pulisciPulsantiValori();
+            return;
         }
+
+        x1_mostraInfoParametro(param);
+        x1_popolaValori(param);
     });
 
     document.getElementById("tendina_valori").addEventListener("change", e => {
@@ -205,8 +217,15 @@ function x1_popolaValori(param) {
 // ---------------------- FILE ----------------------
 function x1_mostraFilePerValore(valore) {
 
+    // ---------------------- MESSAGGIO: VALORE NON PREVISTO ----------------------
     if (!window.x1_file_parametri ||
         !window.x1_file_parametri[valore]) {
+
+        const tendina = document.getElementById("tendina_valori");
+        tendina.innerHTML = "";
+        const opt = document.createElement("option");
+        opt.textContent = "Valore non previsto";
+        tendina.appendChild(opt);
 
         x1_pulisciPulsantiValori();
         return;
@@ -217,15 +236,17 @@ function x1_mostraFilePerValore(valore) {
     for (let i = 1; i <= 8; i++) {
         const btn = document.getElementById("val" + i);
 
-        if (files[i - 1] && files[i - 1].trim() !== "") {
-            btn.textContent = files[i - 1];
-            btn.dataset.file = files[i - 1];
-            btn.disabled = false;
-        } else {
+        // ---------------------- MESSAGGIO: FILE MANCANTE → “–” ----------------------
+        if (!files[i - 1] || files[i - 1].trim() === "") {
             btn.textContent = "–";
             btn.dataset.file = "";
             btn.disabled = true;
+            continue;
         }
+
+        btn.textContent = files[i - 1];
+        btn.dataset.file = files[i - 1];
+        btn.disabled = false;
     }
 }
 
