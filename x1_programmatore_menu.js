@@ -28,7 +28,7 @@ function x1_convertiJSON(nomeFunzione, dati) {
 
 
 // ---------------------- AVVIO ----------------------
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", () => {     // <--- APRE QUI
 
     x1_popolaMenu();
 
@@ -69,10 +69,20 @@ document.addEventListener("DOMContentLoaded", () => {
         x1_mostraFilePerValore(e.target.value);
     });
 
-});
+    // ⭐ QUI DEVI METTERE I CLICK DEI TASTI
+    for (let i = 1; i <= 8; i++) {
+        document.getElementById("val" + i).addEventListener("click", function () {
+            const file = this.dataset.file;
+            if (file) x1_apriFile(file);
+        });
+    }
+
+});   // <--- CHIUDE QUI IL DOMContentLoaded
 
 
-// ---------------------- MENU ----------------------
+// ---------------------- menu ----------------------
+
+
 function x1_popolaMenu() {
     const sel = document.getElementById("menu");
     sel.innerHTML = "";
