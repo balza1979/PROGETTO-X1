@@ -104,38 +104,32 @@ function x1_popolaSottomenu(codMenu) {
 // ---------------------- PARAMETRI ----------------------
 async function x1_popolaParametri(codMenuCompleto) {
 
-    // Esempio: "1.0" → "1.0.00"
     const nomeFunzione = codMenuCompleto + ".00";
-
-    // Prova a caricare il JSON
     const dati = await x1_caricaJSON(nomeFunzione + ".json");
 
-    // Se il JSON NON esiste → dati = {}
+    // SE IL JSON NON ESISTE → PULIZIA + MESSAGGIO
     if (!dati || Object.keys(dati).length === 0) {
 
-        // PULIZIA COMPLETA
         document.getElementById("parametro").innerHTML = "";
         document.getElementById("tendina_valori").innerHTML = "";
-        document.getElementById("info_parametro").innerHTML = 
+        document.getElementById("info_parametro").innerHTML =
             `<b>Database "${nomeFunzione}" non previsto</b>`;
 
-        // Pulisce i pulsanti FILE
         for (let i = 1; i <= 8; i++) {
             const btn = document.getElementById("val" + i);
             btn.textContent = "—";
             btn.dataset.file = "";
         }
 
-        return; // STOP QUI
+        return;
     }
 
-    // Se il JSON ESISTE → procedi normalmente
+    // SE IL JSON ESISTE → PROCEDO
     window.x1_file_parametri = x1_convertiJSON(nomeFunzione, dati);
 
     const sel = document.getElementById("parametro");
     sel.innerHTML = "";
 
-    // Mostra TUTTI i parametri che iniziano con "1.0."
     const lista = x1_parametri.filter(p => p.PARAMETRO.startsWith(codMenuCompleto + "."));
 
     lista.forEach(p => {
@@ -151,8 +145,6 @@ async function x1_popolaParametri(codMenuCompleto) {
         x1_popolaValori(lista[0]);
     }
 }
-
-
 
 
 // ---------------------- INFO PARAMETRO ----------------------
